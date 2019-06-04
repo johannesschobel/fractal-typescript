@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "jsonapi-typescript": "^0.1.3"
+  }
+}

@@ -1,4 +1,9 @@
 {
+  "description": "A Typescript Framework for fractal",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/Dakesi95/fractal-typescript",
+  "homepage": "https://github.com/Dakesi95/fractal-typescript",
+  "bugs": "https://github.com/Dakesi95/fractal-typescript/issues",
   "scripts": {
     "setup": "npm update && npm install",
     "build": "tsc",
@@ -6,8 +11,7 @@
     "test-only": "jest --passWithNoTests",
     "pretest": "npm run build",
     "test": "npm run test-only",
-    "clean": "shx rm -rf node_modules/ dist/ docs/",
-    "typings": "typings install"
+    "clean": "shx rm -rf node_modules/ dist/ docs/"
   },
   "devDependencies": {
     "jest": "^24.8.0",

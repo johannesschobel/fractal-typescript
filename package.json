@@ -1,14 +1,14 @@
 {
- "scripts": {
+  "scripts": {
     "setup": "npm install",
     "build": "tsc",
     "build-watch": "tsc --watch",
     "test-only": "jest",
     "pretest": "npm run build",
     "test": "npm run test-only",
-    "clean": "shx rm -rf node_modules/ dist/ docs/",
+    "clean": "shx rm -rf node_modules/ dist/ docs/"
   },
- "devDependencies": {
+  "devDependencies": {
     "jsonapi-typescript": "^0.1.3"
   },
   "dependencies": {

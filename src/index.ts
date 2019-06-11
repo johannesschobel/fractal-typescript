@@ -1,5 +1,5 @@
-import {Book} from "./models/Book";
-import {FractalTypescript} from "~/FractalTypescript";
+import {Book} from "../models/Book";
+import {FractalTypescript} from "./FractalTypescript";
 
 let fractalTypescript = new FractalTypescript();
 
@@ -21,8 +21,9 @@ let books: Array<Book> = [
 ];
 
 let transformer = (books: Array<Book>) => {
+    let result: Array<any> = [];
     for (const book of books) {
-        return {
+        result.push({
             "id": book.id,
             "title": book.title,
             "year": book.yr,
@@ -34,10 +35,10 @@ let transformer = (books: Array<Book>) => {
                 "rel": "self",
                 "uri": "/books/" + book.id
             }
-        };
+        });
     }
-
+    return result;
 };
 
-let array = fractalTypescript.createData(transformer, "toArray");
-let json = fractalTypescript.createData(transformer, "toJson");
+// let array = fractalTypescript.createData(books, transformer, "array");
+let json = fractalTypescript.createData(books, transformer, "json");

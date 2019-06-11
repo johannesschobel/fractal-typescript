@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "setup": "npm install",
+    "setup": "npm update && npm install",
     "build": "tsc",
     "build-watch": "tsc --watch",
     "test-only": "jest --passWithNoTests",

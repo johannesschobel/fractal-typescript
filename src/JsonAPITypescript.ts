@@ -7,11 +7,3 @@ let doc: JSONAPI.Document = {
         id: '1'
     }
 };
-
-// ⛔️ This should NOT be OK ("result" is not a valid JSON:API top-level key)
- doc: JSONAPI.Document = {
-    result: "Success!"
-};
-
-// ⛔️ This should NOT be OK ( empty Array is not a valid JSON:API document )
-doc: JSONAPI.Document = [];

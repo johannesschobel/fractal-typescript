@@ -5,7 +5,7 @@
   "homepage": "https://github.com/Dakesi95/fractal-typescript",
   "bugs": "https://github.com/Dakesi95/fractal-typescript/issues",
   "scripts": {
-    "app": "npm run build && ts-node src/index.ts",
+    "app": "npm run bundle && node dist/bundle.js",
     "start": "webpack --watch --mode=development",
     "setup": "npm update && npm install",
     "build": "npm run removeDist && npm run build-typescript",

@@ -1,21 +1,33 @@
+import {Book} from "../models/Book";
+
 export class FractalTypescript {
 
-    public static createData(data: any, transformer: any, option: string) {
+    private transformer = (books: Array<Book>) => {
+        let result: Array<any> = [];
+        for (const book of books) {
+            result.push({
+                "id": book.id,
+                "title": book.title,
+                "year": book.yr,
+                "author": {
+                    "name": book.author_name,
+                    "email": book.author_email
+                },
+                "links": {
+                    "rel": "self",
+                    "uri": "/books/" + book.id
+                }
+            });
+        }
+        return result;
+    };
+
+    public transformData(data: Array<any>, option: string) {
         if (option === "array") {
-            FractalTypescript.createDataArray(data, transformer);
+            return this.transformer(data);
         } else if (option === "json") {
-            FractalTypescript.createDataJson(data, transformer);
+            let result = this.transformer(data);
+            return JSON.stringify(result);
         }
     }
-
-    private static createDataArray(data: any, transformer: any) {
-        console.log("create array");
-
-    }
-
-    private static createDataJson(data: any, transformer: any) {
-        console.log(transformer);
-        console.log(data);
-    }
-
 }

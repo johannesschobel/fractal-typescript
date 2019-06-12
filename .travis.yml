@@ -15,8 +15,7 @@ script:
 
 after_success:
   - npm run gendoc
-  - npm run pack
-  - shx
+  - npm run preparedistLinux
 
 deploy:
   - provider: pages

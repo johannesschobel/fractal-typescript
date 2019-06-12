@@ -41,4 +41,4 @@ let transformer = (books: Array<Book>) => {
 };
 
 // let array = fractalTypescript.createData(books, transformer, "array");
-let json = fractalTypescript.createData(books, transformer, "json");
+let json = FractalTypescript.createData(books, transformer, "json");

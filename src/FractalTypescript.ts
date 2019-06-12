@@ -1,20 +1,19 @@
-export class FractalTypescript{
+export class FractalTypescript {
 
-    public createData(data: any, transformer: any, option: string){
-        if(option === "array"){
-            this.createDataArray(data, transformer);
-        }
-        else if(option === "json"){
-            this.createDataJson(data, transformer);
+    public static createData(data: any, transformer: any, option: string) {
+        if (option === "array") {
+            FractalTypescript.createDataArray(data, transformer);
+        } else if (option === "json") {
+            FractalTypescript.createDataJson(data, transformer);
         }
     }
 
-    private createDataArray(data: any, transformer: any){
+    private static createDataArray(data: any, transformer: any) {
         console.log("create array");
 
     }
 
-    private createDataJson(data: any, transformer: any){
+    private static createDataJson(data: any, transformer: any) {
         console.log(transformer);
         console.log(data);
     }

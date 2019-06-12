@@ -10,11 +10,13 @@
     "setup": "npm update && npm install",
     "build": "tsc",
     "build-watch": "tsc --watch",
+    "bundle": "webpack --mode=production --config webpack.config.js",
     "test-only": "jest --passWithNoTests",
     "pretest": "npm run build",
     "test": "npm run test-only",
     "clean": "shx rm -rf node_modules/ dist/ docs/",
-    "gendoc": "compodoc -p tsconfig.json -n \"Fractal Typescript Documentation\""
+    "gendoc": "compodoc -p tsconfig.json -n \"Fractal Typescript Documentation\"",
+    "preparedistLinux": "npm run bundle && tar -zcvf fractal-typescript.tar.gz dist && mv fractal-typescript.tar.gz dist"
   },
   "devDependencies": {
     "@compodoc/compodoc": "^1.1.9",

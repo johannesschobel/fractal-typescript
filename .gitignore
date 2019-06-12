@@ -62,7 +62,7 @@ internal/
 !tests/cases/projects/projectOption/**/node_modules
 !tests/cases/projects/NodeModulesSearch/**/*
 !tests/baselines/reference/project/nodeModules*/**/*
-.idea
+.idea/*
 yarn.lock
 yarn-error.log
 .parallelperf.*
@@ -77,3 +77,4 @@ tests/cases/user/*/**/*.d.ts
 tests/baselines/reference/dt
 .failed-tests
 TEST-results.xml
+dist/*

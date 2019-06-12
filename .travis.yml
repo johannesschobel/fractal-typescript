@@ -15,9 +15,19 @@ script:
 
 after_success:
   - npm run gendoc
+  - npm run pack
+  - shx
 
 deploy:
   - provider: pages
     skip_cleanup: true
     local_dir: documentation/
     github_token: $GITHUB_TOKEN
+
+  - provider: releases
+    api_key: $GITHUB_TOKEN
+    file_glob: true
+    file: "dist/fractal-typescript.tar.gz"
+    skip_cleanup: true
+    on:
+      tags: true

@@ -22,11 +22,4 @@ export class BookTransformer {
         return result;
     };
 
-    public transform(book: Book){
-        return {
-            "id": book.id,
-            "title": book.title
-        }
-    }
-
 }

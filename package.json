@@ -5,18 +5,19 @@
   "homepage": "https://github.com/Dakesi95/fractal-typescript",
   "bugs": "https://github.com/Dakesi95/fractal-typescript/issues",
   "scripts": {
-    "app": "tsc && ts-node src/index.ts",
+    "app": "npm run build && ts-node src/index.ts",
     "start": "webpack --watch --mode=development",
     "setup": "npm update && npm install",
-    "build": "tsc",
-    "build-watch": "tsc --watch",
+    "build": "npm run removeDist && npm run build-typescript",
+    "build--typescript-watch": "tsc --watch",
+    "build-typescript": "tsc",
     "bundle": "webpack --mode=production --config webpack.config.js",
     "test-only": "jest --passWithNoTests",
-    "pretest": "npm run build",
     "test": "npm run test-only",
     "clean": "shx rm -rf node_modules/ dist/ docs/",
-    "gendoc": "compodoc -p tsconfig.json -n \"Fractal Typescript Documentation\"",
-    "preparedistLinux": "npm run bundle && tar -zcvf fractal-typescript.tar.gz dist && mv fractal-typescript.tar.gz dist"
+    "gendoc": "shx rm -rf ./documentation && compodoc -p tsconfig.json -n \"Fractal Typescript Documentation\"",
+    "preparedistLinux": "npm run bundle && tar -zcvf fractal-typescript.tar.gz dist && mv fractal-typescript.tar.gz dist",
+    "removeDist": "shx rm -rf ./dist"
   },
   "devDependencies": {
     "@compodoc/compodoc": "^1.1.9",
@@ -30,6 +31,7 @@
     "webpack-cli": "^3.3.4"
   },
   "dependencies": {
-    "jsonapi-typescript": "^0.1.3"
+    "jsonapi-typescript": "^0.1.3",
+    "npm": "^6.9.0"
   }
 }

@@ -1,4 +1,4 @@
-import {Book} from "../models/Book";
+import {Book} from "./models/Book";
 import {FractalTypescript} from "./FractalTypescript";
 
 let fractalTypescript = new FractalTypescript();

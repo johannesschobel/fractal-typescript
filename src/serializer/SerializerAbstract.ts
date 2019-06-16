@@ -1,8 +1,9 @@
 import {ResourceInterface} from "~/resource/ResourceInterface";
-import {PaginatorInterface} from "~/paginator/PaginatorInterface";
-import {CursorInterface} from "~/serializer/CursorInterface";
+import {PaginatorInterface} from "~/paginaton/PaginatorInterface";
+import {CursorInterface} from "~/paginaton/CursorInterface";
+import {Serializer} from "~/serializer/Serializer";
 
-export abstract class SerializerAbstract {
+export abstract class SerializerAbstract implements Serializer{
 
     public abstract collection(resourceKey: string, data: Array<any>): Array<any>;
 

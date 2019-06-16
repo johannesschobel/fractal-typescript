@@ -1,7 +1,7 @@
 import {SerializerAbstract} from "~/serializer/SerializerAbstract";
 import {ResourceInterface} from "~/resource/ResourceInterface";
-import {PaginatorInterface} from "~/paginator/PaginatorInterface";
-import {CursorInterface} from "~/serializer/CursorInterface";
+import {PaginatorInterface} from "~/paginaton/PaginatorInterface";
+import {CursorInterface} from "~/paginaton/CursorInterface";
 
 export class ArraySerializer extends SerializerAbstract{
 

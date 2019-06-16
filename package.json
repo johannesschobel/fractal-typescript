@@ -33,6 +33,7 @@
     "webpack-cli": "^3.3.4"
   },
   "dependencies": {
+    "json-api-serializer": "^1.15.1",
     "jsonapi-typescript": "^0.1.3",
     "npm": "^6.9.0"
   }

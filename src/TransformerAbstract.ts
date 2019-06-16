@@ -62,6 +62,11 @@ export abstract class TransformerAbstract{
 
     protected collection(data: any, transformer: TransformerAbstract, resourceKey: string): Collection{
         // todo: implement this
+        return null;
+    }
+
+    protected null(): any{
+        return null;
     }
 
 }

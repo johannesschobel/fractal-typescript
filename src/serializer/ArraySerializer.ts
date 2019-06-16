@@ -1,0 +1,42 @@
+import {SerializerAbstract} from "~/serializer/SerializerAbstract";
+import {ResourceInterface} from "~/resource/ResourceInterface";
+import {PaginatorInterface} from "~/paginator/PaginatorInterface";
+import {CursorInterface} from "~/serializer/CursorInterface";
+
+export class ArraySerializer extends SerializerAbstract{
+
+    public collection(resourceKey: string, data: Array<any>): Array<any> {
+        // todo: implement this
+        return null;
+    }
+
+    public item(resourceKey: string, data: Array<any>): Array<any>{
+        return data;
+    }
+
+    public null(): Array<any>{
+        return [];
+    }
+
+    public includedData(resource: ResourceInterface, data: Array<any>): Array<any> {
+        return data;
+    }
+
+    public meta(meta: Array<any>): Array<any>{
+        if(meta.length === 0 || meta === undefined){
+            return [];
+        }
+        return meta;
+    }
+
+    public paginator(paginator: PaginatorInterface): Array<any> {
+        // todo: implement this
+        return undefined;
+    }
+
+    public cursor(cursor: CursorInterface): Array<any>{
+        // todo: implement this
+        return undefined;
+    }
+
+}

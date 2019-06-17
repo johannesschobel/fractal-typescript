@@ -20,7 +20,7 @@ export class Manager{
 
     constructor(scopeFactory: ScopeFactoryInterface) {
         if(scopeFactory === undefined){
-            this.scopeFactory = new ScopeFactory();
+            scopeFactory = new ScopeFactory();
         }
         this.scopeFactory = scopeFactory;
     }

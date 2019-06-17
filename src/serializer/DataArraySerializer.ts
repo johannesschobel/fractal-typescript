@@ -1,4 +1,4 @@
-import {ArraySerializer} from "~/serializer/ArraySerializer";
+import {ArraySerializer} from "../serializer/ArraySerializer";
 
 export class DataArraySerializer extends ArraySerializer{
 

@@ -1,9 +1,10 @@
-import {SerializerAbstract} from "~/serializer/SerializerAbstract";
-import {ScopeFactoryInterface} from "~/ScopeFactoryInterface";
-import {ResourceInterface} from "~/resource/ResourceInterface";
-import {Scope} from "~/Scope";
-import {DataArraySerializer} from "~/serializer/DataArraySerializer";
-import {ParamBag} from "~/ParamBag";
+import {SerializerAbstract} from "./serializer/SerializerAbstract";
+import {ScopeFactoryInterface} from "./ScopeFactoryInterface";
+import {ResourceInterface} from "./resource/ResourceInterface";
+import {Scope} from "./Scope";
+import {DataArraySerializer} from "./serializer/DataArraySerializer";
+import {ParamBag} from "./ParamBag";
+import {ScopeFactory} from "./ScopeFactory";
 
 export class Manager{
 
@@ -18,10 +19,13 @@ export class Manager{
     private scopeFactory: ScopeFactoryInterface;
 
     constructor(scopeFactory: ScopeFactoryInterface) {
+        if(scopeFactory === undefined){
+            this.scopeFactory = new ScopeFactory();
+        }
         this.scopeFactory = scopeFactory;
     }
 
-    public createData(resource: ResourceInterface, scopeIdentifier: string, parentScopeInstance: Scope): Scope{
+    public createData(resource: ResourceInterface, scopeIdentifier: string = null, parentScopeInstance: Scope = null): Scope{
         if(parentScopeInstance !== null){
             return this.scopeFactory.createChildScopeFor(this, parentScopeInstance, resource, scopeIdentifier);
         }

@@ -1,7 +1,7 @@
-import {ScopeFactoryInterface} from "~/ScopeFactoryInterface";
-import {Manager} from "~/Manager";
-import {ResourceInterface} from "~/resource/ResourceInterface";
-import {Scope} from "~/Scope";
+import {ScopeFactoryInterface} from "./ScopeFactoryInterface";
+import {Manager} from "./Manager";
+import {ResourceInterface} from "./resource/ResourceInterface";
+import {Scope} from "./Scope";
 
 export class ScopeFactory implements ScopeFactoryInterface{
 

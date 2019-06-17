@@ -1,7 +1,8 @@
 import {Book} from "./models/Book";
-import {FractalTypescript} from "./FractalTypescript";
+import {Manager} from "./Manager";
+import {Collection} from "./resource/Collection";
 
-let fractalTypescript = new FractalTypescript();
+let fractal = new Manager(undefined);
 
 let books: Array<Book> = [
     {
@@ -20,7 +21,21 @@ let books: Array<Book> = [
     }
 ];
 
-let array = fractalTypescript.transformData(books, "array");
-console.log(array);
-let json = fractalTypescript.transformData(books,"json");
-console.log(json);
+let resource = new Collection(books, function(book: Book){
+   return {
+       "id": book.id,
+       "title": book.title,
+       "year": book.yr,
+       "author": {
+           "name": book.author_name,
+           "email": book.author_email
+       },
+       "links": {
+           "rel": "self",
+           "uri": "/books/" + book.id
+       }
+   };
+});
+
+let array = fractal.createData(resource);
+console.log(JSON.stringify(fractal.createData(resource)));

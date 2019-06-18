@@ -89,7 +89,7 @@ jobs:
     <<: *defaults
 
     steps:
-      - attach_workespace:
+      - attach_workspace:
           at: ~/fractal-typescript
 
       - run:

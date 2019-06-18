@@ -33,7 +33,7 @@ jobs:
 
       - run:
           name: Install Dependencies
-          command: yarn install
+          command: npm run setup
 
       - save_cache:
           paths:
@@ -44,16 +44,16 @@ jobs:
           root: ~/repo
           <<: *whitelist
 
-  lint:
-    <<: *defaults
-
-    steps:
-      - attach_workspace:
-          at: ~/repo
-
-      - run:
-          name: Lint TypeScript code
-          command: yarn lint
+#  lint:
+#    <<: *defaults
+#
+#    steps:
+#      - attach_workspace:
+#          at: ~/repo
+#
+#      - run:
+#          name: Lint TypeScript code
+#          command: npm run lint
 
   test:
     <<: *defaults
@@ -109,9 +109,9 @@ workflows:
       - test:
           requires:
             - checkout
-      - lint:
-          requires:
-            - checkout
+#      - lint:
+#          requires:
+#            - checkout
       - coveralls:
           requires:
             - test

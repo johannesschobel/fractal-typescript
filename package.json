@@ -17,7 +17,8 @@
     "clean": "shx rm -rf node_modules/ dist/ docs/",
     "gendoc": "shx rm -rf ./documentation && compodoc -p tsconfig.json -n \"Fractal Typescript Documentation\"",
     "preparedistLinux": "npm run bundle && tar -zcvf fractal-typescript.tar.gz dist && mv fractal-typescript.tar.gz dist",
-    "removeDist": "shx rm -rf ./dist"
+    "removeDist": "shx rm -rf ./dist",
+    "lint": "tslint src/*"
   },
   "devDependencies": {
     "@compodoc/compodoc": "^1.1.9",
@@ -28,6 +29,7 @@
     "ts-jest": "^24.0.2",
     "ts-loader": "^6.0.2",
     "ts-node": "^8.2.0",
+    "tslint": "^5.17.0",
     "typescript": "^3.5.1",
     "webpack": "^4.33.0",
     "webpack-cli": "^3.3.4"

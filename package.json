@@ -7,7 +7,8 @@
   "scripts": {
     "app": "npm run bundle && node dist/bundle.js",
     "start": "webpack --watch --mode=development",
-    "setup": "npm update && npm install",
+    "setup": "npm update && npm run install",
+    "install": "npm install",
     "build": "npm run removeDist && npm run build-typescript",
     "build--typescript-watch": "tsc --watch",
     "build-typescript": "tsc",

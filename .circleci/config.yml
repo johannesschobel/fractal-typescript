@@ -53,6 +53,7 @@ jobs:
       - run:
           name: Lint TypeScript code
 #          command: npm run lint
+          command: echo "include me"
 
   test:
     <<: *defaults

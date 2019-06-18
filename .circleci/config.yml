@@ -40,7 +40,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - persist_to_workspace:
-          root: ~/repo
+          root: ~/fractal-typescript
           <<: *whitelist
 
 #  lint:
@@ -48,7 +48,7 @@ jobs:
 #
 #    steps:
 #      - attach_workspace:
-#          at: ~/repo
+#          at: ~/fractal-typescript
 #
 #      - run:
 #          name: Lint TypeScript code
@@ -59,14 +59,14 @@ jobs:
 
     steps:
       - attach_workspace:
-          at: ~/repo
+          at: ~/fractal-typescript
 
       - run:
           name: Test TypeScript code
           command: npm run test-only
 
       - persist_to_workspace:
-          root: ~/repo
+          root: ~/fractal-typescript
           <<: *whitelist
 
   build:
@@ -74,14 +74,14 @@ jobs:
 
     steps:
       - attach_workspace:
-          at: ~/repo
+          at: ~/fractal-typescript
 
       - run:
           name: Build TypeScript code
           command: npm run build
 
       - persist_to_workspace:
-          root: ~/repo
+          root: ~/fractal-typescript
           <<: *whitelist
 
   buildDoc:
@@ -89,14 +89,14 @@ jobs:
 
     steps:
       - attach_workespace:
-          at: ~/repo
+          at: ~/fractal-typescript
 
       - run:
           name: Build Doc
           command: npm run gendoc
 
       - persist_to_workspace:
-          root: ~/repo
+          root: ~/fractal-typescript
           <<: *whitelist
 
 workflows:

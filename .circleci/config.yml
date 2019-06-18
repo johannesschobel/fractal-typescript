@@ -115,7 +115,7 @@ workflows:
       - build:
           requires:
             - test
-#            - lint
-      - builDoc:
+            - lint
+      - buildDoc:
           requires:
             - build

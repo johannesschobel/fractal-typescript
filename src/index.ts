@@ -1,8 +1,9 @@
 import {Book} from "./models/Book";
 import {Manager} from "./Manager";
 import {Collection} from "./resource/Collection";
+import {TransformerAbstract} from "~/TransformerAbstract";
 
-let fractal = new Manager(undefined);
+let fractal = new Manager();
 
 let books: Array<Book> = [
     {
@@ -20,6 +21,7 @@ let books: Array<Book> = [
         "author_email": "george@example.org",
     }
 ];
+
 
 let resource = new Collection(books, function(book: Book){
    return {

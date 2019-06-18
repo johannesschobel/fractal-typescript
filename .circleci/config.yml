@@ -43,15 +43,15 @@ jobs:
           root: ~/fractal-typescript
           <<: *whitelist
 
-#  lint:
-#    <<: *defaults
-#
-#    steps:
-#      - attach_workspace:
-#          at: ~/fractal-typescript
-#
-#      - run:
-#          name: Lint TypeScript code
+  lint:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ~/fractal-typescript
+
+      - run:
+          name: Lint TypeScript code
 #          command: npm run lint
 
   test:
@@ -108,12 +108,9 @@ workflows:
       - test:
           requires:
             - checkout
-#      - lint:
-#          requires:
-#            - checkout
-      - coveralls:
+      - lint:
           requires:
-            - test
+            - checkout
       - build:
           requires:
             - test

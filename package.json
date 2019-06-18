@@ -17,8 +17,7 @@
     "clean": "shx rm -rf node_modules/ dist/ docs/",
     "gendoc": "shx rm -rf ./documentation && compodoc -p tsconfig.json -n \"Fractal Typescript Documentation\"",
     "preparedistLinux": "npm run bundle && tar -zcvf fractal-typescript.tar.gz dist && mv fractal-typescript.tar.gz dist",
-    "removeDist": "shx rm -rf ./dist",
-    "lint": "tslint src/*"
+    "removeDist": "shx rm -rf ./dist"
   },
   "devDependencies": {
     "@compodoc/compodoc": "^1.1.9",

@@ -100,6 +100,22 @@ jobs:
           root: ~/fractal-typescript
           <<: *whitelist
 
+  releaseDoc:
+    <<: *defaults
+    steps:
+      - run:
+          name: Install and configure dependencies
+          command: |
+            npm install -g --silent gh-pages@2.0.1
+            git config user.email ""
+            git config user.name "circleciBot"
+      - add_ssh_keys:
+          fingerprints:
+            - "83:37:63:ee:05:f0:c1:92:fe:4b:3c:63:b2:0d:26:7d"
+      - run:
+          name: Deploy docs to gh-pages branch
+          command: gh-pages --dotfiles --message "[skip ci] Updates" --dist documentation
+
 workflows:
   version: 2
 
@@ -119,3 +135,6 @@ workflows:
       - buildDoc:
           requires:
             - build
+      - releaseDoc:
+          requires:
+            - buildDoc

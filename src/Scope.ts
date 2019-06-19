@@ -61,5 +61,15 @@ export class Scope{
         return this;
     }
 
+    public toArray(): Array<any>{
+        // todo: implement this
+        return ["test1", "test2"];
+    }
+
+    public toJson(): string{
+        // todo implement this
+        return null;
+    }
+
     // todo: Rest of functions
 }

@@ -2,6 +2,7 @@ import {Book} from "./models/Book";
 import {Manager} from "./Manager";
 import {Collection} from "./resource/Collection";
 import {TransformerAbstract} from "~/TransformerAbstract";
+import {Scope} from "~/Scope";
 
 let fractal = new Manager();
 
@@ -39,5 +40,5 @@ let resource = new Collection(books, function(book: Book){
    };
 });
 
-let array = fractal.createData(resource);
-console.log(JSON.stringify(fractal.createData(resource)));
+let array = fractal.createData(resource).toArray();
+console.log(fractal.createData(resource).toJson());

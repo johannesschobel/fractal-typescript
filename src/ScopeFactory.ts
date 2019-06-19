@@ -5,7 +5,7 @@ import {Scope} from "./Scope";
 
 export class ScopeFactory implements ScopeFactoryInterface{
 
-    public createScopeFor(manager: Manager, resource: ResourceInterface, scopeIdentifier: any){
+    public createScopeFor(manager: Manager, resource: ResourceInterface, scopeIdentifier: any): Scope{
         return new Scope(manager, resource, scopeIdentifier);
     }
 

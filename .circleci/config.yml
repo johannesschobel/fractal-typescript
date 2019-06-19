@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/fractal-typescript
   docker:
-    - image: circleci/node:8.0
+    - image: circleci/node:latest
 
 whitelist: &whitelist
   paths:

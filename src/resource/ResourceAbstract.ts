@@ -4,9 +4,9 @@ import {TransformerAbstract} from "~/TransformerAbstract";
 export class ResourceAbstract implements ResourceInterface{
 
     protected data: any;
-    private meta: Record<string, string>;
+    private meta: Array<any>;
     protected resourceKey: string;
-    protected transformer: (n: any) => any;
+    protected transformer: CallableFunction | TransformerAbstract | null;
 
 
     constructor(data: any = null, transformer:  (n: any) => any = null, resourceKey: string = null){
@@ -15,7 +15,7 @@ export class ResourceAbstract implements ResourceInterface{
         this.resourceKey = resourceKey;
     }
 
-    getData(): any {
+    getData(): Array<any> {
         return this.data;
     }
 
@@ -35,19 +35,20 @@ export class ResourceAbstract implements ResourceInterface{
         this.transformer = transformer;
     }
 
-    getMeta(): Record<string, string>{
+    getMeta(): Array<any>{
         return this.meta;
     }
 
-    setMeta(meta:Record<string, string>):void{
+    setMeta(meta:Array<any>):void{
         this.meta = meta
     }
 
     getMetaValue(metaKey: string): string{
-        return this.meta[metaKey];
+        // todo implement this
+        return null;
     }
 
     setMetaValue(metaKey:string, metaValue: string):void{
-        this.meta[metaKey] = metaValue;
+        // todo implement this
     }
 }

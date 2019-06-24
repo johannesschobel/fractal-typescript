@@ -56,6 +56,11 @@ export abstract class TransformerAbstract{
         return this;
     }
 
+    public transform(data: any): any{
+        // todo implement this
+        return null;
+    }
+
     protected primitive(data: any, transformer: any, resourceKey: string): any{
         // todo: implement this
     }

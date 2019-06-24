@@ -23,7 +23,7 @@ export class ArraySerializer extends SerializerAbstract{
     }
 
     public meta(meta: Array<any>): Array<any>{
-        if(meta.length === 0 || meta === undefined){
+        if(meta === undefined || meta.length === 0){
             return [];
         }
         return meta;

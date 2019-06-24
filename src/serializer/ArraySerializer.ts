@@ -22,11 +22,13 @@ export class ArraySerializer extends SerializerAbstract{
         return data;
     }
 
-    public meta(meta: Array<any>): Array<any>{
+    public meta(meta: Array<any>): any{
         if(meta === undefined || meta.length === 0){
             return [];
         }
-        return meta;
+        return {
+            "meta": meta
+        };
     }
 
     public paginator(paginator: PaginatorInterface): Array<any> {

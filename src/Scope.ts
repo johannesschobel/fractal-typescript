@@ -104,7 +104,7 @@ export class Scope{
             return null;
         }
 
-        return data.concat(meta);
+        return {...data, ...meta};
     }
 
     public toJson(): string{
@@ -166,7 +166,7 @@ export class Scope{
 
         if(this.isFunction(transformer)){
             // @ts-ignore
-            transformedData = transformer.apply(data, data);
+            transformedData = transformer.apply(data);
         }
         else if(transformer instanceof TransformerAbstract){
             transformer.setCurrentScope(this);

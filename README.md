@@ -2,6 +2,6 @@
 
 | master | development |
 | :---:  | :----------:|
-|[![Master](https://travis-ci.com/Dakesi95/fractal-typescript.svg?token=qGF9fuCn5dz3Sjw8TcTm&branch=master)](https://travis-ci.com/Dakesi95/fractal-typescript) | [![development](https://travis-ci.com/Dakesi95/fractal-typescript.svg?token=qGF9fuCn5dz3Sjw8TcTm&branch=development)](https://travis-ci.com/Dakesi95/fractal-typescript) |
+[![CircleCI](https://circleci.com/gh/Dakesi95/fractal-typescript.svg?style=svg&circle-token=e5487cad6b8f556625394d66411eb41d4f739f58)]
 
 An adoption of the famous php fractal framework.

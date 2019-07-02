@@ -7,7 +7,8 @@
   "scripts": {
     "app": "npm run bundle && node dist/bundle.js",
     "start": "webpack --watch --mode=development",
-    "setup": "npm update && npm install",
+    "setup": "npm update && npm run install",
+    "installScript": "npm install",
     "build": "npm run removeDist && npm run build-typescript",
     "build--typescript-watch": "tsc --watch",
     "build-typescript": "tsc",
@@ -15,19 +16,21 @@
     "test-only": "jest --passWithNoTests",
     "test": "npm run test-only",
     "clean": "shx rm -rf node_modules/ dist/ docs/",
-    "gendoc": "shx rm -rf ./documentation && compodoc -p tsconfig.json -n \"Fractal Typescript Documentation\"",
+    "gendoc": "rm -rf ./documentation && compodoc -p tsconfig.json -n \"Fractal Typescript Documentation\"",
     "preparedistLinux": "npm run bundle && tar -zcvf fractal-typescript.tar.gz dist && mv fractal-typescript.tar.gz dist",
     "removeDist": "shx rm -rf ./dist"
   },
   "devDependencies": {
     "@compodoc/compodoc": "^1.1.9",
     "@types/jest": "^24.0.13",
+    "@types/node": "^12.0.8",
     "jest": "^24.8.0",
     "npm-run-all": "^4.1.5",
     "shx": "^0.3.2",
     "ts-jest": "^24.0.2",
     "ts-loader": "^6.0.2",
     "ts-node": "^8.2.0",
+    "tslint": "^5.17.0",
     "typescript": "^3.5.1",
     "webpack": "^4.33.0",
     "webpack-cli": "^3.3.4"

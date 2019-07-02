@@ -57,19 +57,22 @@
                 <td class="col-md-4">
                     <ul class="index-list">
                         <li>
+                            <a href="#array" title="src/index.ts"><b>array</b>&nbsp;&nbsp;&nbsp;(src/.../index.ts)</a>
+                        </li>
+                        <li>
                             <a href="#books" title="src/index.ts"><b>books</b>&nbsp;&nbsp;&nbsp;(src/.../index.ts)</a>
                         </li>
                         <li>
                             <a href="#doc" title="src/JsonAPITypescript.ts"><b>doc</b>&nbsp;&nbsp;&nbsp;(src/.../JsonAPITypescript.ts)</a>
                         </li>
                         <li>
-                            <a href="#fractalTypescript" title="src/index.ts"><b>fractalTypescript</b>&nbsp;&nbsp;&nbsp;(src/.../index.ts)</a>
+                            <a href="#fractal" title="src/index.ts"><b>fractal</b>&nbsp;&nbsp;&nbsp;(src/.../index.ts)</a>
                         </li>
                         <li>
-                            <a href="#json" title="src/index.ts"><b>json</b>&nbsp;&nbsp;&nbsp;(src/.../index.ts)</a>
+                            <a href="#JSONAPISerializer" title="src/serializer/JsonApiSerializer.ts"><b>JSONAPISerializer</b>&nbsp;&nbsp;&nbsp;(src/.../JsonApiSerializer.ts)</a>
                         </li>
                         <li>
-                            <a href="#transformer" title="src/index.ts"><b>transformer</b>&nbsp;&nbsp;&nbsp;(src/.../index.ts)</a>
+                            <a href="#resource" title="src/index.ts"><b>resource</b>&nbsp;&nbsp;&nbsp;(src/.../index.ts)</a>
                         </li>
                     </ul>
                 </td>
@@ -81,6 +84,27 @@
     <h3>src/index.ts</h3>
     <section>
     <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="array"></a>
+                        <span class="name">
+                            <b>
+                            array</b>
+                            <a href="#array"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>fractal.createData(resource).toArray()</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
                     <td class="col-md-4">
@@ -102,18 +126,18 @@
                         <td class="col-md-4">
                             <i>Default value : </i><code>[
     {
-        &quot;id&quot;: &quot;1&quot;,
-        &quot;title&quot;: &quot;Hogfather&quot;,
-        &quot;yr&quot;: 1998,
-        &quot;author_name&quot;: &quot;Philip K Dick&quot;,
-        &quot;author_email&quot;: &quot;philip@example.org&quot;,
+        &#x27;id&#x27;: &#x27;1&#x27;,
+        &#x27;title&#x27;: &#x27;Hogfather&#x27;,
+        &#x27;yr&#x27;: 1998,
+        &#x27;author_name&#x27;: &#x27;Philip K Dick&#x27;,
+        &#x27;author_email&#x27;: &#x27;philip@example.org&#x27;,
     },
     {
-        &quot;id&quot;: &quot;2&quot;,
-        &quot;title&quot;: &quot;Game Of Kill Everyone&quot;,
-        &quot;yr&quot;: 2014,
-        &quot;author_name&quot;: &quot;George R. R. Satan&quot;,
-        &quot;author_email&quot;: &quot;george@example.org&quot;,
+        &#x27;id&#x27;: &#x27;2&#x27;,
+        &#x27;title&#x27;: &#x27;Game Of Kill Everyone&#x27;,
+        &#x27;yr&#x27;: 2014,
+        &#x27;author_name&#x27;: &#x27;George R. R. Satan&#x27;,
+        &#x27;author_email&#x27;: &#x27;george@example.org&#x27;,
     }
 ]</code>
                         </td>
@@ -126,17 +150,17 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="fractalTypescript"></a>
+                        <a name="fractal"></a>
                         <span class="name">
                             <b>
-                            fractalTypescript</b>
-                            <a href="#fractalTypescript"><span class="icon ion-ios-link"></span></a>
+                            fractal</b>
+                            <a href="#fractal"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>new FractalTypescript()</code>
+                            <i>Default value : </i><code>new Manager()</code>
                         </td>
                     </tr>
 
@@ -147,56 +171,31 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="json"></a>
+                        <a name="resource"></a>
                         <span class="name">
                             <b>
-                            json</b>
-                            <a href="#json"><span class="icon ion-ios-link"></span></a>
+                            resource</b>
+                            <a href="#resource"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>fractalTypescript.createData(books, transformer, &quot;json&quot;)</code>
-                        </td>
-                    </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="transformer"></a>
-                        <span class="name">
-                            <b>
-                            transformer</b>
-                            <a href="#transformer"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>(books: Array&lt;Book&gt;) &#x3D;&gt; {
-    let result: Array&lt;any&gt; &#x3D; [];
-    for (const book of books) {
-        result.push({
-            &quot;id&quot;: book.id,
-            &quot;title&quot;: book.title,
-            &quot;year&quot;: book.yr,
-            &quot;author&quot;: {
-                &quot;name&quot;: book.author_name,
-                &quot;email&quot;: book.author_email
-            },
-            &quot;links&quot;: {
-                &quot;rel&quot;: &quot;self&quot;,
-                &quot;uri&quot;: &quot;/books/&quot; + book.id
-            }
-        });
-    }
-    return result;
-}</code>
+                            <i>Default value : </i><code>new Collection(books, function() {
+    return {
+        &quot;id&quot;: this.id,
+        &quot;title&quot;: this.title,
+        &quot;year&quot;: this.yr,
+        &quot;author&quot;: {
+            &quot;name&quot;: this.author_name,
+            &quot;email&quot;: this.author_email
+        },
+        &quot;links&quot;: {
+            &quot;rel&quot;: &quot;self&quot;,
+            &quot;uri&quot;: &quot;/books/&quot; + this.id
+        }
+    };
+})</code>
                         </td>
                     </tr>
 
@@ -232,6 +231,30 @@
         id: &#x27;1&#x27;
     }
 }</code>
+                        </td>
+                    </tr>
+
+
+            </tbody>
+        </table>
+</section>
+    <h3>src/serializer/JsonApiSerializer.ts</h3>
+    <section>
+    <h3></h3>        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="JSONAPISerializer"></a>
+                        <span class="name">
+                            <b>
+                            JSONAPISerializer</b>
+                            <a href="#JSONAPISerializer"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>require(&quot;json-api-serializer&quot;)</code>
                         </td>
                     </tr>
 

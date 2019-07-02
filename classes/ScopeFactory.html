@@ -42,7 +42,7 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li>FractalTypescript</li>
+  <li>ScopeFactory</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -60,11 +60,17 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/FractalTypescript.ts</code>
+            <code>src/ScopeFactory.ts</code>
         </p>
 
 
 
+            <p class="comment">
+                <h3>Implements</h3>
+            </p>
+            <p class="comment">
+                            <code><a href="../interfaces/ScopeFactoryInterface.html" target="_self" >ScopeFactoryInterface</a></code>
+            </p>
 
 
             <section>
@@ -82,15 +88,11 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="#createData">createData</a>
+                                <a href="#createChildScopeFor">createChildScopeFor</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#createDataArray">createDataArray</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#createDataJson">createDataJson</a>
+                                    <span class="modifier">Public</span>
+                                <a href="#createScopeFor">createScopeFor</a>
                             </li>
                         </ul>
                     </td>
@@ -115,28 +117,28 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="createData"></a>
+                    <a name="createChildScopeFor"></a>
                     <span class="name">
                         <b>
                             <span class="modifier">Public</span>
-                            createData
+                            createChildScopeFor
                         </b>
-                        <a href="#createData"><span class="icon ion-ios-link"></span></a>
+                        <a href="#createChildScopeFor"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createData(data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, transformer: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, option: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>createChildScopeFor(manager: <a href="../classes/Manager.html">Manager</a>, parentScopeInstance: <a href="../classes/Scope.html">Scope</a>, resource: <a href="../classes/ResourceAbstract.html">ResourceAbstract</a>, scopeIdentifier: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="3"
-                            class="link-to-prism">src/FractalTypescript.ts:3</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">src/ScopeFactory.ts:12</a></div>
                 </td>
             </tr>
 
@@ -156,9 +158,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>data</td>
+                                    <td>manager</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="../classes/Manager.html" target="_self" >Manager</a></code>
                                     </td>
 
                                     <td>
@@ -168,9 +170,9 @@
 
                                 </tr>
                                 <tr>
-                                    <td>transformer</td>
+                                    <td>parentScopeInstance</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="../classes/Scope.html" target="_self" >Scope</a></code>
                                     </td>
 
                                     <td>
@@ -180,7 +182,19 @@
 
                                 </tr>
                                 <tr>
-                                    <td>option</td>
+                                    <td>resource</td>
+                                    <td>
+                                                <code><a href="../classes/ResourceAbstract.html" target="_self" >ResourceAbstract</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>scopeIdentifier</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -197,7 +211,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <b>Returns : </b>        <code><a href="../classes/Scope.html" target="_self" >Scope</a></code>
 
                     </div>
                     <div class="io-description">
@@ -211,28 +225,28 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="createDataArray"></a>
+                    <a name="createScopeFor"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Private</span>
-                            createDataArray
+                            <span class="modifier">Public</span>
+                            createScopeFor
                         </b>
-                        <a href="#createDataArray"><span class="icon ion-ios-link"></span></a>
+                        <a href="#createScopeFor"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createDataArray(data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, transformer: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                    <code>createScopeFor(manager: <a href="../classes/Manager.html">Manager</a>, resource: <a href="../classes/ResourceAbstract.html">ResourceAbstract</a>, scopeIdentifier: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">src/FractalTypescript.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="8"
+                            class="link-to-prism">src/ScopeFactory.ts:8</a></div>
                 </td>
             </tr>
 
@@ -252,9 +266,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>data</td>
+                                    <td>manager</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="../classes/Manager.html" target="_self" >Manager</a></code>
                                     </td>
 
                                     <td>
@@ -264,81 +278,9 @@
 
                                 </tr>
                                 <tr>
-                                    <td>transformer</td>
+                                    <td>resource</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="createDataJson"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            createDataJson
-                        </b>
-                        <a href="#createDataJson"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createDataJson(data: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, transformer: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">src/FractalTypescript.ts:17</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>data</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                <code><a href="../classes/ResourceAbstract.html" target="_self" >ResourceAbstract</a></code>
                                     </td>
 
                                     <td>
@@ -348,7 +290,7 @@
 
                                 </tr>
                                 <tr>
-                                    <td>transformer</td>
+                                    <td>scopeIdentifier</td>
                                     <td>
                                                 <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                     </td>
@@ -365,7 +307,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+                        <b>Returns : </b>        <code><a href="../classes/Scope.html" target="_self" >Scope</a></code>
 
                     </div>
                     <div class="io-description">
@@ -385,25 +327,25 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export class FractalTypescript{
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {ScopeFactoryInterface} from &quot;./ScopeFactoryInterface&quot;;
+import {Manager} from &quot;./Manager&quot;;
+import {Scope} from &quot;./Scope&quot;;
+import {ResourceAbstract} from &quot;./resource/ResourceAbstract&quot;;
 
-    public createData(data: any, transformer: any, option: string){
-        if(option &#x3D;&#x3D;&#x3D; &quot;array&quot;){
-            this.createDataArray(data, transformer);
-        }
-        else if(option &#x3D;&#x3D;&#x3D; &quot;json&quot;){
-            this.createDataJson(data, transformer);
-        }
+export class ScopeFactory implements ScopeFactoryInterface{
+
+    public createScopeFor(manager: Manager, resource: ResourceAbstract, scopeIdentifier: any): Scope{
+        return new Scope(manager, resource, scopeIdentifier);
     }
 
-    private createDataArray(data: any, transformer: any){
-        console.log(&quot;create array&quot;);
+    public createChildScopeFor(manager: Manager, parentScopeInstance: Scope, resource: ResourceAbstract, scopeIdentifier: string): Scope {
+        let scopeInstance &#x3D; this.createScopeFor(manager, resource, scopeIdentifier);
 
-    }
+        let scopeArray &#x3D; parentScopeInstance.getParentScopes();
+        // scopeArray &#x3D; parentScopeInstance.getScopeIdentifier();
 
-    private createDataJson(data: any, transformer: any){
-        console.log(transformer);
-        console.log(data);
+        scopeInstance.setParentScopes(scopeArray);
+        return scopeInstance;
     }
 
 }</code></pre>
@@ -433,7 +375,7 @@
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'FractalTypescript.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'ScopeFactory.html';
        </script>
 
        <script src="../js/libs/custom-elements.min.js"></script>

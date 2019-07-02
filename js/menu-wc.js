@@ -50,10 +50,71 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </div>
                         <ul class="links collapse" ${ isNormalMode ? 'id="classes-links"' : 'id="xs-classes-links"' }>
                             <li class="link">
+                                <a href="classes/ArraySerializer.html" data-type="entity-link">ArraySerializer</a>
+                            </li>
+                            <li class="link">
                                 <a href="classes/Book.html" data-type="entity-link">Book</a>
                             </li>
                             <li class="link">
-                                <a href="classes/FractalTypescript.html" data-type="entity-link">FractalTypescript</a>
+                                <a href="classes/Collection.html" data-type="entity-link">Collection</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/DataArraySerializer.html" data-type="entity-link">DataArraySerializer</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/Item.html" data-type="entity-link">Item</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/JsonApiSerializer.html" data-type="entity-link">JsonApiSerializer</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/Manager.html" data-type="entity-link">Manager</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/NullResource.html" data-type="entity-link">NullResource</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/ParamBag.html" data-type="entity-link">ParamBag</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/ResourceAbstract.html" data-type="entity-link">ResourceAbstract</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/Scope.html" data-type="entity-link">Scope</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/ScopeFactory.html" data-type="entity-link">ScopeFactory</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/SerializerAbstract.html" data-type="entity-link">SerializerAbstract</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/TransformerAbstract.html" data-type="entity-link">TransformerAbstract</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="chapter">
+                        <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ? 'data-target="#interfaces-links"' :
+                            'data-target="#xs-interfaces-links"' }>
+                            <span class="icon ion-md-information-circle-outline"></span>
+                            <span>Interfaces</span>
+                            <span class="icon ion-ios-arrow-down"></span>
+                        </div>
+                        <ul class="links collapse" ${ isNormalMode ? ' id="interfaces-links"' : 'id="xs-interfaces-links"' }>
+                            <li class="link">
+                                <a href="interfaces/CursorInterface.html" data-type="entity-link">CursorInterface</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/PaginatorInterface.html" data-type="entity-link">PaginatorInterface</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/ResourceInterface.html" data-type="entity-link">ResourceInterface</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/ScopeFactoryInterface.html" data-type="entity-link">ScopeFactoryInterface</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/Serializer.html" data-type="entity-link">Serializer</a>
                             </li>
                         </ul>
                     </li>

@@ -107,8 +107,8 @@ jobs:
           name: Install and configure dependencies
           command: |
             npm install -g --silent gh-pages@2.0.1
-            git config user.email ""
-            git config user.name "circleciBot"
+            git config user.email "build-bot@outlook.de"
+            git config user.name "build-bot686"
       - add_ssh_keys:
           fingerprints:
             - "83:37:63:ee:05:f0:c1:92:fe:4b:3c:63:b2:0d:26:7d"
@@ -135,7 +135,6 @@ workflows:
       - buildDoc:
           requires:
             - build
-# TODO make it run
-#      - releaseDoc:
-#          requires:
-#            - buildDoc
+      - releaseDoc:
+          requires:
+            - buildDocK

@@ -135,6 +135,7 @@ workflows:
       - buildDoc:
           requires:
             - build
-      - releaseDoc:
-          requires:
-            - buildDoc
+# TODO make it run
+#      - releaseDoc:
+#          requires:
+#            - buildDoc

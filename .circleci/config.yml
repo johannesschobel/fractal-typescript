@@ -6,6 +6,8 @@ defaults: &defaults
 whitelist: &whitelist
   paths:
     - .npmignore
+    - .git/*
+    - .gitignore
     - coverage/*
     - dist/*
     - node_modules/*
@@ -17,6 +19,8 @@ whitelist: &whitelist
     - README.md
     - tsconfig.json
     - tslint.json
+    - jest.config.js
+    - documentation/*
 
 version: 2
 jobs:
@@ -29,7 +33,7 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
-            -
+
       - run:
           name: Install Dependencies
           command: npm run installScript
@@ -52,6 +56,7 @@ jobs:
 
       - run:
           name: Lint TypeScript code
+# TODO include lint command
 #          command: npm run lint
           command: echo "include me"
 
@@ -103,15 +108,22 @@ jobs:
   releaseDoc:
     <<: *defaults
     steps:
+      - attach_workspace:
+          at: ~/fractal-typescript
+
       - run:
           name: Install and configure dependencies
           command: |
-            npm install -g --silent gh-pages@2.0.1
-            git config user.email ""
-            git config user.name "circleciBot"
+            mkdir -p ~/.ssh && touch ~/.ssh/known_hosts
+            echo "github.com,192.30.253.112 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==" >> ~/.ssh/known_hosts
+            sudo npm i -g --silent gh-pages
+            git config user.email "build-bot@outlook.de"
+            git config user.name "fractal-typescript-ci-bot"
+
       - add_ssh_keys:
           fingerprints:
             - "83:37:63:ee:05:f0:c1:92:fe:4b:3c:63:b2:0d:26:7d"
+
       - run:
           name: Deploy docs to gh-pages branch
           command: gh-pages --dotfiles --message "[skip ci] Updates" --dist documentation
@@ -135,7 +147,12 @@ workflows:
       - buildDoc:
           requires:
             - build
-# TODO make it run
-#      - releaseDoc:
-#          requires:
-#            - buildDoc
+          filters:
+            branches:
+              only: master
+      - releaseDoc:
+          requires:
+            - buildDoc
+          filters:
+            branches:
+              only: master

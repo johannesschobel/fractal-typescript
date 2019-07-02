@@ -3,21 +3,6 @@ defaults: &defaults
   docker:
     - image: circleci/node:latest
 
-whitelist: &whitelist
-  paths:
-    - .npmignore
-    - coverage/*
-    - dist/*
-    - node_modules/*
-    - src/*
-    - test/*
-    - CODE_OF_CONDUCT.md
-    - LICENSE.md
-    - package.json
-    - README.md
-    - tsconfig.json
-    - tslint.json
-
 version: 2
 jobs:
   checkout:
@@ -29,7 +14,7 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
-            -
+
       - run:
           name: Install Dependencies
           command: npm run installScript
@@ -41,7 +26,6 @@ jobs:
 
       - persist_to_workspace:
           root: ~/fractal-typescript
-          <<: *whitelist
 
   lint:
     <<: *defaults
@@ -68,7 +52,6 @@ jobs:
 
       - persist_to_workspace:
           root: ~/fractal-typescript
-          <<: *whitelist
 
   build:
     <<: *defaults
@@ -83,7 +66,6 @@ jobs:
 
       - persist_to_workspace:
           root: ~/fractal-typescript
-          <<: *whitelist
 
   buildDoc:
     <<: *defaults
@@ -98,7 +80,6 @@ jobs:
 
       - persist_to_workspace:
           root: ~/fractal-typescript
-          <<: *whitelist
 
   releaseDoc:
     <<: *defaults
@@ -110,7 +91,6 @@ jobs:
           name: Install and configure dependencies
           command: |
             sudo npm i -g --silent gh-pages
-            ls -la
             git config user.email "build-bot@outlook.de"
             git config user.name "build-bot686"
 

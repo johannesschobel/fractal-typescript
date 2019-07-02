@@ -2,15 +2,21 @@ import {ArraySerializer} from "../serializer/ArraySerializer";
 
 export class DataArraySerializer extends ArraySerializer{
 
-    public collection(resourceKey: string, data: Array<any>): Array<any> {
-        return data;
+    public collection(resourceKey: string, data: Array<any>): any {
+        return {
+            "data": data
+        };
     }
 
-    public item(resourceKey: string, data: Array<any>): Array<any> {
-        return data;
+    public item(resourceKey: string, data: Array<any>): any {
+        return {
+            "data": data
+        };
     }
 
-    public null(): Array<any> {
-        return [];
+    public null(): any {
+        return {
+            "data": []
+        };
     }
 }

@@ -1,28 +1,25 @@
-import {SerializerAbstract} from "./serializer/SerializerAbstract";
-import {ScopeFactoryInterface} from "./ScopeFactoryInterface";
-import {ResourceInterface} from "./resource/ResourceInterface";
-import {Scope} from "./Scope";
-import {DataArraySerializer} from "./serializer/DataArraySerializer";
-import {ParamBag} from "./ParamBag";
-import {ScopeFactory} from "./ScopeFactory";
+import {SerializerAbstract} from './serializer/SerializerAbstract';
+import {ScopeFactoryInterface} from './ScopeFactoryInterface';
+import {ResourceInterface} from './resource/ResourceInterface';
+import {Scope} from './Scope';
+import {DataArraySerializer} from './serializer/DataArraySerializer';
+import {ParamBag} from './ParamBag';
+import {ScopeFactory} from './ScopeFactory';
 
 export class Manager{
 
     protected requestedIncludes: Array<any> = [];
     protected requestedExcludes: Array<any> = [];
     protected requestedFieldsets: Array<any> = [];
-    protected includeParams: Array<any> = [];
-    protected paramDelimiter: string = "|";
+    protected includeParams: Array<string> = [];
+    protected paramDelimiter: string = '|';
     protected recursionLimit: number = 10;
     protected serializer: SerializerAbstract;
 
     private scopeFactory: ScopeFactoryInterface;
 
-    constructor(scopeFactory: ScopeFactoryInterface) {
-        if(scopeFactory === undefined){
-            scopeFactory = new ScopeFactory();
-        }
-        this.scopeFactory = scopeFactory;
+    constructor(scopeFactory: ScopeFactoryInterface = null) {
+        this.scopeFactory = scopeFactory ? scopeFactory : new ScopeFactory();
     }
 
     public createData(resource: ResourceInterface, scopeIdentifier: string = null, parentScopeInstance: Scope = null): Scope{
@@ -33,8 +30,9 @@ export class Manager{
         return this.scopeFactory.createScopeFor(this, resource, scopeIdentifier);
     }
 
-    public getIncludeParams(include: string){
-        //todo: implement this
+    public getIncludeParams(include: string): ParamBag{
+        // let params = (this.includeParams.indexOf(include) > -1) ? this.includeParams.includes(include) : [];
+        return new ParamBag(null);
     }
 
     public getRequestedIncluddes(): Array<any>{

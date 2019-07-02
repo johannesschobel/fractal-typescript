@@ -2,7 +2,7 @@ import {Book} from './models/Book';
 import {Manager} from './Manager';
 import {Collection} from './resource/Collection';
 
-let fractal = new Manager(undefined);
+let fractal = new Manager();
 
 let books: Array<Book> = [
     {
@@ -21,21 +21,22 @@ let books: Array<Book> = [
     }
 ];
 
-let resource = new Collection(books, function(book: Book){
-   return {
-       id: book.id,
-       title: book.title,
-       year: book.yr,
-       author: {
-           name: book.author_name,
-           email: book.author_email
-       },
-       link: {
-           rel: 'self',
-           uri: '/books/' + book.id
-       }
-   };
+
+let resource = new Collection(books, function() {
+    return {
+        "id": this.id,
+        "title": this.title,
+        "year": this.yr,
+        "author": {
+            "name": this.author_name,
+            "email": this.author_email
+        },
+        "links": {
+            "rel": "self",
+            "uri": "/books/" + this.id
+        }
+    };
 });
 
-let array = fractal.createData(resource);
-console.log(JSON.stringify(fractal.createData(resource)));
+let array = fractal.createData(resource).toArray();
+console.log(fractal.createData(resource).toJson());

@@ -1,23 +1,21 @@
 import {ResourceInterface} from "~/resource/ResourceInterface";
+import {TransformerAbstract} from "~/TransformerAbstract";
 
 export class ResourceAbstract implements ResourceInterface{
 
     protected data: any;
-    private _meta: Record<string, string>;
+    private meta: Array<any>;
     protected resourceKey: string;
-
-    // TODO create transformer class and use it
-    protected transformer: any;
+    protected transformer: CallableFunction | TransformerAbstract | null;
 
 
-    // TODO create transformer class and use it
-    constructor(data: any = null, transformer: any = null, resourceKey: string = null){
+    constructor(data: any = null, transformer:  (n: any) => any = null, resourceKey: string = null){
         this.data = data;
         this.transformer = transformer;
         this.resourceKey = resourceKey;
     }
 
-    getData(): any {
+    getData(): Array<any> {
         return this.data;
     }
 
@@ -37,19 +35,20 @@ export class ResourceAbstract implements ResourceInterface{
         this.transformer = transformer;
     }
 
-    getMeta(): Record<string, string>{
-        return this._meta;
+    getMeta(): Array<any>{
+        return this.meta;
     }
 
-    setMeta(meta:Record<string, string>):void{
-        this._meta = meta
+    setMeta(meta:Array<any>):void{
+        this.meta = meta
     }
 
     getMetaValue(metaKey: string): string{
-        return this._meta[metaKey];
+        // todo implement this
+        return null;
     }
 
     setMetaValue(metaKey:string, metaValue: string):void{
-        this._meta[metaKey] = metaValue;
+        // todo implement this
     }
 }

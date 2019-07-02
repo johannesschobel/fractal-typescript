@@ -147,6 +147,12 @@ workflows:
       - buildDoc:
           requires:
             - build
+          filters:
+            branches:
+              only: master
       - releaseDoc:
           requires:
             - buildDoc
+          filters:
+            branches:
+              only: master

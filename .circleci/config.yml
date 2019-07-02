@@ -3,6 +3,25 @@ defaults: &defaults
   docker:
     - image: circleci/node:latest
 
+whitelist: &whitelist
+  paths:
+    - .npmignore
+    - .git/*
+    - .gitignore
+    - coverage/*
+    - dist/*
+    - node_modules/*
+    - src/*
+    - test/*
+    - CODE_OF_CONDUCT.md
+    - LICENSE.md
+    - package.json
+    - README.md
+    - tsconfig.json
+    - tslint.json
+    - jest.config.js
+    - documentation/*
+
 version: 2
 jobs:
   checkout:
@@ -26,6 +45,7 @@ jobs:
 
       - persist_to_workspace:
           root: ~/fractal-typescript
+          <<: *whitelist
 
   lint:
     <<: *defaults
@@ -36,6 +56,7 @@ jobs:
 
       - run:
           name: Lint TypeScript code
+# TODO include lint command
 #          command: npm run lint
           command: echo "include me"
 
@@ -52,6 +73,7 @@ jobs:
 
       - persist_to_workspace:
           root: ~/fractal-typescript
+          <<: *whitelist
 
   build:
     <<: *defaults
@@ -66,6 +88,7 @@ jobs:
 
       - persist_to_workspace:
           root: ~/fractal-typescript
+          <<: *whitelist
 
   buildDoc:
     <<: *defaults
@@ -80,6 +103,7 @@ jobs:
 
       - persist_to_workspace:
           root: ~/fractal-typescript
+          <<: *whitelist
 
   releaseDoc:
     <<: *defaults

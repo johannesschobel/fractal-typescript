@@ -137,4 +137,4 @@ workflows:
             - build
       - releaseDoc:
           requires:
-            - buildDocK
+            - buildDoc

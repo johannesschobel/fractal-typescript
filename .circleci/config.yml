@@ -1,0 +1,141 @@
+defaults: &defaults
+  working_directory: ~/fractal-typescript
+  docker:
+    - image: circleci/node:latest
+
+whitelist: &whitelist
+  paths:
+    - .npmignore
+    - coverage/*
+    - dist/*
+    - node_modules/*
+    - src/*
+    - test/*
+    - CODE_OF_CONDUCT.md
+    - LICENSE.md
+    - package.json
+    - README.md
+    - tsconfig.json
+    - tslint.json
+
+version: 2
+jobs:
+  checkout:
+    <<: *defaults
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            -
+      - run:
+          name: Install Dependencies
+          command: npm run installScript
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - persist_to_workspace:
+          root: ~/fractal-typescript
+          <<: *whitelist
+
+  lint:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ~/fractal-typescript
+
+      - run:
+          name: Lint TypeScript code
+#          command: npm run lint
+          command: echo "include me"
+
+  test:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ~/fractal-typescript
+
+      - run:
+          name: Test TypeScript code
+          command: npm run test-only
+
+      - persist_to_workspace:
+          root: ~/fractal-typescript
+          <<: *whitelist
+
+  build:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ~/fractal-typescript
+
+      - run:
+          name: Build TypeScript code
+          command: npm run build
+
+      - persist_to_workspace:
+          root: ~/fractal-typescript
+          <<: *whitelist
+
+  buildDoc:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ~/fractal-typescript
+
+      - run:
+          name: Build Doc
+          command: npm run gendoc
+
+      - persist_to_workspace:
+          root: ~/fractal-typescript
+          <<: *whitelist
+
+  releaseDoc:
+    <<: *defaults
+    steps:
+      - run:
+          name: Install and configure dependencies
+          command: |
+            npm install -g --silent gh-pages@2.0.1
+            git config user.email ""
+            git config user.name "circleciBot"
+      - add_ssh_keys:
+          fingerprints:
+            - "83:37:63:ee:05:f0:c1:92:fe:4b:3c:63:b2:0d:26:7d"
+      - run:
+          name: Deploy docs to gh-pages branch
+          command: gh-pages --dotfiles --message "[skip ci] Updates" --dist documentation
+
+workflows:
+  version: 2
+
+  build:
+    jobs:
+      - checkout
+      - test:
+          requires:
+            - checkout
+      - lint:
+          requires:
+            - checkout
+      - build:
+          requires:
+            - test
+            - lint
+      - buildDoc:
+          requires:
+            - build
+# TODO make it run
+#      - releaseDoc:
+#          requires:
+#            - buildDoc

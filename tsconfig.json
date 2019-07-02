@@ -3,10 +3,11 @@
     "outDir": "./dist/",
     "noImplicitAny": true,
     "allowJs": true,
+    "inlineSources": true,
     "sourceMap": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "noEmitHelpers": true,
+    "noEmitHelpers": false,
     "noEmitOnError": true,
     "lib": [
       "es6",

@@ -106,7 +106,7 @@ jobs:
       - run:
           name: Install and configure dependencies
           command: |
-            npm i -g gh-pages
+            sudo npm i -g gh-pages
             git config user.email "build-bot@outlook.de"
             git config user.name "build-bot686"
       - add_ssh_keys:

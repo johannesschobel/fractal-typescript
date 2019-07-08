@@ -17,7 +17,7 @@ export class Scope{
     protected parentScopes: Array<any> = [];
 
 
-    constructor(manager: Manager, resource: ResourceAbstract, scopeIdentifier: string,) {
+    constructor(manager: Manager, resource: ResourceAbstract, scopeIdentifier: string = null,) {
         this.scopeIdentifier = scopeIdentifier;
         this.manager = manager;
         this.resource = resource;

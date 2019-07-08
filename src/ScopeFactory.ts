@@ -13,7 +13,7 @@ export class ScopeFactory implements ScopeFactoryInterface{
         let scopeInstance = this.createScopeFor(manager, resource, scopeIdentifier);
 
         let scopeArray = parentScopeInstance.getParentScopes();
-        // scopeArray = parentScopeInstance.getScopeIdentifier();
+        scopeArray.push(parentScopeInstance.getScopeIdentifier());
 
         scopeInstance.setParentScopes(scopeArray);
         return scopeInstance;

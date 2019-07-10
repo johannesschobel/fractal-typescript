@@ -29,12 +29,13 @@ export class Scope {
     public getScopeIdentifier(): string {
         return this.scopeIdentifier;
     }
-
-    public getIdentifiers() {
+  
+    public getIdentifiers(): string{
         // todo: implement this
+        return null;
     }
-
-    public getParentScopes() {
+      
+    public getParentScopes(): string[] {
         return this.parentScopes;
     }
 
@@ -104,7 +105,8 @@ export class Scope {
         return {...data, ...meta};
     }
 
-    public toJson(): string {
+    public toJson(): string{
+        // todo: check whether options are possible
         return JSON.stringify(this.toArray());
     }
 

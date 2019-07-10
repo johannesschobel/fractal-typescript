@@ -1,31 +1,37 @@
+import {Collection} from '../resource/Collection';
+import Cursor from '../paginaton/Cursor';
 import {Manager} from '../Manager';
 import {Item} from '../resource/Item';
+import Primitive from '../resource/Primitive';
 import {ResourceAbstract} from '../resource/ResourceAbstract';
 import {Scope} from '../Scope';
+import {TransformerAbstract} from '../TransformerAbstract';
+
 
 test('test embedChildScope', () => {
     const manager = new Manager();
 
-    const resource = new Item({foo: 'bar'}, () => {});
 
+    const resource = new Item({foo: 'bar'}, () => {});
+  
     const scope = new Scope(manager, resource, 'book');
     const childScope = scope.embedChildScope('author', resource);
 
     expect(childScope).toBeInstanceOf(Scope);
 });
 
+
 test('test getManager', () => {
     const resource = new Item({foo: 'bar'}, () => {});
-
     const scope = new Scope(new Manager(), resource, 'book');
 
     expect(scope.getManager()).toBeInstanceOf(Manager);
 });
 
+
 test('test getResource', () => {
     // tslint:disable-next-line:no-empty
     const resource = new Item({foo: 'bar'}, () => {});
-
     const scope = new Scope(new Manager(), resource, 'book');
 
     expect(scope.getResource()).toBeInstanceOf(ResourceAbstract);
@@ -54,6 +60,7 @@ test('test toJson', () => {
     expect(scope.toJson()).toStrictEqual('{"data":{"foo":"bar"}}');
 });
 
+
 test('test toJsonWithOption', () => {
     const manager =  new Manager();
     const resource = new Item({foo: 'bar'}, () => {
@@ -62,10 +69,217 @@ test('test toJsonWithOption', () => {
 
     const scope = new Scope(manager, resource);
 
-    // todo
+    // todo: implement function toJson with parameters
     // expect(scope.toJson()).toStrictEqual('{"data":{"foo":"bar"}}');
 });
 
-test('test getIdentifier', () => {
+test("test getCurrentScope", () => {
+    const manager = new Manager();
+
+    const resource = new Item({name: 'Larry Ullman'}, function () {
+    });
+
+    const scope = new Scope(manager, resource, 'book');
+    expect(scope.getScopeIdentifier()).toStrictEqual('book');
+
+    const childScope = scope.embedChildScope('author', resource);
+    expect(childScope.getScopeIdentifier()).toStrictEqual('author');
+
+    const grandChildScope = childScope.embedChildScope('profile', resource);
+    expect(grandChildScope.getScopeIdentifier()).toStrictEqual('profile');
+});
+
+
+test("test getIdentifier", () => {
+    // todo: implemement getIdentifers()
+
+    const manager = new Manager();
+
+    const resource = new Item({name: 'Larry Ullman'}, function () {
+    });
+
+    const scope = new Scope(manager, resource, 'book');
+    expect(scope.getIdentifiers()).toStrictEqual('book');
+
+    const childScope = scope.embedChildScope('author', resource);
+    expect(childScope.getIdentifiers()).toStrictEqual('book.author');
+
+    const grandChildScope = childScope.embedChildScope('profile', resource);
+    expect(grandChildScope.getIdentifiers()).toStrictEqual('book.author.profile');
+});
+
+test("test getParentScopes", () => {
+    const manager = new Manager();
+
+    const resource = new Item({'name': 'Larry Ullman'}, function () {
+    });
+
+    const scope = new Scope(manager, resource, 'book');
+
+    const childScope = scope.embedChildScope('author', resource);
+
+    expect(childScope.getParentScopes()).toEqual(expect.arrayContaining(['book']));
+
+    const grandChildScope = childScope.embedChildScope('profile', resource);
+
+    expect(grandChildScope.getParentScopes()).toEqual(expect.arrayContaining(['book', 'author']));
+});
+
+test("test isRequested", () => {
+    // todo: implement isRequested()
+
+    const manager = new Manager();
+    manager.parseIncludes(['foo', 'bar', 'baz.bart']);
+
+    const scope = new Scope(manager, new ResourceAbstract());
+
+    expect(scope.isRequested('foo')).toBeTruthy();
+    expect(scope.isRequested('bar')).toBeTruthy();
+    expect(scope.isRequested('baz')).toBeTruthy();
+    expect(scope.isRequested('baz.chart')).toBeTruthy();
+    expect(scope.isRequested('nope')).toBeFalsy();
+
+});
+
+test("test isExcluded", () => {
+    // todo: implement parseExcludeds()
+
+    const manager = new Manager();
+    manager.parseIncludes(["foo", "bar", "baz.bart"]);
+
+    const scope = new Scope(manager, new ResourceAbstract());
+    const childScope = scope.embedChildScope("baz", new ResourceAbstract());
+
+    manager.parseExcludes(['bar']);
+
+    expect(scope.isExcluded('foo')).toBeFalsy();
+    expect(scope.isExcluded('bar')).toBeTruthy();
+    expect(scope.isExcluded('baz.bart')).toBeFalsy();
+
+    manager.parseExcludes(['baz.bart']);
+
+    expect(scope.isExcluded('baz')).toBeFalsy();
+    expect(scope.isExcluded('baz.bart')).toBeTruthy();
+});
+
+test("test toArrayWithSideLoadedIncludes", () => {
+    // todo: Manager.parseIncludes()
+});
+
+test("test pushParentScope", () => {
+    // todo: implement pushParentScope()
+    const manager = new Manager();
+
+    const resource = new Item({'name': 'Larry Ullman'}, function () {
+    });
+
+    const scope = new Scope(manager, resource);
+
+    expect(1).toEqual(scope.pushParentScope('book'));
+    expect(2).toEqual(scope.pushParentScope('author'));
+    expect(3).toEqual(scope.pushParentScope('profile'));
+
+    expect(scope.getParentScopes()).toEqual(expect.arrayContaining(['book', 'author', 'profile']));
+});
+
+test("test runAppropriateTransformerWithPrimitive", () => {
+    // todo: implement transformPrimitiveResource()
+    const manager = new Manager();
+
+    // todo: figure out how to mock correctly!
+    // let transformer = new TransformerAbstract();
+    const transformer = null;
+
+    const resource = new Primitive('test', transformer);
+
+    let scope = manager.createData(resource);
+
+    expect(scope.transformPrimitiveResource()).toEqual('simple string');
+
+    resource = new Primitive(10, function (x) {
+        return x + 10;
+    });
+
+    scope = manager.createData(resource);
+
+    expect(scope.transformPrimitiveResource()).toEqual(20);
+});
+
+test("test runAppropriateTransformerWithItem", () => {
+    // todo
+});
+
+test("test runAppropriateTransformerWithCollection", () => {
+    // todo
+});
+
+test("test createDataWithClassFuckKnows", () => {
+    // todo
+});
+
+test("test paginatorOutput", () => {
+    // todo
+});
+
+test("test cursorOutput", () => {
+    const manager = new Manager();
+
+    const inputData = [
+        {
+            baz: 'ban',
+            foo: 'bar'
+        }
+    ];
+
+    const collection = new Collection(inputData, function () {
+        return this;
+    });
+
+    const cursor = new Cursor(0, 'ban', 'ban', 2);
+
+    collection.setCursor(cursor);
+
+    const rootScope = manager.createData(collection);
+
+    const expectedOutput = [{
+        data: inputData,
+        meta: {
+            cursor: {
+                count: 2.
+                current: 0,
+                next: 'ban',
+                prev: 'ban',
+            }
+        }
+    }];
+
+    expect(rootScope.toArray()).toEqual(expectedOutput);
+});
+
+test("test defaultIncludeSuccess", () => {
+    // todo
+});
+
+test("test primitiveResourceIncludeSuccess", () => {
+    // todo
+});
+
+test("test nullResourceIncludeSuccess", () => {
+    // todo
+});
+
+test("test toArrayWithFieldsets", () => {
+    // todo
+});
+
+test("test toArrayWithFieldsetsAndMandatorySerializerFields", () => {
+    // todo
+});
+
+test("test toArrayWithIncludesAndFieldsets", () => {
+    // todo
+});
+
+test("test toArrayWithSideloadedIncludesAndFieldsets", () => {
     // todo
 });

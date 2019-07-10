@@ -1,50 +1,50 @@
-import {CursorInterface} from "../paginaton/CursorInterface";
+import {CursorInterface} from '../paginaton/CursorInterface';
 
-export default class Cursor implements CursorInterface{
+export default class Cursor implements CursorInterface {
     protected current: any;
     protected prev: any;
     protected next: any;
     protected count: number;
 
-    constructor(current: any, prev: any, next: any, count: number){
+    constructor(current: any, prev: any, next: any, count: number) {
         this.current = current;
         this.prev = prev;
         this.next = next;
         this.count = count;
     }
 
-    public getCurrent(): any{
+    public getCurrent(): any {
         return this.current;
     }
 
-    public setCurrent(current: any): Cursor{
+    public setCurrent(current: any): Cursor {
         this.current = current;
         return this;
     }
 
-    public getPrev(): any{
+    public getPrev(): any {
         return this.prev;
     }
 
-    public setPrev(prev: any): Cursor{
+    public setPrev(prev: any): Cursor {
         this.prev = prev;
         return this;
     }
 
-    public getNext(): any{
+    public getNext(): any {
         return this.next;
     }
 
-    public setNext(next: any): Cursor{
+    public setNext(next: any): Cursor {
         this.next = next;
         return this;
     }
 
-    public getCount(): number{
+    public getCount(): number {
         return this.count;
     }
 
-    public  setCount(count: number){
+    public  setCount(count: number) {
         this.count = count;
         return this;
     }

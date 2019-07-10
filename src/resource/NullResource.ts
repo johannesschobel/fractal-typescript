@@ -1,7 +1,7 @@
-import {ResourceAbstract} from "./../resource/ResourceAbstract";
+import {ResourceAbstract} from '../resource/ResourceAbstract';
 
-export class NullResource extends ResourceAbstract{
-    public getData(): any{
-
+export class NullResource extends ResourceAbstract {
+    public getData(): any {
+        return null;
     }
 }

@@ -1,5 +1,5 @@
-import {ResourceAbstract} from "./../resource/ResourceAbstract";
+import {ResourceAbstract} from '../resource/ResourceAbstract';
 
-export class Item extends ResourceAbstract{
+export class Item extends ResourceAbstract {
 
 }

@@ -1,45 +1,43 @@
-import {Manager} from "~/Manager";
-import {ResourceInterface} from "~/resource/ResourceInterface";
-import {SerializerAbstract} from "~/serializer/SerializerAbstract";
-import {TransformerAbstract} from "./TransformerAbstract";
-import {ParamBag} from "~/ParamBag";
-import {Collection} from "./resource/Collection";
-import {ResourceAbstract} from "./resource/ResourceAbstract";
-import {Item} from "./resource/Item";
-import {NullResource} from "./resource/NullResource";
+import {Manager} from '~/Manager';
+import {ParamBag} from '~/ParamBag';
+import {ResourceInterface} from '~/resource/ResourceInterface';
+import {SerializerAbstract} from '~/serializer/SerializerAbstract';
+import {Collection} from './resource/Collection';
+import {Item} from './resource/Item';
+import {NullResource} from './resource/NullResource';
+import {ResourceAbstract} from './resource/ResourceAbstract';
+import {TransformerAbstract} from './TransformerAbstract';
 
-export class Scope{
+export class Scope {
 
-    protected availableIncludes: Array<any> = [];
+    protected availableIncludes: any[] = [];
     protected scopeIdentifier: string;
     protected manager: Manager;
     protected resource: ResourceAbstract;
-    protected parentScopes: Array<any> = [];
+    protected parentScopes: any[] = [];
 
-
-    constructor(manager: Manager, resource: ResourceAbstract, scopeIdentifier: string = null,) {
+    constructor(manager: Manager, resource: ResourceAbstract, scopeIdentifier: string = null) {
         this.scopeIdentifier = scopeIdentifier;
         this.manager = manager;
         this.resource = resource;
     }
 
-    public embedChildScope(scopeIdentifier: string, resource: ResourceAbstract){
+    public embedChildScope(scopeIdentifier: string, resource: ResourceAbstract) {
         return this.manager.createData(resource, scopeIdentifier, this);
     }
 
-    public getScopeIdentifier(): string{
+    public getScopeIdentifier(): string {
         return this.scopeIdentifier;
     }
 
-    public getIdentifiers(): string{
+    public getIdentifiers(): string {
         // todo: implement this
         return null;
     }
 
-    public getParentScopes(): Array<string>{
+    public getParentScopes(): string[] {
         return this.parentScopes;
     }
-
 
     public getManager(): Manager {
         return this.manager;
@@ -54,52 +52,51 @@ export class Scope{
         return;
     }
 
-    public isExcluded(checkScopeSegment: string): boolean{
+    public isExcluded(checkScopeSegment: string): boolean {
         // todo: implement this
         return null;
     }
 
-    public pushParentScope(identifierSegment: string): number{
+    public pushParentScope(identifierSegment: string): number {
         // todo: implement this
         return null;
     }
 
-    public setParentScopes(parentScopes: Array<string>): this{
+    public setParentScopes(parentScopes: string[]): this {
         this.parentScopes = parentScopes;
         return this;
     }
 
-    public toArray(): Array<any>{
-        let resourceTransformers = this.executeResourceTransformers();
-        let rawData = resourceTransformers[0];
-        let rawIncludedData = resourceTransformers[1];
+    public toArray(): any[] {
+        const resourceTransformers = this.executeResourceTransformers();
+        const rawData = resourceTransformers[0];
+        const rawIncludedData = resourceTransformers[1];
 
-        let serializer = this.manager.getSerializer();
+        const serializer = this.manager.getSerializer();
 
-        let data = this.serializeResource(serializer, rawData);
+        const data = this.serializeResource(serializer, rawData);
 
-        if(serializer.sideloadIncludes()){
+        if (serializer.sideloadIncludes()) {
             // todo: implement this
         }
 
-        if(this.resource instanceof Collection){
+        if (this.resource instanceof Collection) {
             let pagination = null;
-            if(this.resource.hasCursor()){
+            if (this.resource.hasCursor()) {
                 pagination = serializer.cursor(this.resource.getCursor());
-            }
-            else if(this.resource.hasPaginator()){
+            } else if (this.resource.hasPaginator()) {
                 pagination = serializer.paginator(this.resource.getPaginator());
             }
 
-            if(pagination !== null){
+            if (pagination !== null) {
                 // todo: implement this
             }
         }
 
-        let meta = serializer.meta(this.resource.getMeta());
+        const meta = serializer.meta(this.resource.getMeta());
 
-        if(data === null){
-            if(meta !== null){
+        if (data === null) {
+            if (meta !== null) {
                 return meta;
             }
             return null;
@@ -108,74 +105,70 @@ export class Scope{
         return {...data, ...meta};
     }
 
-    public toJson(): string{
+    public toJson(): string {
         // todo: check whether options are possible
         return JSON.stringify(this.toArray());
     }
 
-    public transformPrimitiveResource(): any{
+    public transformPrimitiveResource(): any {
         // todo implement this
         return null;
     }
 
-    protected executeResourceTransformers(): Array<any>{
-        let transformer = this.resource.getTransformer();
-        let data = this.resource.getData();
+    protected executeResourceTransformers(): any[] {
+        const transformer = this.resource.getTransformer();
+        const data = this.resource.getData();
 
         let transformedData = [];
         let includedData = [];
 
-        if(this.resource instanceof Item){
-            let fireTransformer = this.fireTransformer(transformer, data);
+        if (this.resource instanceof Item) {
+            const fireTransformer = this.fireTransformer(transformer, data);
             transformedData = fireTransformer[0];
             includedData = fireTransformer[1];
-        }
-        else if(this.resource instanceof Collection){
-            for(let i=0; i<data.length; i++){
-                let fireTransformer = this.fireTransformer(transformer, data[i]);
+        } else if (this.resource instanceof Collection) {
+            for (const dataEntry of data) {
+                const fireTransformer = this.fireTransformer(transformer, dataEntry);
                 transformedData.push(fireTransformer[0]);
                 includedData.push(fireTransformer[1]);
             }
-        }
-        else if(this.resource instanceof NullResource){
+        } else if (this.resource instanceof NullResource) {
             transformedData = null;
             includedData = [];
-        }
-        else{
-            throw new Error("Argument resource should be an instance of Item or Collection")
+        } else {
+            throw new Error('Argument resource should be an instance of Item or Collection')
         }
 
         return [transformedData, includedData];
     }
 
-    protected serializeResource(serializer: SerializerAbstract, data: any): Array<any>{
-        let resourceKey = this.resource.getResourceKey();
+    protected serializeResource(serializer: SerializerAbstract, data: any): any[] {
+        const resourceKey = this.resource.getResourceKey();
 
-        if(this.resource instanceof Collection){
+        if (this.resource instanceof Collection) {
             return serializer.collection(resourceKey, data);
         }
 
-        if(this.resource instanceof Item){
+        if (this.resource instanceof Item) {
             return serializer.item(resourceKey, data);
         }
 
         return serializer.null();
     }
 
-    protected fireTransformer(transformer: CallableFunction | TransformerAbstract, data: any): any{
+    protected fireTransformer(transformer: CallableFunction | TransformerAbstract, data: any): any {
         let includedData = [];
         let transformedData;
 
-        if(this.isFunction(transformer)){
+        if (this.isFunction(transformer)) {
             // @ts-ignore
             transformedData = transformer.apply(data);
-        }
-        else if(transformer instanceof TransformerAbstract){
+        } else if (transformer instanceof TransformerAbstract) {
             transformer.setCurrentScope(this);
             transformedData = transformer.transform(data);
         }
 
-        if(transformer instanceof TransformerAbstract && this.transformerHasIncludes(transformer)){
+        if (transformer instanceof TransformerAbstract && this.transformerHasIncludes(transformer)) {
             includedData = this.fireIncludedTransformers(transformer, data);
             transformedData = this.manager.getSerializer().mergeIncludes(transformedData, includedData);
         }
@@ -185,43 +178,42 @@ export class Scope{
         return [transformedData, includedData];
     }
 
-    private isFunction(functionToCheck: any): boolean {
-        return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
-    }
-
-    protected fireIncludedTransformers(transformer: TransformerAbstract, data: any): Array<any>{
+    protected fireIncludedTransformers(transformer: TransformerAbstract, data: any): any[] {
         // todo implement this
         return [];
     }
 
-    protected transformerHasIncludes(transformer: TransformerAbstract): boolean{
+    protected transformerHasIncludes(transformer: TransformerAbstract): boolean {
         // todo implement this
         return null;
     }
 
-    protected isRootScope(): boolean{
+    protected isRootScope(): boolean {
         // todo implement this
         return null;
     }
 
-    protected filterFieldsets(data: Array<any>): Array<any>{
+    protected filterFieldsets(data: any[]): any[] {
         // todo implement this
         return data;
     }
 
-    protected getFilterFielset(): ParamBag{
+    protected getFilterFielset(): ParamBag {
         // todo implement this
         return null;
     }
 
-    protected hasFilterFieldset(): boolean{
+    protected hasFilterFieldset(): boolean {
         // todo implement this
         return null;
     }
 
-    protected getResourceType(): string{
+    protected getResourceType(): string {
         // todo implement this
         return null;
     }
 
+    private isFunction(functionToCheck: any): boolean {
+        return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+    }
 }

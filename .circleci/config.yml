@@ -56,9 +56,7 @@ jobs:
 
       - run:
           name: Lint TypeScript code
-# TODO include lint command
-#          command: npm run lint
-          command: echo "include me"
+          command: npm run tslint
 
   test:
     <<: *defaults

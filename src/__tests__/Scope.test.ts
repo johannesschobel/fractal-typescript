@@ -85,8 +85,7 @@ test('test getCurrentScope', () => {
     expect(grandChildScope.getScopeIdentifier()).toStrictEqual('profile');
 });
 
-// TODO: fix these failing tests on development branch
-test.skip('test getIdentifier', () => {
+test('test getIdentifier', () => {
     // todo: implemement getIdentifers()
 
     const manager = new Manager();
@@ -121,8 +120,7 @@ test('test getParentScopes', () => {
     expect(grandChildScope.getParentScopes()).toEqual(expect.arrayContaining(['book', 'author']));
 });
 
-// TODO: fix these failing tests on development branch
-test.skip('test isRequested', () => {
+test('test isRequested', () => {
     // todo: implement isRequested()
 
     const manager = new Manager();
@@ -138,8 +136,7 @@ test.skip('test isRequested', () => {
 
 });
 
-// TODO: fix these failing tests on development branch
-test.skip('test isExcluded', () => {
+test('test isExcluded', () => {
     // todo: implement parseExcludeds()
 
     const manager = new Manager();
@@ -164,8 +161,7 @@ test('test toArrayWithSideLoadedIncludes', () => {
     // todo: Manager.parseIncludes()
 });
 
-// TODO: fix these failing tests on development branch
-test.skip('test pushParentScope', () => {
+test('test pushParentScope', () => {
     // todo: implement pushParentScope()
     const manager = new Manager();
 
@@ -181,8 +177,7 @@ test.skip('test pushParentScope', () => {
     expect(scope.getParentScopes()).toEqual(expect.arrayContaining(['book', 'author', 'profile']));
 });
 
-// TODO: fix these failing tests on development branch
-test.skip('test runAppropriateTransformerWithPrimitive', () => {
+test('test runAppropriateTransformerWithPrimitive', () => {
     // todo: implement transformPrimitiveResource()
     const manager = new Manager();
 
@@ -197,7 +192,7 @@ test.skip('test runAppropriateTransformerWithPrimitive', () => {
 
     expect(scope.transformPrimitiveResource()).toEqual('simple string');
 
-    resource = new Primitive(10, (x) => {
+    resource = new Primitive(10, (x: any) => {
         return x + 10;
     });
 
@@ -222,8 +217,7 @@ test('test paginatorOutput', () => {
     // todo
 });
 
-// TODO: fix these failing tests on development branch
-test.skip('test cursorOutput', () => {
+test('test cursorOutput', () => {
     const manager = new Manager();
 
     const inputData = [

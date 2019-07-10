@@ -1,42 +1,41 @@
-import {Book} from './models/Book';
 import {Manager} from './Manager';
+import {Book} from './models/Book';
 import {Collection} from './resource/Collection';
 
-let fractal = new Manager();
+const fractal = new Manager();
 
-let books: Array<Book> = [
+const books: Book[] = [
     {
-        'id': '1',
-        'title': 'Hogfather',
-        'yr': 1998,
-        'author_name': 'Philip K Dick',
-        'author_email': 'philip@example.org',
+        authorEmail: 'philip@example.org',
+        authorName: 'Philip K Dick',
+        id: '1',
+        title: 'Hogfather',
+        yr: 1998
     },
     {
-        'id': '2',
-        'title': 'Game Of Kill Everyone',
-        'yr': 2014,
-        'author_name': 'George R. R. Satan',
-        'author_email': 'george@example.org',
+        authorEmail: 'george@example.org',
+        authorName: 'George R. R. Satan',
+        id: '2',
+        title: 'Game Of Kill Everyone',
+        yr: 2014
     }
 ];
 
-
-let resource = new Collection(books, function() {
+const resource = new Collection(books, function () {
     return {
-        "id": this.id,
-        "title": this.title,
-        "year": this.yr,
-        "author": {
-            "name": this.author_name,
-            "email": this.author_email
+        author: {
+            email: this.author_email,
+            name: this.author_name
         },
-        "links": {
-            "rel": "self",
-            "uri": "/books/" + this.id
-        }
+        id: this.id,
+        links: {
+            rel: 'self',
+            uri: '/books/' + this.id
+        },
+        title: this.title,
+        year: this.yr
     };
 });
 
-let array = fractal.createData(resource).toArray();
+const array = fractal.createData(resource).toArray();
 console.log(fractal.createData(resource).toJson());

@@ -1,54 +1,53 @@
-import {ResourceInterface} from "~/resource/ResourceInterface";
-import {TransformerAbstract} from "~/TransformerAbstract";
+import {ResourceInterface} from '../resource/ResourceInterface';
+import {TransformerAbstract} from '../TransformerAbstract';
 
-export class ResourceAbstract implements ResourceInterface{
+export class ResourceAbstract implements ResourceInterface {
 
-    protected data: any;
-    private meta: Array<any>;
     protected resourceKey: string;
     protected transformer: CallableFunction | TransformerAbstract | null;
+    protected data: any;
+    private meta: any[];
 
-
-    constructor(data: any = null, transformer:  (n: any) => any = null, resourceKey: string = null){
+    constructor(data: any = null, transformer: (n: any) => any = null, resourceKey: string = null) {
         this.data = data;
         this.transformer = transformer;
         this.resourceKey = resourceKey;
     }
 
-    getData(): Array<any> {
+    public getData(): any[] {
         return this.data;
     }
 
-    getResourceKey(): string {
+    public getResourceKey(): string {
         return this.resourceKey;
     }
 
-    getTransformer(): any {
+    public getTransformer(): any {
         return this.transformer;
     }
 
-    setData(data: any): void {
+    public setData(data: any): void {
         this.data = data;
     }
 
-    setTransformer(transformer: any): void {
+    public setTransformer(transformer: any): void {
         this.transformer = transformer;
     }
 
-    getMeta(): Array<any>{
+    public getMeta(): any[] {
         return this.meta;
     }
 
-    setMeta(meta:Array<any>):void{
+    public setMeta(meta: any[]): void {
         this.meta = meta
     }
 
-    getMetaValue(metaKey: string): string{
+    public getMetaValue(metaKey: string): string {
         // todo implement this
         return null;
     }
 
-    setMetaValue(metaKey:string, metaValue: string):void{
+    public setMetaValue(metaKey: string, metaValue: string): void {
         // todo implement this
     }
 }

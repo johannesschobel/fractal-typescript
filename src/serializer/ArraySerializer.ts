@@ -1,42 +1,42 @@
-import {SerializerAbstract} from "../serializer/SerializerAbstract";
-import {ResourceInterface} from "../resource/ResourceInterface";
-import {PaginatorInterface} from "../paginaton/PaginatorInterface";
-import {CursorInterface} from "../paginaton/CursorInterface";
+import {CursorInterface} from '../paginaton/CursorInterface';
+import {PaginatorInterface} from '../paginaton/PaginatorInterface';
+import {ResourceInterface} from '../resource/ResourceInterface';
+import {SerializerAbstract} from '../serializer/SerializerAbstract';
 
-export class ArraySerializer extends SerializerAbstract{
+export class ArraySerializer extends SerializerAbstract {
 
-    public collection(resourceKey: string, data: Array<any>): Array<any> {
+    public collection(resourceKey: string, data: any[]): any[] {
         // todo: implement this
         return null;
     }
 
-    public item(resourceKey: string, data: Array<any>): Array<any>{
+    public item(resourceKey: string, data: any[]): any[] {
         return data;
     }
 
-    public null(): Array<any>{
+    public null(): any[] {
         return [];
     }
 
-    public includedData(resource: ResourceInterface, data: Array<any>): Array<any> {
+    public includedData(resource: ResourceInterface, data: any[]): any[] {
         return data;
     }
 
-    public meta(meta: Array<any>): any{
-        if(meta === undefined || meta.length === 0){
+    public meta(meta: any[]): any {
+        if (meta === undefined || meta.length === 0) {
             return [];
         }
         return {
-            "meta": meta
+            '{meta}': meta
         };
     }
 
-    public paginator(paginator: PaginatorInterface): Array<any> {
+    public paginator(paginator: PaginatorInterface): any[] {
         // todo: implement this
         return undefined;
     }
 
-    public cursor(cursor: CursorInterface): Array<any>{
+    public cursor(cursor: CursorInterface): any[] {
         // todo: implement this
         return undefined;
     }

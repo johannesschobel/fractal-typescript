@@ -1,9 +1,9 @@
 import * as JSONAPI from 'jsonapi-typescript';
 
 // ✅ This should be OK
-let doc: JSONAPI.Document = {
+const doc: JSONAPI.Document = {
     data: {
-        type: 'articles',
-        id: '1'
+        id: '1',
+        type: 'articles'
     }
 };

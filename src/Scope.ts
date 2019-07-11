@@ -66,12 +66,20 @@ export class Scope {
         }
         const scopeString = scopeArray.join('.');
 
-        return this.manager.getRequestedExcludes().some((entries) => entries === scopeString);
+        return this.manager.getRequestedIncluddes().some((entries) => entries === scopeString);
     }
 
     public isExcluded(checkScopeSegment: string): boolean {
-        // todo: implement this
-        return null;
+        let scopeArray = [];
+        if (this.parentScopes[0] != null) {
+            scopeArray = this.parentScopes.slice(1);
+            scopeArray.push(this.scopeIdentifier, checkScopeSegment);
+        } else {
+            scopeArray.push(checkScopeSegment);
+        }
+
+        const scopeString = scopeArray.join('.');
+        return this.manager.getRequestedExcludes().indexOf(scopeString) > -1;
     }
 
     public pushParentScope(identifierSegment: string): number {

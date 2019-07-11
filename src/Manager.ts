@@ -70,14 +70,36 @@ export class Manager {
             includes = includesArray;
         }
 
-        includes.forEach((include) => {
+        for (const include of includes) {
             const includeEntry = CommonUtils.padding(include.split(':', 2), 2, null);
             const includeName = this.trimToAcceptRecursionLevel(includeEntry[0]);
             const allModifiersStr = includeEntry[1];
 
-            // TODO continue (Manager.php: 184)
+            if (this.requestedIncludes.indexOf(includeName) > -1) {
+                continue;
+            }
+            this.requestedIncludes.push(includeName);
 
-        });
+            if (allModifiersStr === null) {
+                continue;
+            }
+
+            const allModifiersArr = allModifiersStr.match('/([\w]+)(\(([^\)]+)\))?/');
+            const modifierCount = allModifiersArr.length;
+
+            const modifierArr = [];
+
+            for (let modifierIt = 0; modifierIt < modifierCount; modifierIt++) {
+                const modifierName = allModifiersArr[1][modifierIt];
+
+                const modifierParamStr = allModifiersArr[3][modifierIt];
+
+                modifierArr[modifierIt] = modifierParamStr.split(this.paramDelimiter);
+            }
+
+            const indexOfIncludeName = this.includeParams.indexOf(includeName);
+            // this.includeParams[indexOfIncludeName] = modifierArr;
+        }
 
         this.autoIncludeParents();
         return this;
@@ -98,8 +120,28 @@ export class Manager {
         return null;
     }
 
-    public parseExcludes(excludes: string[]): this {
-        // todo: implement this
+    public parseExcludes(excludeString: string = null, excludeArray: string[] = null): this {
+        this.requestedExcludes = [];
+
+        let excludes;
+
+        if (excludeString != null) {
+            excludes = excludeString.split(',');
+        } else if (excludeArray != null) {
+            excludes = excludeArray;
+        }
+
+        for (const exclude of excludes) {
+            const excludeName = this.trimToAcceptRecursionLevel(exclude);
+
+            if (this.requestedExcludes.indexOf(excludeName) > -1) {
+                continue;
+            }
+
+            this.requestedExcludes.push(excludeName);
+
+        }
+
         return this;
     }
 
@@ -115,7 +157,21 @@ export class Manager {
 
     protected autoIncludeParents(): void {
         const parsed = [];
-        // todo: implement this
+
+        for (const include of this.requestedIncludes) {
+            const nested = include.split('.');
+
+            let part = nested.shift();
+            parsed.push(part);
+
+            while (nested.length > 0) {
+                part += '.' + nested.shift();
+                parsed.push(part);
+            }
+        }
+
+        this.requestedIncludes = parsed;
+
     }
 
     protected trimToAcceptRecursionLevel(includeName: string): string {

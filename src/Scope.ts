@@ -14,7 +14,7 @@ export class Scope {
     protected scopeIdentifier: string;
     protected manager: Manager;
     protected resource: ResourceAbstract;
-    protected parentScopes: any[] = [];
+    protected parentScopes: string[] = [];
 
     constructor(manager: Manager, resource: ResourceAbstract, scopeIdentifier: string = null) {
         this.scopeIdentifier = scopeIdentifier;
@@ -30,9 +30,18 @@ export class Scope {
         return this.scopeIdentifier;
     }
 
-    public getIdentifiers(): string {
-        // todo: implement this
-        return null;
+    public getIdentifiers(appendIdentifier: string = null): string {
+        let identifierParts: string[] = [];
+
+        if (this.parentScopes.length > 0) {
+            identifierParts = identifierParts.concat(this.parentScopes);
+        }
+        identifierParts.push(this.scopeIdentifier);
+        if (appendIdentifier != null) {
+            identifierParts.push(appendIdentifier);
+        }
+
+        return identifierParts.join('.');
     }
 
     public getParentScopes(): string[] {
@@ -48,8 +57,16 @@ export class Scope {
     }
 
     public isRequested(checkScopeSegment: string): boolean {
-        // todo: implement this
-        return;
+        let scopeArray: string[] = [];
+        if (this.parentScopes.length > 0) {
+            scopeArray = this.parentScopes.slice(1);
+            scopeArray.push(this.scopeIdentifier, checkScopeSegment);
+        } else {
+            scopeArray = [checkScopeSegment];
+        }
+        const scopeString = scopeArray.join('.');
+
+        return this.manager.getRequestedExcludes().some((entries) => entries === scopeString);
     }
 
     public isExcluded(checkScopeSegment: string): boolean {

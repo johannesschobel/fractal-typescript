@@ -5,6 +5,7 @@ import {ScopeFactory} from './ScopeFactory';
 import {ScopeFactoryInterface} from './ScopeFactoryInterface';
 import {DataArraySerializer} from './serializer/DataArraySerializer';
 import {SerializerAbstract} from './serializer/SerializerAbstract';
+import {CommonUtils} from './utils/CommonUtils';
 
 export class Manager {
 
@@ -53,13 +54,32 @@ export class Manager {
         return this.serializer;
     }
 
-    public parseIncludes(includes: string[]): this {
+    /**
+     * Use either @param includesString or @param includesArray
+     * @param includesString
+     * @param includesArray
+     */
+    public parseIncludes(includesString: string = null, includesArray: string[] = null): this {
         this.requestedIncludes = this.includeParams = [];
 
-        for (const include of includes) {
-            // todo: implement this
+        let includes: string [] = [];
+
+        if (includesString != null) {
+            includes = includesString.split(',')
+        } else if (includesArray != null) {
+            includes = includesArray;
         }
 
+        includes.forEach((include) => {
+            const includeEntry = CommonUtils.padding(include.split(':', 2), 2, null);
+            const includeName = this.trimToAcceptRecursionLevel(includeEntry[0]);
+            const allModifiersStr = includeEntry[1];
+
+            // TODO continue (Manager.php: 184)
+
+        });
+
+        this.autoIncludeParents();
         return this;
     }
 
@@ -99,6 +119,6 @@ export class Manager {
     }
 
     protected trimToAcceptRecursionLevel(includeName: string): string {
-        return null;
+        return includeName.split('.').slice(0, this.recursionLimit).join('.');
     }
 }

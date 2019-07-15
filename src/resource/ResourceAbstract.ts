@@ -8,9 +8,14 @@ export class ResourceAbstract implements ResourceInterface {
     protected data: any;
     private meta: any[];
 
-    constructor(data: any = null, transformer: (n: any) => any = null, resourceKey: string = null) {
+    constructor(data: any = null, transformerFunc: (n: any) => any = null,
+                transformerClass: TransformerAbstract = null, resourceKey: string = null) {
         this.data = data;
-        this.transformer = transformer;
+        if (transformerFunc !== null) {
+            this.transformer = transformerFunc;
+        } else if (transformerClass !== null) {
+            this.transformer = transformerClass;
+        }
         this.resourceKey = resourceKey;
     }
 

@@ -5,6 +5,16 @@ import {Item} from '../src/resource/Item';
 import Primitive from '../src/resource/Primitive';
 import {ResourceAbstract} from '../src/resource/ResourceAbstract';
 import {Scope} from '../src/Scope';
+import {ArraySerializer} from '../src/serializer/ArraySerializer';
+import {TransformerAbstractMock} from '../src/TransformerAbstractMock';
+
+jest.mock('../src/serializer/ArraySerializer', () => {
+    return {
+        // tslint:disable-next-line:no-unused-expression label-position
+        item: jest.fn(() => {data: 'data'}),
+        sideloaded: true
+    }
+});
 
 describe('Scope Tests', () => {
 
@@ -154,13 +164,37 @@ describe('Scope Tests', () => {
     });
 
     test('test toArrayWithSideLoadedIncludes', () => {
-        // todo: Manager.parseIncludes()
+        const serializer = new ArraySerializer();
+
+        const manager = new Manager();
+        manager.parseIncludes('book');
+        manager.setSerializer(serializer);
+
+        const transformer = new TransformerAbstractMock();
+
+        const resource = new Item({bar: 'baz'}, null, transformer, null);
+
+        const scope = new Scope(manager, resource);
+
+        const expected = {
+            data: {
+                bar: 'baz'
+            },
+            sideloaded: {
+                book: {
+                    yin: 'yang'
+                }
+            }
+        };
+
+        expect(scope.toArray()).toEqual(expected);
     });
 
     test('test pushParentScope', () => {
         const manager = new Manager();
 
-        const resource = new Item({name: 'Larry Ullman'}, () => {});
+        const resource = new Item({name: 'Larry Ullman'}, () => {
+        });
 
         const scope = new Scope(manager, resource);
 

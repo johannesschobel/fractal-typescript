@@ -1,10 +1,10 @@
-import {Manager} from '../Manager';
-import Cursor from '../paginaton/Cursor';
-import {Collection} from '../resource/Collection';
-import {Item} from '../resource/Item';
-import Primitive from '../resource/Primitive';
-import {ResourceAbstract} from '../resource/ResourceAbstract';
-import {Scope} from '../Scope';
+import {Manager} from '../src/Manager';
+import Cursor from '../src/paginaton/Cursor';
+import {Collection} from '../src/resource/Collection';
+import {Item} from '../src/resource/Item';
+import Primitive from '../src/resource/Primitive';
+import {ResourceAbstract} from '../src/resource/ResourceAbstract';
+import {Scope} from '../src/Scope';
 
 describe('Scope Tests', () => {
 

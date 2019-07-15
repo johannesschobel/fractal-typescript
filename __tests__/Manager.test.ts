@@ -1,4 +1,4 @@
-import {Manager} from '../Manager';
+import {Manager} from '../src/Manager';
 
 class PrivateManagerExtendsClass extends Manager {
     public testableTrimToAcceptRecursionLevel(includeName: string): string {

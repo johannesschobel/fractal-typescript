@@ -1,4 +1,4 @@
-import {CommonUtils} from '../utils/CommonUtils';
+import {CommonUtils} from '../src/utils/CommonUtils';
 
 test('test padding with padding', () => {
     expect(CommonUtils.padding(['1', '2', '3'], 5, 'a')).toEqual(['1', '2', '3', 'a', 'a'])

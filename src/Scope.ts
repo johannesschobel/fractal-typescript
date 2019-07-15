@@ -83,8 +83,8 @@ export class Scope {
     }
 
     public pushParentScope(identifierSegment: string): number {
-        // todo: implement this
-        return null;
+        this.parentScopes.push(identifierSegment);
+        return this.parentScopes.length;
     }
 
     public setParentScopes(parentScopes: string[]): this {

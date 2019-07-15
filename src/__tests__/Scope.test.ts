@@ -158,11 +158,9 @@ describe('Scope Tests', () => {
     });
 
     test('test pushParentScope', () => {
-        // todo: implement pushParentScope()
         const manager = new Manager();
 
-        const resource = new Item({name: 'Larry Ullman'}, () => {
-        });
+        const resource = new Item({name: 'Larry Ullman'}, () => {});
 
         const scope = new Scope(manager, resource);
 

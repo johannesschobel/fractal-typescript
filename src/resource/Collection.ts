@@ -13,9 +13,7 @@ export class Collection extends ResourceAbstract {
     }
 
     public hasPaginator(): boolean {
-        // todo implement this
-        // return this.paginator instanceof PaginatorInterface;
-        return null;
+        return this.hasPaginatorInterface(this.paginator)
     }
 
     public getCursor(): CursorInterface {
@@ -23,9 +21,15 @@ export class Collection extends ResourceAbstract {
     }
 
     public hasCursor(): boolean {
-        // todo implement this
-        // return this.cursor instanceof CursorInterface;
-        return null;
+        return this.hasCursorInterface(this.cursor);
+    }
+
+    private hasCursorInterface(cursor: CursorInterface | PaginatorInterface): cursor is CursorInterface{
+        return (cursor as CursorInterface).getCurrent() !== undefined;
+    }
+
+    private hasPaginatorInterface(paginator: PaginatorInterface | CursorInterface): paginator is PaginatorInterface{
+        return (paginator as PaginatorInterface).getCurrentPage() !== undefined;
     }
 
     public setPaginator(paginator: PaginatorInterface): this {

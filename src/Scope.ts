@@ -22,7 +22,7 @@ export class Scope {
         this.resource = resource;
     }
 
-    public embedChildScope(scopeIdentifier: string, resource: ResourceAbstract) {
+    public embedChildScope(scopeIdentifier: string, resource: ResourceInterface) {
         return this.manager.createData(resource, scopeIdentifier, this);
     }
 
@@ -114,14 +114,17 @@ export class Scope {
             }
 
             if (pagination !== null) {
-                // todo: implement this
+                const key = Object.keys(pagination)[0];
+                // @ts-ignore
+                this.resource.setMetaValue(key, pagination[key]);
             }
         }
 
         const meta = serializer.meta(this.resource.getMeta());
 
         if (data === null) {
-            if (meta !== null) {
+            // @ts-ignore
+            if (meta !== null && meta.meta !== undefined) {
                 return meta;
             }
             return null;
@@ -183,7 +186,7 @@ export class Scope {
 
     protected fireTransformer(transformer: CallableFunction | TransformerAbstract, data: any): any {
         let includedData = [];
-        let transformedData;
+        let transformedData = [];
 
         if (this.isFunction(transformer)) {
             // @ts-ignore
@@ -204,13 +207,19 @@ export class Scope {
     }
 
     protected fireIncludedTransformers(transformer: TransformerAbstract, data: any): any[] {
-        // todo implement this
-        return [];
+        this.availableIncludes = transformer.getAvailableIncludes();
+        return transformer.processIncludedResources(this, data)
     }
 
     protected transformerHasIncludes(transformer: TransformerAbstract): boolean {
-        // todo implement this
-        return null;
+        if (!(transformer instanceof TransformerAbstract)) {
+            return false;
+        }
+
+        const defaultIncludes = transformer.getDefaultIncludes();
+        const availableIncludes = transformer.getAvailableIncludes();
+
+        return defaultIncludes.length !== 0 || availableIncludes.length !== 0;
     }
 
     protected isRootScope(): boolean {

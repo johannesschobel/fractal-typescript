@@ -1,6 +1,9 @@
-import {Collection} from '~/resource/Collection';
-import {ResourceInterface} from '~/resource/ResourceInterface';
-import {Scope} from '~/Scope';
+import {Collection} from '../src/resource/Collection';
+import {Item} from '../src/resource/Item';
+import {NullResource} from '../src/resource/NullResource';
+import Primitive from '../src/resource/Primitive';
+import {ResourceInterface} from '../src/resource/ResourceInterface';
+import {Scope} from '../src/Scope';
 
 export abstract class TransformerAbstract {
 
@@ -13,7 +16,7 @@ export abstract class TransformerAbstract {
     }
 
     public getDefaultIncludes(): any[] {
-        return this.availableIncludes;
+        return this.defaultIncludes;
     }
 
     public getCurrentScope() {
@@ -21,13 +24,32 @@ export abstract class TransformerAbstract {
     }
 
     public figureOutWhichIncludes(scope: Scope): any[] {
-        // todo: implement this
-        return null;
+        const includes = this.getDefaultIncludes();
+
+        for (const include of this.getAvailableIncludes()) {
+            if (scope.isRequested(include)) {
+                includes.push(include);
+            }
+        }
+
+        for (const include of includes) {
+            if (scope.isExcluded(include)) {
+                const index = includes.indexOf(include);
+                includes.splice(index, 1);
+            }
+        }
+
+        return includes;
     }
 
     public processIncludedResources(scope: Scope, data: any): any[] {
-        // todo: implement this
-        return null;
+        let includedData = [];
+        const includes = this.figureOutWhichIncludes(scope);
+
+        for (const include of includes) {
+            includedData = this.includeResourcesIfAvailable(scope, data, includedData, include);
+        }
+        return includedData;
     }
 
     public setAvailableIncludes(availableIncludes: any[]): this {
@@ -50,13 +72,30 @@ export abstract class TransformerAbstract {
         return null;
     }
 
-    protected callIncludedMethod(scope: Scope, includedName: string, data: any): ResourceInterface {
-        // todo: implement this
+    protected callIncludeMethod(scope: Scope, includedName: string, data: any): ResourceInterface {
+        const scopeIdentifier = scope.getIdentifiers(includedName);
+        const params = scope.getManager().getIncludeParams(scopeIdentifier);
+
+        const replaceHyphens = includedName.replace('-', ' ').replace('_', ' ');
+        const uppercaseEachWord = replaceHyphens.toLowerCase()
+            .split(' ')
+            .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+            .join(' ');
+        const replaceWhitespaces = uppercaseEachWord.replace(' ', '');
+        const methodName = 'include' + replaceWhitespaces;
+        // todo: $resource = call_user_func([$this, $methodName], $data, $params);
+        // @ts-ignore
+        const resource = this.methodName.call(this, data, params);
+
         return null;
     }
 
     protected primitive(data: any, transformer: any, resourceKey: string): any {
         // todo: implement this
+    }
+
+    protected item(data: any, transformer: any, resourceKey: any = null): Item {
+        return new Item(data, transformer, resourceKey);
     }
 
     protected collection(data: any, transformer: TransformerAbstract, resourceKey: string): Collection {
@@ -65,11 +104,20 @@ export abstract class TransformerAbstract {
     }
 
     protected null(): any {
-        return null;
+        return new NullResource();
     }
 
-    private includeResourcesIfAvailable(scope: Scope, data: any, includedData: any[], include: string): any[] {
-        // todo: implement this
-        return null;
+    private includeResourcesIfAvailable(scope: Scope, data: any, includedData: any, include: string): any[] {
+        const resource = this.callIncludeMethod(scope, include, data);
+        if (resource) {
+            const childScope = scope.embedChildScope(include, resource);
+
+            if (childScope.getResource() instanceof Primitive) {
+                includedData[include] = childScope.transformPrimitiveResource();
+            } else {
+                includedData[include] = childScope.toArray();
+            }
+        }
+        return includedData;
     }
 }

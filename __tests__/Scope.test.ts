@@ -7,14 +7,7 @@ import {ResourceAbstract} from '../src/resource/ResourceAbstract';
 import {Scope} from '../src/Scope';
 import {ArraySerializer} from '../src/serializer/ArraySerializer';
 import {TransformerAbstractMock} from '../src/TransformerAbstractMock';
-
-jest.mock('../src/serializer/ArraySerializer', () => {
-    return {
-        // tslint:disable-next-line:no-unused-expression label-position
-        item: jest.fn(() => {data: 'data'}),
-        sideloaded: true
-    }
-});
+import {DefaultIncludeBookTransformer} from './Stub/Transformer/DefaultIncludeBookTransformer';
 
 describe('Scope Tests', () => {
 
@@ -170,6 +163,7 @@ describe('Scope Tests', () => {
         manager.parseIncludes('book');
         manager.setSerializer(serializer);
 
+        // todo: mock correctly
         const transformer = new TransformerAbstractMock();
 
         const resource = new Item({bar: 'baz'}, null, transformer, null);
@@ -230,19 +224,19 @@ describe('Scope Tests', () => {
     });
 
     test('test runAppropriateTransformerWithItem', () => {
-        // todo
+        // todo: mock
     });
 
     test('test runAppropriateTransformerWithCollection', () => {
-        // todo
+        // todo: mock
     });
 
     test('test createDataWithClassFuckKnows', () => {
-        // todo
+        // todo: mock
     });
 
     test('test paginatorOutput', () => {
-        // todo
+        // todo: mock
     });
 
     test('test cursorOutput', () => {
@@ -255,7 +249,7 @@ describe('Scope Tests', () => {
             }
         ];
 
-        const collection = new Collection(inputData, () => {
+        const collection = new Collection(inputData, function () {
             return this;
         });
 
@@ -265,7 +259,7 @@ describe('Scope Tests', () => {
 
         const rootScope = manager.createData(collection);
 
-        const expectedOutput = [{
+        const expectedOutput = {
             data: inputData,
             meta: {
                 cursor: {
@@ -275,13 +269,27 @@ describe('Scope Tests', () => {
                     prev: 'ban'
                 }
             }
-        }];
+        };
 
         expect(rootScope.toArray()).toEqual(expectedOutput);
     });
 
     test('test defaultIncludeSuccess', () => {
-        // todo
+        const manager = new Manager();
+        manager.setSerializer(new ArraySerializer());
+
+        const resource = new Item([], null, new DefaultIncludeBookTransformer());
+
+        const scope = new Scope(manager, resource);
+
+        const expected = {
+            a: 'b',
+            author: {
+                c: 'd'
+            }
+        };
+
+        expect(scope.toArray()).toEqual(expected);
     });
 
     test('test primitiveResourceIncludeSuccess', () => {

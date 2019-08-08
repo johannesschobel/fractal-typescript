@@ -6,7 +6,7 @@ export class ResourceAbstract implements ResourceInterface {
     protected resourceKey: string;
     protected transformer: CallableFunction | TransformerAbstract | null;
     protected data: any;
-    private meta: any[];
+    private meta: any;
 
     constructor(data: any = null, transformerFunc: (n: any) => any = null,
                 transformerClass: TransformerAbstract = null, resourceKey: string = null) {
@@ -48,11 +48,13 @@ export class ResourceAbstract implements ResourceInterface {
     }
 
     public getMetaValue(metaKey: string): string {
-        // todo implement this
-        return null;
+        this.meta = {};
+        return this.meta[metaKey];
     }
 
-    public setMetaValue(metaKey: string, metaValue: string): void {
-        // todo implement this
+    public setMetaValue(metaKey: string, metaValue: string): this {
+        this.meta = {};
+        this.meta[metaKey] = metaValue;
+        return this;
     }
 }

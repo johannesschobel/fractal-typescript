@@ -27,18 +27,48 @@ export class ArraySerializer extends SerializerAbstract {
             return [];
         }
         return {
-            '{meta}': meta
+            meta
         };
     }
 
-    public paginator(paginator: PaginatorInterface): any[] {
-        // todo: implement this
-        return undefined;
+    public paginator(paginator: PaginatorInterface): any {
+        const currentPage = paginator.getCurrentPage();
+        const lastPage = paginator.getLastPage();
+
+        const pagination = {
+            count: paginator.getCount(),
+            current_page: currentPage,
+            links: {
+                next: '',
+                previous: ''
+            },
+            per_page: paginator.getPerPage(),
+            total: paginator.getTotal(),
+            total_pages: lastPage
+        };
+
+        if (currentPage > 1) {
+            pagination.links.previous = paginator.getUrl(currentPage - 1);
+        }
+
+        if (currentPage < lastPage) {
+            pagination.links.next = paginator.getUrl(currentPage + 1);
+        }
+
+        return {
+            pagination
+        };
     }
 
-    public cursor(cursor: CursorInterface): any[] {
-        // todo: implement this
-        return undefined;
+    public cursor(cursor: CursorInterface): any {
+        return {
+            cursor: {
+                count: cursor.getCount(),
+                current: cursor.getCurrent(),
+                next: cursor.getNext(),
+                prev: cursor.getPrev()
+            }
+        };
     }
 
 }

@@ -13,6 +13,6 @@ export class DefaultIncludeBookTransformer extends TransformerAbstract {
     }
 
     public includeAuthor() {
-        return this.item({c: 'd'}, new GenericAuthorTransformer());
+        return this.item([{c: 'd'}], new GenericAuthorTransformer());
     }
 }

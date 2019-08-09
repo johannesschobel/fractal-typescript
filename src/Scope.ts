@@ -228,18 +228,21 @@ export class Scope {
     }
 
     protected filterFieldsets(data: any[]): any[] {
-        // todo implement this
-        return data;
+        if (!this.hasFilterFieldset()) {
+            return data;
+        }
+        const serializer = this.manager.getSerializer();
+        const requestedFieldset = this.getFilterFielset();
+        const filterFieldset = serializer.getMandatoryFields().concat(requestedFieldset);
+        return data.filter((value) => -1 !== filterFieldset.indexOf(value));
     }
 
     protected getFilterFielset(): ParamBag {
-        // todo implement this
-        return null;
+        return this.manager.getFieldset(this.getResourceType());
     }
 
     protected hasFilterFieldset(): boolean {
-        // todo implement this
-        return null;
+        return this.getFilterFielset() !== null;
     }
 
     protected getResourceType(): string {

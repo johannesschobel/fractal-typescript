@@ -83,11 +83,14 @@ export abstract class TransformerAbstract {
             .join(' ');
         const replaceWhitespaces = uppercaseEachWord.replace(' ', '');
         const methodName = 'include' + replaceWhitespaces;
-        // todo: $resource = call_user_func([$this, $methodName], $data, $params);
         // @ts-ignore
-        const resource = this.methodName.call(this, data, params);
+        const resource = this.__proto__[methodName].apply(this, [data, params]);
 
-        return null;
+        if (!this.isResourceInterface(resource)) {
+            throw new Error('Invalid return value');
+        }
+
+        return resource;
     }
 
     protected primitive(data: any, transformer: any, resourceKey: string): any {
@@ -105,6 +108,10 @@ export abstract class TransformerAbstract {
 
     protected null(): any {
         return new NullResource();
+    }
+
+    private isResourceInterface(resource: ResourceInterface): resource is ResourceInterface {
+        return (resource as ResourceInterface).getData() !== undefined;
     }
 
     private includeResourcesIfAvailable(scope: Scope, data: any, includedData: any, include: string): any[] {

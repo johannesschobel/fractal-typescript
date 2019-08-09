@@ -115,9 +115,9 @@ export class Manager {
         return this.requestedFieldsets;
     }
 
-    public getFieldsets(type: string): ParamBag {
-        // todo: implement this
-        return null;
+    public getFieldset(type: string): ParamBag | null {
+        // @ts-ignore
+        return this.requestedFieldsets[type] !== undefined ? null : new ParamBag(this.requestedFieldsets[type]);
     }
 
     public parseExcludes(excludeString: string = null, excludeArray: string[] = null): this {

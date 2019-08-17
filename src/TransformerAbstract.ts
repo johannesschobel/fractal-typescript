@@ -68,8 +68,7 @@ export abstract class TransformerAbstract {
     }
 
     public transform(data: any): any {
-        // todo implement this
-        return null;
+        return [];
     }
 
     protected callIncludeMethod(scope: Scope, includedName: string, data: any): ResourceInterface {
@@ -94,7 +93,8 @@ export abstract class TransformerAbstract {
     }
 
     protected primitive(data: any, transformer: any, resourceKey: string): any {
-        // todo: implement this
+        // @ts-ignore
+        return new Primitive(data, transformer, resourceKey);
     }
 
     protected item(data: any, transformer: any, resourceKey: any = null): Item {

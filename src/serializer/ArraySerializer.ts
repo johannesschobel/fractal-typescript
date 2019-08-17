@@ -15,7 +15,7 @@ export class ArraySerializer extends SerializerAbstract {
     }
 
     public null(): any[] {
-        return [];
+        return null;
     }
 
     public includedData(resource: ResourceInterface, data: any[]): any[] {

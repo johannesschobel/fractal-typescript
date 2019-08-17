@@ -47,4 +47,8 @@ export abstract class SerializerAbstract implements Serializer {
     public getMandatoryFields(): any[] {
         return [];
     }
+
+    public injectAvailableIncludeData(data: any, availableIncludes: any) {
+        return data;
+    }
 }

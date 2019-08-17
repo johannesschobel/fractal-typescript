@@ -43,7 +43,7 @@ export class ResourceAbstract implements ResourceInterface {
         return this.meta;
     }
 
-    public setMeta(meta: any[]): void {
+    public setMeta(meta: any): void {
         this.meta = meta
     }
 

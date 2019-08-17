@@ -2,12 +2,16 @@ import {Manager} from '../src/Manager';
 import Cursor from '../src/paginaton/Cursor';
 import {Collection} from '../src/resource/Collection';
 import {Item} from '../src/resource/Item';
+import {NullResource} from '../src/resource/NullResource';
 import Primitive from '../src/resource/Primitive';
 import {ResourceAbstract} from '../src/resource/ResourceAbstract';
 import {Scope} from '../src/Scope';
 import {ArraySerializer} from '../src/serializer/ArraySerializer';
 import {TransformerAbstractMock} from '../src/TransformerAbstractMock';
+import {ArraySerializerWithNull} from './Stub/ArraySerializerWithNull';
 import {DefaultIncludeBookTransformer} from './Stub/Transformer/DefaultIncludeBookTransformer';
+import {NullIncludeBookTransformer} from './Stub/Transformer/NullIncludeBookTransformer';
+import {PrimitiveIncludeBookTransformer} from './Stub/Transformer/PrimitiveIncludeBookTransformer';
 
 describe('Scope Tests', () => {
 
@@ -60,18 +64,6 @@ describe('Scope Tests', () => {
         const scope = new Scope(manager, resource);
 
         expect(scope.toJson()).toStrictEqual('{"data":{"foo":"bar"}}');
-    });
-
-    test('test toJsonWithOption', () => {
-        const manager = new Manager();
-        const resource = new Item({foo: 'bar'}, () => {
-            return this;
-        });
-
-        const scope = new Scope(manager, resource);
-
-        // todo: implement function toJson with parameters
-        // expect(scope.toJson()).toStrictEqual('{"data":{"foo":"bar"}}');
     });
 
     test('test getCurrentScope', () => {
@@ -293,27 +285,74 @@ describe('Scope Tests', () => {
     });
 
     test('test primitiveResourceIncludeSuccess', () => {
-        // todo
+        const manager = new Manager();
+        manager.setSerializer(new ArraySerializerWithNull());
+
+        const resource = new Item({price: 49}, null, new PrimitiveIncludeBookTransformer());
+
+        const scope = new Scope(manager, resource);
+
+        const expected = {
+            a: 'b',
+            price: 49
+        };
+
+        expect(scope.toArray()).toEqual(expected);
     });
 
     test('test nullResourceIncludeSuccess', () => {
-        // todo
+        const manager = new Manager();
+        manager.setSerializer(new ArraySerializer());
+
+        const resource = new Item({}, null, new NullIncludeBookTransformer());
+
+        const scope = new Scope(manager, resource);
+
+        const expected = {
+            a: 'b',
+            author: null as any
+        };
+
+        expect(scope.toArray()).toEqual(expected);
+    });
+
+    test('test nullResourceDataAndJustMeta', () => {
+        const manager = new Manager();
+        manager.setSerializer(new ArraySerializerWithNull());
+
+        const resource = new NullResource();
+        resource.setMeta({foo: 'bar'});
+
+        const scope = new Scope(manager, resource);
+
+        const expected = {
+            meta: {
+                foo: 'bar'
+            }
+        };
+
+        expect(scope.toArray()).toEqual(expected);
     });
 
     test('test toArrayWithFieldsets', () => {
-        // todo
-    });
+        const manager = new Manager();
 
-    test('test toArrayWithFieldsetsAndMandatorySerializerFields', () => {
-        // todo
-    });
+        const resource = new Item({foo: 'bar', baz: 'qux'}, function () { return this; }, null, 'resourceName');
 
-    test('test toArrayWithIncludesAndFieldsets', () => {
-        // todo
-    });
+        const scope = new Scope(manager, resource);
 
-    test('test toArrayWithSideloadedIncludesAndFieldsets', () => {
-        // todo
+        const fieldsetsToParse = [
+                { resourceName: 'foo' }
+        ];
+        manager.parseFieldsets(fieldsetsToParse);
+
+        const expected = {
+            data: {
+                foo: 'bar'
+            }
+        };
+
+        expect(scope.toArray()).toEqual(expected);
     });
 
 });

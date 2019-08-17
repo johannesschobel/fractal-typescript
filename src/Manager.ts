@@ -105,9 +105,17 @@ export class Manager {
         return this;
     }
 
-    public parseFieldsets(fieldsets: string[]): this {
+    public parseFieldsets(fieldsets: any[]): this {
         this.requestedFieldsets = [];
-        // todo: implement this
+        for (const fieldset of fieldsets) {
+            let fields;
+            if (typeof fieldset === 'string') {
+                fields = fieldset.split(',');
+            }
+            const type = Object.keys(fieldset)[0];
+            // @ts-ignore
+            this.requestedFieldsets[type] = fieldset[type];
+        }
         return this;
     }
 
@@ -117,7 +125,7 @@ export class Manager {
 
     public getFieldset(type: string): ParamBag | null {
         // @ts-ignore
-        return this.requestedFieldsets[type] !== undefined ? null : new ParamBag(this.requestedFieldsets[type]);
+        return this.requestedFieldsets[type] === undefined ? null : new ParamBag(this.requestedFieldsets[type]);
     }
 
     public parseExcludes(excludeString: string = null, excludeArray: string[] = null): this {

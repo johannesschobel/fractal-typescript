@@ -5,6 +5,7 @@ import {SerializerAbstract} from '~/serializer/SerializerAbstract';
 import {Collection} from './resource/Collection';
 import {Item} from './resource/Item';
 import {NullResource} from './resource/NullResource';
+import Primitive from './resource/Primitive';
 import {ResourceAbstract} from './resource/ResourceAbstract';
 import {TransformerAbstract} from './TransformerAbstract';
 
@@ -99,10 +100,10 @@ export class Scope {
 
         const serializer = this.manager.getSerializer();
 
-        const data = this.serializeResource(serializer, rawData);
+        let data = this.serializeResource(serializer, rawData);
 
-        if (serializer.sideloadIncludes()) {
-            // todo: implement this
+        if (this.availableIncludes.length !== 0) {
+            data = serializer.injectAvailableIncludeData(data, this.availableIncludes);
         }
 
         if (this.resource instanceof Collection) {
@@ -134,13 +135,28 @@ export class Scope {
     }
 
     public toJson(): string {
-        // todo: check whether options are possible
         return JSON.stringify(this.toArray());
     }
 
     public transformPrimitiveResource(): any {
-        // todo implement this
-        return null;
+        if (!(this.resource instanceof Primitive)) {
+            throw new Error('Argument should be instance of Primitive');
+        }
+
+        const transformer = this.resource.getTransformer();
+        const data = this.resource.getData();
+
+        let transformedData;
+        if (null === transformer) {
+            transformedData = data;
+        } else if (this.isFunction(transformer)) {
+            transformedData = transformer.apply(data);
+        } else {
+            transformer.setCurrentScope(this);
+            transformedData = transformer.transform(data);
+        }
+
+        return transformedData;
     }
 
     protected executeResourceTransformers(): any[] {
@@ -162,7 +178,7 @@ export class Scope {
             }
         } else if (this.resource instanceof NullResource) {
             transformedData = null;
-            includedData = [];
+            includedData = null;
         } else {
             throw new Error('Argument resource should be an instance of Item or Collection')
         }
@@ -222,23 +238,22 @@ export class Scope {
         return defaultIncludes.length !== 0 || availableIncludes.length !== 0;
     }
 
-    protected isRootScope(): boolean {
-        // todo implement this
-        return null;
-    }
-
-    protected filterFieldsets(data: any[]): any[] {
-        if (data.length === undefined) {
+    protected filterFieldsets(data: any[]): any {
+        if (!this.hasFilterFieldset()) {
             return data;
-        } else {
-            if (!this.hasFilterFieldset()) {
-                return data;
-            }
-            const serializer = this.manager.getSerializer();
-            const requestedFieldset = this.getFilterFielset();
-            const filterFieldset = serializer.getMandatoryFields().concat(requestedFieldset);
-            return data.filter((value) => -1 !== filterFieldset.indexOf(value));
         }
+        const serializer = this.manager.getSerializer();
+        const requestedFieldset = this.getFilterFielset();
+        const filterFieldset = serializer.getMandatoryFields().concat(requestedFieldset);
+        // @ts-ignore
+        const requestedKey = requestedFieldset.params;
+        return Object.keys(data)
+            .filter((key) => requestedKey.includes(key))
+            .reduce((obj, key) => {
+                // @ts-ignore
+                obj[key] = data[key];
+                return obj;
+            }, {});
     }
 
     protected getFilterFielset(): ParamBag {
@@ -250,8 +265,7 @@ export class Scope {
     }
 
     protected getResourceType(): string {
-        // todo implement this
-        return null;
+        return this.resource.getResourceKey();
     }
 
     private isFunction(functionToCheck: any): boolean {

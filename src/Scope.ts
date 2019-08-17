@@ -228,13 +228,17 @@ export class Scope {
     }
 
     protected filterFieldsets(data: any[]): any[] {
-        if (!this.hasFilterFieldset()) {
+        if (data.length === undefined) {
             return data;
+        } else {
+            if (!this.hasFilterFieldset()) {
+                return data;
+            }
+            const serializer = this.manager.getSerializer();
+            const requestedFieldset = this.getFilterFielset();
+            const filterFieldset = serializer.getMandatoryFields().concat(requestedFieldset);
+            return data.filter((value) => -1 !== filterFieldset.indexOf(value));
         }
-        const serializer = this.manager.getSerializer();
-        const requestedFieldset = this.getFilterFielset();
-        const filterFieldset = serializer.getMandatoryFields().concat(requestedFieldset);
-        return data.filter((value) => -1 !== filterFieldset.indexOf(value));
     }
 
     protected getFilterFielset(): ParamBag {

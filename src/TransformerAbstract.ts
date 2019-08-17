@@ -42,7 +42,7 @@ export abstract class TransformerAbstract {
         return includes;
     }
 
-    public processIncludedResources(scope: Scope, data: any): any[] {
+    public processIncludedResources(scope: Scope, data: any): any {
         let includedData = [];
         const includes = this.figureOutWhichIncludes(scope);
 
@@ -114,14 +114,16 @@ export abstract class TransformerAbstract {
         return (resource as ResourceInterface).getData() !== undefined;
     }
 
-    private includeResourcesIfAvailable(scope: Scope, data: any, includedData: any, include: string): any[] {
+    private includeResourcesIfAvailable(scope: Scope, data: any, includedData: {}, include: string): any {
         const resource = this.callIncludeMethod(scope, include, data);
         if (resource) {
             const childScope = scope.embedChildScope(include, resource);
 
             if (childScope.getResource() instanceof Primitive) {
+                // @ts-ignore
                 includedData[include] = childScope.transformPrimitiveResource();
             } else {
+                // @ts-ignore
                 includedData[include] = childScope.toArray();
             }
         }

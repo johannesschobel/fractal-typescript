@@ -34,8 +34,8 @@ export class Manager {
     }
 
     public getIncludeParams(include: string): ParamBag {
-        // let params = (this.includeParams.indexOf(include) > -1) ? this.includeParams.includes(include) : [];
-        return new ParamBag(null);
+        const params: boolean | any[] = (this.includeParams.indexOf(include) > -1) ? [include] : [];
+        return new ParamBag(params);
     }
 
     public getRequestedIncluddes(): any[] {

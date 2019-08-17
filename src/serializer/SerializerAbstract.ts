@@ -19,11 +19,17 @@ export abstract class SerializerAbstract implements Serializer {
 
     public abstract cursor(cursor: CursorInterface): any[];
 
-    public mergeIncludes(transformedData: any[], includedData: any[]): any[] {
-        if (!this.sideloadIncludes()) {
-            return transformedData.concat(includedData)
+    public mergeIncludes(transformedData: any, includedData: any): any {
+        // @ts-ignore
+        if (transformedData.length === undefined) {
+            return {...transformedData, ...includedData};
+        } else {
+            if (!this.sideloadIncludes()) {
+                // @ts-ignore
+                return transformedData.concat(includedData)
+            }
+            return transformedData;
         }
-        return transformedData;
     }
 
     public sideloadIncludes(): boolean {

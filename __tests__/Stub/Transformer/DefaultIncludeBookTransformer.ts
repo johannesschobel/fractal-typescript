@@ -7,12 +7,12 @@ export class DefaultIncludeBookTransformer extends TransformerAbstract {
     ];
 
     public transform() {
-        return [{
+        return {
             a: 'b'
-        }]
+        }
     }
 
     public includeAuthor() {
-        return this.item([{c: 'd'}], new GenericAuthorTransformer());
+        return this.item({c: 'd'}, new GenericAuthorTransformer());
     }
 }

@@ -11,7 +11,7 @@ export class Manager {
 
     protected requestedIncludes: any[] = [];
     protected requestedExcludes: any[] = [];
-    protected requestedFieldsets: any[] = [];
+    protected requestedFieldsets: {} = {};
     protected includeParams: string[] = [];
     protected paramDelimiter: string = '|';
     protected recursionLimit: number = 10;
@@ -105,21 +105,22 @@ export class Manager {
         return this;
     }
 
-    public parseFieldsets(fieldsets: any[]): this {
-        this.requestedFieldsets = [];
-        for (const fieldset of fieldsets) {
-            let fields;
+    public parseFieldsets(fieldsets: any): this {
+        this.requestedFieldsets = {};
+        for (const key of Object.keys(fieldsets)) {
+            const fieldset = fieldsets[key];
+            let fields = fieldset;
             if (typeof fieldset === 'string') {
                 fields = fieldset.split(',');
+                fields = fields.filter((v: any) => v !== '');
             }
-            const type = Object.keys(fieldset)[0];
             // @ts-ignore
-            this.requestedFieldsets[type] = fieldset[type];
+            this.requestedFieldsets[key] = fields.filter(this.onlyUnique);
         }
         return this;
     }
 
-    public getRequestedFieldsets(): any[] {
+    public getRequestedFieldsets(): {} {
         return this.requestedFieldsets;
     }
 
@@ -178,11 +179,15 @@ export class Manager {
             }
         }
 
-        this.requestedIncludes = parsed;
+        this.requestedIncludes = parsed.filter(this.onlyUnique);
 
     }
 
     protected trimToAcceptRecursionLevel(includeName: string): string {
         return includeName.split('.').slice(0, this.recursionLimit).join('.');
+    }
+
+    private onlyUnique(value: any, index: any, self: any) {
+        return self.indexOf(value) === index;
     }
 }

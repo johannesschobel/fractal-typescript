@@ -341,9 +341,8 @@ describe('Scope Tests', () => {
 
         const scope = new Scope(manager, resource);
 
-        const fieldsetsToParse = [
-                { resourceName: 'foo' }
-        ];
+        const fieldsetsToParse = { resourceName: 'foo' };
+
         manager.parseFieldsets(fieldsetsToParse);
 
         const expected = {

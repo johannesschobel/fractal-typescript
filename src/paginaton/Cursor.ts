@@ -6,7 +6,7 @@ export default class Cursor implements CursorInterface {
     protected next: any;
     protected count: number;
 
-    constructor(current: any, prev: any, next: any, count: number) {
+    constructor(current: any = null, prev: any = null, next: any = null, count: number = null) {
         this.current = current;
         this.prev = prev;
         this.next = next;

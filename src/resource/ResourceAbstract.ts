@@ -48,13 +48,17 @@ export class ResourceAbstract implements ResourceInterface {
     }
 
     public getMetaValue(metaKey: string): string {
-        this.meta = {};
         return this.meta[metaKey];
     }
 
     public setMetaValue(metaKey: string, metaValue: string): this {
         this.meta = {};
         this.meta[metaKey] = metaValue;
+        return this;
+    }
+
+    public setResourceKey(resourceKey: string) {
+        this.resourceKey = resourceKey;
         return this;
     }
 }

@@ -55,7 +55,7 @@ describe('Manager Tests', () => {
         expect(params.params.order).toEqual(['-something']);
         expect(params.params.anotherparam).toEqual(['']);
         // @ts-ignore
-        expect(params.totallymadeup).toBeUndefined()
+        expect(params.totallymadeup).toBeUndefined();
     });
 
     test('test parseExcludeSelfie', () => {

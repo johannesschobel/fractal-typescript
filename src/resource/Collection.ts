@@ -24,14 +24,6 @@ export class Collection extends ResourceAbstract {
         return this.hasCursorInterface(this.cursor);
     }
 
-    private hasCursorInterface(cursor: CursorInterface | PaginatorInterface): cursor is CursorInterface{
-        return (cursor as CursorInterface).getCurrent() !== undefined;
-    }
-
-    private hasPaginatorInterface(paginator: PaginatorInterface | CursorInterface): paginator is PaginatorInterface{
-        return (paginator as PaginatorInterface).getCurrentPage() !== undefined;
-    }
-
     public setPaginator(paginator: PaginatorInterface): this {
         this.paginator = paginator;
         return this;
@@ -40,5 +32,13 @@ export class Collection extends ResourceAbstract {
     public setCursor(cursor: CursorInterface): this {
         this.cursor = cursor;
         return this;
+    }
+
+    private hasCursorInterface(cursor: CursorInterface | PaginatorInterface): cursor is CursorInterface {
+        return (cursor as CursorInterface).getCurrent() !== undefined;
+    }
+
+    private hasPaginatorInterface(paginator: PaginatorInterface | CursorInterface): paginator is PaginatorInterface {
+        return (paginator as PaginatorInterface).getCurrentPage() !== undefined;
     }
 }

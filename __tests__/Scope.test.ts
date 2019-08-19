@@ -7,6 +7,7 @@ import Primitive from '../src/resource/Primitive';
 import {ResourceAbstract} from '../src/resource/ResourceAbstract';
 import {Scope} from '../src/Scope';
 import {ArraySerializer} from '../src/serializer/ArraySerializer';
+import {DataArraySerializer} from '../src/serializer/DataArraySerializer';
 import {ArraySerializerWithNull} from './Stub/ArraySerializerWithNull';
 import {DefaultIncludeBookTransformer} from './Stub/Transformer/DefaultIncludeBookTransformer';
 import {NullIncludeBookTransformer} from './Stub/Transformer/NullIncludeBookTransformer';
@@ -150,13 +151,38 @@ describe('Scope Tests', () => {
 
     test('test toArrayWithSideLoadedIncludes', () => {
         const serializer = new ArraySerializer();
+        serializer.sideloadIncludes = () => true;
+        // @ts-ignore
+        // tslint:disable-next-line:only-arrow-functions
+        serializer.item = function () {
+            return {
+                data: {
+                    bar: 'baz'
+                }
+            };
+        };
+        // @ts-ignore
+        // tslint:disable-next-line:only-arrow-functions
+        serializer.includedData = function () {
+            return {
+                sideloaded: {
+                    book: {
+                        yin: 'yang'
+                    }
+                }
+            }
+        };
 
         const manager = new Manager();
         manager.parseIncludes('book');
         manager.setSerializer(serializer);
 
-        // todo: mock correctly
         const transformer = new TransformerAbstractMock();
+        transformer.getAvailableIncludes = () => ['book'];
+        transformer.transform = function () {
+            return this;
+        };
+        transformer.processIncludedResources = () => ({book: {yin: 'yang'}});
 
         const resource = new Item({bar: 'baz'}, null, transformer, null);
 
@@ -173,7 +199,7 @@ describe('Scope Tests', () => {
             }
         };
 
-        // expect(scope.toArray()).toEqual(expected);
+        expect(scope.toArray()).toEqual(expected);
     });
 
     test('test pushParentScope', () => {
@@ -192,43 +218,70 @@ describe('Scope Tests', () => {
     });
 
     test('test runAppropriateTransformerWithPrimitive', () => {
-        // todo: implement transformPrimitiveResource()
         const manager = new Manager();
 
-        // todo: figure out how to mock correctly!
-        // let transformer = new TransformerAbstract();
-        let transformer: null;
-        transformer = null;
+        const transformer = new TransformerAbstractMock();
+        transformer.transform = () => 'simple string';
+        // @ts-ignore
+        transformer.setCurrentScope = () => [];
 
+        // @ts-ignore
         let resource = new Primitive('test', transformer);
-
         let scope = manager.createData(resource);
 
-        // expect(scope.transformPrimitiveResource()).toEqual('simple string');
+        expect(scope.transformPrimitiveResource()).toEqual('simple string');
 
-        resource = new Primitive(10, (x: any) => {
-            return x + 10;
+        resource = new Primitive(10, function (): number {
+            return this + 10;
         });
 
         scope = manager.createData(resource);
 
-        // expect(scope.transformPrimitiveResource()).toEqual(20);
+        expect(scope.transformPrimitiveResource()).toEqual(20);
     });
 
     test('test runAppropriateTransformerWithItem', () => {
-        // todo: mock
+        const manager = new Manager();
+
+        const transformer = new TransformerAbstractMock();
+        transformer.transform = () => ({foo: 'bar'});
+        transformer.getAvailableIncludes = () => [];
+        transformer.getDefaultIncludes = () => [];
+        // @ts-ignore
+        transformer.setCurrentScope = () => [];
+
+        // @ts-ignore
+        const resource = new Item({foo: 'bar'}, transformer);
+        const scope = manager.createData(resource);
+
+        expect(scope.toArray()).toEqual({data: {foo: 'bar'}});
     });
 
     test('test runAppropriateTransformerWithCollection', () => {
-        // todo: mock
+        const manager = new Manager();
+
+        const transformer = new TransformerAbstractMock();
+        transformer.transform = () => ({foo: 'bar'});
+        transformer.getAvailableIncludes = () => [];
+        transformer.getDefaultIncludes = () => [];
+        // @ts-ignore
+        transformer.setCurrentScope = () => [];
+
+        // @ts-ignore
+        const resource = new Collection([{foo: 'bar'}], transformer);
+        const scope = manager.createData(resource);
+
+        expect(scope.toArray()).toEqual({data: [{foo: 'bar'}]});
     });
 
     test('test createDataWithClassFuckKnows', () => {
-        // todo: mock
-    });
-
-    test('test paginatorOutput', () => {
-        // todo: mock
+        const manager = new Manager();
+        const transformer = new TransformerAbstractMock();
+        const resource = new ResourceAbstract();
+        const scope = manager.createData(resource);
+        expect(() => {
+            scope.toArray()
+        }).toThrowError();
     });
 
     test('test cursorOutput', () => {
@@ -337,17 +390,69 @@ describe('Scope Tests', () => {
     test('test toArrayWithFieldsets', () => {
         const manager = new Manager();
 
-        const resource = new Item({foo: 'bar', baz: 'qux'}, function () { return this; }, null, 'resourceName');
+        const resource = new Item({foo: 'bar', baz: 'qux'}, function () {
+            return this;
+        }, null, 'resourceName');
 
         const scope = new Scope(manager, resource);
 
-        const fieldsetsToParse = { resourceName: 'foo' };
+        const fieldsetsToParse = {resourceName: 'foo'};
 
         manager.parseFieldsets(fieldsetsToParse);
 
         const expected = {
             data: {
                 foo: 'bar'
+            }
+        };
+
+        expect(scope.toArray()).toEqual(expected);
+    });
+
+    test('test toArrayWithFieldsetsAndMandatorySerializerFields', () => {
+        const serializer = new DataArraySerializer();
+        serializer.getMandatoryFields = () => ['foo'];
+
+        const resource = new Item({foo: 'bar', baz: 'qux'}, function () {
+            return this;
+        }, null, 'resourceName');
+
+        const manger = new Manager();
+        manger.setSerializer(serializer);
+
+        const scope = new Scope(manger, resource);
+
+        const expected = {
+            data: {
+                baz: 'qux',
+                foo: 'bar'
+            }
+        };
+
+        manger.parseFieldsets({resourceName: 'foo,baz'});
+        expect(scope.toArray()).toEqual(expected);
+    });
+
+    test('test toArrayWithIncludesAndFieldsets', () => {
+        const transformer = new TransformerAbstractMock();
+        transformer.getAvailableIncludes = () => ['book'];
+        transformer.transform = () => this;
+        transformer.processIncludedResources = () => ({book: {yin: 'yang'}});
+
+        // @ts-ignore
+        const resource = new Item({foo: 'bar', baz: 'qux'}, transformer, null, 'resourceName');
+
+        const manger = new Manager();
+        const scope = new Scope(manger, resource);
+
+        manger.parseIncludes('book');
+        manger.parseFieldsets({resource: 'foo'});
+
+        const expected = {
+            data: {
+                book: {
+                    yin: 'yang'
+                }
             }
         };
 

@@ -103,6 +103,18 @@ export class Scope {
 
         let data = this.serializeResource(serializer, rawData);
 
+        if (serializer.sideloadIncludes()) {
+            let includedData = serializer.includedData(this.resource, rawIncludedData);
+
+            data = serializer.injectData(data, rawIncludedData);
+
+            if (this.isRootScope) {
+                includedData = serializer.filterIncludes(includedData, data);
+            }
+
+            data =  {...data, ...includedData}
+        }
+
         if (this.availableIncludes.length !== 0) {
             data = serializer.injectAvailableIncludeData(data, this.availableIncludes);
         }
@@ -158,6 +170,10 @@ export class Scope {
         return transformedData;
     }
 
+    protected isRootScope(): boolean {
+        return this.parentScopes.length === 0;
+    }
+
     protected executeResourceTransformers(): any[] {
         const transformer = this.resource.getTransformer();
         const data = this.resource.getData();
@@ -179,7 +195,7 @@ export class Scope {
             transformedData = null;
             includedData = null;
         } else {
-            throw new Error('Argument resource should be an instance of Item or Collection')
+            throw new Error('Argument resource should be an instance of Item or Collection');
         }
 
         return [transformedData, includedData];

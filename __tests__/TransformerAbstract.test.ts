@@ -1,4 +1,4 @@
-import {TransformerAbstractMock} from './stub/TransformerAbstractMock';
+import {TransformerAbstractMock} from '../__mocks__/TransformerAbstractMock';
 import {Manager} from '../src/Manager';
 import {Collection} from '../src/resource/Collection';
 import {Item} from '../src/resource/Item';

@@ -8,11 +8,11 @@ import {ResourceAbstract} from '../src/resource/ResourceAbstract';
 import {Scope} from '../src/Scope';
 import {ArraySerializer} from '../src/serializer/ArraySerializer';
 import {DataArraySerializer} from '../src/serializer/DataArraySerializer';
-import {ArraySerializerWithNull} from './stub/ArraySerializerWithNull';
-import {DefaultIncludeBookTransformer} from './stub/transformer/DefaultIncludeBookTransformer';
-import {NullIncludeBookTransformer} from './stub/transformer/NullIncludeBookTransformer';
-import {PrimitiveIncludeBookTransformer} from './stub/transformer/PrimitiveIncludeBookTransformer';
-import {TransformerAbstractMock} from './stub/TransformerAbstractMock';
+import {ArraySerializerWithNull} from '../__mocks__/ArraySerializerWithNull';
+import {DefaultIncludeBookTransformer} from '../__mocks__/transformer/DefaultIncludeBookTransformer';
+import {NullIncludeBookTransformer} from '../__mocks__/transformer/NullIncludeBookTransformer';
+import {PrimitiveIncludeBookTransformer} from '../__mocks__/transformer/PrimitiveIncludeBookTransformer';
+import {TransformerAbstractMock} from '../__mocks__/TransformerAbstractMock';
 
 describe('Scope Tests', () => {
 

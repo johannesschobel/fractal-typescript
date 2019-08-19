@@ -1,4 +1,4 @@
-import {TransformerAbstract} from '../../../src/TransformerAbstract';
+import {TransformerAbstract} from '../../src/TransformerAbstract';
 
 export class GenericAuthorTransformer extends TransformerAbstract {
 

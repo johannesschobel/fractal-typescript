@@ -67,6 +67,7 @@ export class Scope {
         }
         const scopeString = scopeArray.join('.');
 
+        // @ts-ignore
         return this.manager.getRequestedIncluddes().some((entries) => entries === scopeString);
     }
 
@@ -142,7 +143,6 @@ export class Scope {
         if (!(this.resource instanceof Primitive)) {
             throw new Error('Argument should be instance of Primitive');
         }
-
         const transformer = this.resource.getTransformer();
         const data = this.resource.getData();
 
@@ -155,7 +155,6 @@ export class Scope {
             transformer.setCurrentScope(this);
             transformedData = transformer.transform(data);
         }
-
         return transformedData;
     }
 
@@ -196,7 +195,6 @@ export class Scope {
         if (this.resource instanceof Item) {
             return serializer.item(resourceKey, data);
         }
-
         return serializer.null();
     }
 
@@ -231,10 +229,8 @@ export class Scope {
         if (!(transformer instanceof TransformerAbstract)) {
             return false;
         }
-
         const defaultIncludes = transformer.getDefaultIncludes();
         const availableIncludes = transformer.getAvailableIncludes();
-
         return defaultIncludes.length !== 0 || availableIncludes.length !== 0;
     }
 
@@ -244,9 +240,9 @@ export class Scope {
         }
         const serializer = this.manager.getSerializer();
         const requestedFieldset = this.getFilterFielset();
-        const filterFieldset = serializer.getMandatoryFields().concat(requestedFieldset);
+        let requestedKey: any = {key: ''};
         // @ts-ignore
-        const requestedKey = requestedFieldset.params;
+        requestedKey = requestedFieldset.params;
         return Object.keys(data)
             .filter((key) => requestedKey.includes(key))
             .reduce((obj, key) => {

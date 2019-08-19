@@ -1,8 +1,8 @@
 export class ParamBag {
 
-    protected params: any[] = [];
+    protected params: {} = {};
 
-    constructor(params: any[]) {
+    constructor(params: {}) {
         this.params = params;
     }
 

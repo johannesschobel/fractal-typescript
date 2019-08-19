@@ -45,6 +45,17 @@ describe('Manager Tests', () => {
 
         manager.parseIncludes(null, ['foo.bar']);
         expect(manager.getRequestedIncluddes()).toEqual(['foo', 'foo.bar']);
+
+        manager.parseIncludes('foo:limit(5|1):order(-something):anotherparam');
+        let params = { params: {limit: '', order: '', anotherparam: ''}};
+        // @ts-ignore
+        params = manager.getIncludeParams('foo');
+        expect(params).toBeInstanceOf(ParamBag);
+        expect(params.params.limit).toEqual(['5', '1']);
+        expect(params.params.order).toEqual(['-something']);
+        expect(params.params.anotherparam).toEqual(['']);
+        // @ts-ignore
+        expect(params.totallymadeup).toBeUndefined()
     });
 
     test('test parseExcludeSelfie', () => {

@@ -9,10 +9,10 @@ import {CommonUtils} from './utils/CommonUtils';
 
 export class Manager {
 
-    protected requestedIncludes: any[] = [];
+    protected requestedIncludes: {} = {};
     protected requestedExcludes: any[] = [];
     protected requestedFieldsets: {} = {};
-    protected includeParams: string[] = [];
+    protected includeParams: {} = {};
     protected paramDelimiter: string = '|';
     protected recursionLimit: number = 10;
     protected serializer: SerializerAbstract;
@@ -34,11 +34,12 @@ export class Manager {
     }
 
     public getIncludeParams(include: string): ParamBag {
-        const params: boolean | any[] = (this.includeParams.indexOf(include) > -1) ? [include] : [];
+        // @ts-ignore
+        const params: {} = (this.includeParams[include] !== undefined) ? this.includeParams : {};
         return new ParamBag(params);
     }
 
-    public getRequestedIncluddes(): any[] {
+    public getRequestedIncluddes(): {} {
         return this.requestedIncludes;
     }
 
@@ -60,7 +61,7 @@ export class Manager {
      * @param includesArray
      */
     public parseIncludes(includesString: string = null, includesArray: string[] = null): this {
-        this.requestedIncludes = this.includeParams = [];
+        this.requestedIncludes = this.includeParams = {};
 
         let includes: string [] = [];
 
@@ -75,30 +76,29 @@ export class Manager {
             const includeName = this.trimToAcceptRecursionLevel(includeEntry[0]);
             const allModifiersStr = includeEntry[1];
 
-            if (this.requestedIncludes.indexOf(includeName) > -1) {
+            // @ts-ignore
+            if (this.requestedIncludes[includeName] !== undefined) {
                 continue;
             }
-            this.requestedIncludes.push(includeName);
+            // @ts-ignore
+            this.requestedIncludes[includeName] = '';
 
             if (allModifiersStr === null) {
                 continue;
             }
 
-            const allModifiersArr = allModifiersStr.match('/([\w]+)(\(([^\)]+)\))?/');
-            const modifierCount = allModifiersArr.length;
+            const allModifiersArr = includesString.match(/([\w]+)(\(([^\)]+)\))?/g);
 
-            const modifierArr = [];
-
-            for (let modifierIt = 0; modifierIt < modifierCount; modifierIt++) {
-                const modifierName = allModifiersArr[1][modifierIt];
-
-                const modifierParamStr = allModifiersArr[3][modifierIt];
-
-                modifierArr[modifierIt] = modifierParamStr.split(this.paramDelimiter);
+            for (const modifier of allModifiersArr) {
+                const modifierName = modifier.split('(')[0];
+                const modifierParams = modifier.match(/\(([^)]+)\)/);
+                let modifierArr: any[] = [''];
+                if (modifierParams !== null) {
+                    modifierArr = modifierParams[1].split('|');
+                }
+                // @ts-ignore
+                this.includeParams[modifierName] = modifierArr;
             }
-
-            const indexOfIncludeName = this.includeParams.indexOf(includeName);
-            // this.includeParams[indexOfIncludeName] = modifierArr;
         }
 
         this.autoIncludeParents();
@@ -167,7 +167,7 @@ export class Manager {
     protected autoIncludeParents(): void {
         const parsed = [];
 
-        for (const include of this.requestedIncludes) {
+        for (const include of Object.keys(this.requestedIncludes)) {
             const nested = include.split('.');
 
             let part = nested.shift();

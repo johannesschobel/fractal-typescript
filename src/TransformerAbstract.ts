@@ -43,13 +43,13 @@ export abstract class TransformerAbstract {
     }
 
     public processIncludedResources(scope: Scope, data: any): any {
-        let includedData = [];
+        let includedData = {};
         const includes = this.figureOutWhichIncludes(scope);
 
         for (const include of includes) {
             includedData = this.includeResourcesIfAvailable(scope, data, includedData, include);
         }
-        return includedData;
+        return Object.keys(includedData).length === 0 ? false : includedData;
     }
 
     public setAvailableIncludes(availableIncludes: any[]): this {
@@ -71,7 +71,7 @@ export abstract class TransformerAbstract {
         return [];
     }
 
-    protected callIncludeMethod(scope: Scope, includedName: string, data: any): ResourceInterface {
+    protected callIncludeMethod(scope: Scope, includedName: string, data: any): any {
         const scopeIdentifier = scope.getIdentifiers(includedName);
         const params = scope.getManager().getIncludeParams(scopeIdentifier);
 
@@ -83,7 +83,19 @@ export abstract class TransformerAbstract {
         const replaceWhitespaces = uppercaseEachWord.replace(' ', '');
         const methodName = 'include' + replaceWhitespaces;
         // @ts-ignore
-        const resource = this.__proto__[methodName].apply(this, [data, params]);
+        const resource;
+        // @ts-ignore
+        if (this.__proto__[methodName] !== undefined) {
+            // @ts-ignore
+            resource =  this.__proto__[methodName].apply(this, [data, params]);
+        } else {
+            // @ts-ignore
+            resource = this[methodName].apply(this, [data, params]);
+        }
+
+        if (resource === null) {
+            return false;
+        }
 
         if (!this.isResourceInterface(resource)) {
             throw new Error('Invalid return value');
@@ -97,13 +109,15 @@ export abstract class TransformerAbstract {
         return new Primitive(data, transformer, resourceKey);
     }
 
-    protected item(data: any, transformer: any, resourceKey: any = null): Item {
+    item(data: any, transformer: any, resourceKey: any = null): Item {
         return new Item(data, transformer, resourceKey);
     }
 
-    protected collection(data: any, transformer: TransformerAbstract, resourceKey: string): Collection {
-        // todo: implement this
-        return null;
+    protected collection(data: any,
+                         transformer: (n: any) => any| TransformerAbstract,
+                         transformerClass: TransformerAbstract = null,
+                         resourceKey: string): Collection {
+        return new Collection(data, transformer, transformerClass, resourceKey);
     }
 
     protected null(): any {
@@ -111,10 +125,13 @@ export abstract class TransformerAbstract {
     }
 
     private isResourceInterface(resource: ResourceInterface): resource is ResourceInterface {
-        return (resource as ResourceInterface).getData() !== undefined;
+        if (resource === null) {
+            return false;
+        } else {
+        return (resource as ResourceInterface).getData() !== undefined; }
     }
 
-    private includeResourcesIfAvailable(scope: Scope, data: any, includedData: {}, include: string): any {
+    private includeResourcesIfAvailable(scope: Scope, data: any, includedData: {}, include: string): {} {
         const resource = this.callIncludeMethod(scope, include, data);
         if (resource) {
             const childScope = scope.embedChildScope(include, resource);

@@ -35,10 +35,18 @@ export class Collection extends ResourceAbstract {
     }
 
     private hasCursorInterface(cursor: CursorInterface | PaginatorInterface): cursor is CursorInterface {
-        return (cursor as CursorInterface).getCurrent() !== undefined;
+        if (cursor === undefined) {
+            return false;
+        } else {
+            return (cursor as CursorInterface).getCurrent() !== undefined;
+        }
     }
 
     private hasPaginatorInterface(paginator: PaginatorInterface | CursorInterface): paginator is PaginatorInterface {
-        return (paginator as PaginatorInterface).getCurrentPage() !== undefined;
+        if (paginator === undefined) {
+            return false;
+        } else {
+            return (paginator as PaginatorInterface).getCurrentPage() !== undefined;
+        }
     }
 }

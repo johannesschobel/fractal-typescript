@@ -7,11 +7,11 @@ import Primitive from '../src/resource/Primitive';
 import {ResourceAbstract} from '../src/resource/ResourceAbstract';
 import {Scope} from '../src/Scope';
 import {ArraySerializer} from '../src/serializer/ArraySerializer';
-import {TransformerAbstractMock} from '../src/TransformerAbstractMock';
 import {ArraySerializerWithNull} from './Stub/ArraySerializerWithNull';
 import {DefaultIncludeBookTransformer} from './Stub/Transformer/DefaultIncludeBookTransformer';
 import {NullIncludeBookTransformer} from './Stub/Transformer/NullIncludeBookTransformer';
 import {PrimitiveIncludeBookTransformer} from './Stub/Transformer/PrimitiveIncludeBookTransformer';
+import {TransformerAbstractMock} from './Stub/TransformerAbstractMock';
 
 describe('Scope Tests', () => {
 

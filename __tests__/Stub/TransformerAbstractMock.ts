@@ -1,4 +1,4 @@
-import {TransformerAbstract} from './TransformerAbstract';
+import {TransformerAbstract} from '../../src/TransformerAbstract';
 
 export class TransformerAbstractMock extends TransformerAbstract {
 

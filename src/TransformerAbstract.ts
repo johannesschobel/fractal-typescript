@@ -71,6 +71,10 @@ export abstract class TransformerAbstract {
         return [];
     }
 
+    public item(data: any, transformer: any, resourceKey: any = null): Item {
+        return new Item(data, transformer, resourceKey);
+    }
+
     protected callIncludeMethod(scope: Scope, includedName: string, data: any): any {
         const scopeIdentifier = scope.getIdentifiers(includedName);
         const params = scope.getManager().getIncludeParams(scopeIdentifier);
@@ -107,10 +111,6 @@ export abstract class TransformerAbstract {
     protected primitive(data: any, transformer: any, resourceKey: string): any {
         // @ts-ignore
         return new Primitive(data, transformer, resourceKey);
-    }
-
-    item(data: any, transformer: any, resourceKey: any = null): Item {
-        return new Item(data, transformer, resourceKey);
     }
 
     protected collection(data: any,

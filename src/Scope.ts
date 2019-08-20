@@ -42,7 +42,7 @@ export class Scope {
             identifierParts.push(appendIdentifier);
         }
 
-        return identifierParts.join('.');
+        return identifierParts.filter((el) => el !== null).join('.');
     }
 
     public getParentScopes(): string[] {

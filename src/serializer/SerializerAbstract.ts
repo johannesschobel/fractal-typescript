@@ -5,9 +5,9 @@ import {Serializer} from '../serializer/Serializer';
 
 export abstract class SerializerAbstract implements Serializer {
 
-    public abstract collection(resourceKey: string, data: any[]): any[];
+    public abstract collection(resourceKey: string, data: {}): any;
 
-    public abstract item(resourceKey: string, data: any[]): any[];
+    public abstract item(resourceKey: string, data: {}): any;
 
     public abstract null(): any[];
 

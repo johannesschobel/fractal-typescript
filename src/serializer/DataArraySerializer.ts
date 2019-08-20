@@ -2,7 +2,7 @@ import {ArraySerializer} from '../serializer/ArraySerializer';
 
 export class DataArraySerializer extends ArraySerializer {
 
-    public collection(resourceKey: string, data: any[] ): any {
+    public collection(resourceKey: string, data: any[] ): [] | {} {
         return {
             data
         };

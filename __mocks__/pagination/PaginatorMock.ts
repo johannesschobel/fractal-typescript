@@ -2,23 +2,23 @@ import {PaginatorInterface} from '~/paginaton/PaginatorInterface';
 
 export class PaginatorMock implements PaginatorInterface {
     public getCount(): number {
-        return 0;
+        return 100;
     }
 
     public getCurrentPage(): number {
-        return 0;
+        return 5;
     }
 
     public getLastPage(): number {
-        return 0;
+        return 10;
     }
 
     public getPerPage(): number {
-        return 0;
+        return 10;
     }
 
     public getTotal(): number {
-        return 0;
+        return 100;
     }
 
     public getUrl(page: number): string {

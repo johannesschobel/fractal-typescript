@@ -5,12 +5,20 @@ import {SerializerAbstract} from '../serializer/SerializerAbstract';
 
 export class ArraySerializer extends SerializerAbstract {
 
-    public collection(resourceKey: string, data: any[]): any[] {
-        // todo: implement this
-        return null;
+    public collection(resourceKey: string, data: {}): {} {
+        if (resourceKey === null) {
+            return resourceKey;
+        } else {
+            const returnValue = {};
+            // @ts-ignore
+            const test = returnValue[resourceKey] = [];
+            // @ts-ignore
+            test[resourceKey] = data;
+            return test;
+        }
     }
 
-    public item(resourceKey: string, data: any[]): any[] {
+    public item(resourceKey: string, data: {}): {} {
         return data;
     }
 

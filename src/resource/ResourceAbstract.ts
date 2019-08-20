@@ -19,7 +19,7 @@ export class ResourceAbstract implements ResourceInterface {
         this.resourceKey = resourceKey;
     }
 
-    public getData(): any[] {
+    public getData(): any {
         return this.data;
     }
 

@@ -44,7 +44,7 @@ export default class Cursor implements CursorInterface {
         return this.count;
     }
 
-    public  setCount(count: number) {
+    public setCount(count: number) {
         this.count = count;
         return this;
     }

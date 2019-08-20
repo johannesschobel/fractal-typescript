@@ -22,11 +22,11 @@ export class ArraySerializer extends SerializerAbstract {
         return data;
     }
 
-    public null(): any[] {
+    public null(): any {
         return null;
     }
 
-    public includedData(resource: ResourceInterface, data: any[]): any[] {
+    public includedData(resource: ResourceInterface, data: any[]): any {
         return data;
     }
 

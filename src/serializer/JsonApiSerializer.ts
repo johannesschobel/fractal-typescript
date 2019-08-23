@@ -12,18 +12,18 @@ export class JsonApiSerializer extends ArraySerializer {
         this.rootObjects = [];
     }
 
-    public collection(resourceKey: string, data: {}): {} {
-        let resources = [] as any[];
+    public collection(resourceKey: string, data: []): {} {
+        const resources = [] as any[];
 
-        for (const resource of Object.keys(data)) {
+        for (const resource of data) {
             // @ts-ignore
-            resources = this.item(resourceKey, resource).data;
+            resources.push(this.item(resourceKey, resource).data);
         }
 
         return {data: resources};
     }
 
-    public item(resourceKey: string, data: {meta: {}, links: {}}): {} {
+    public item(resourceKey: string, data: { meta: {}, links: {} }): {} {
         const id = this.getIdFromData(data);
 
         const resource = {
@@ -105,16 +105,16 @@ export class JsonApiSerializer extends ArraySerializer {
 
     public meta(meta: {}): {} {
         if (meta === undefined) {
-           return {};
+            return {};
         }
 
-        const result = { meta };
+        const result = {meta};
 
         // @ts-ignore
         if (result.meta.pagination !== undefined) {
-           // @ts-ignore
+            // @ts-ignore
             result.links = result.meta.pagination.links;
-           // @ts-ignore
+            // @ts-ignore
             delete result.meta.pagination.links;
         }
 
@@ -125,36 +125,37 @@ export class JsonApiSerializer extends ArraySerializer {
         return {data: null}
     }
 
-    public includedData(resource: ResourceInterface, data: {}): {} {
+    public includedData(resource: ResourceInterface, data: []): {} {
         const pullOutNestedIncludedData = this.pullOutNestedIncludedData(data);
-        let serializedData = pullOutNestedIncludedData[0];
+        let serializedData: [] = pullOutNestedIncludedData[0];
         let linkedIds = pullOutNestedIncludedData[1];
 
-        for (const key of Object.keys(data)) {
+        for (const value of data) {
             // @ts-ignore
-            if (this.isNull((data[key])) || this.isEmpty(data[key])) {
-                continue;
-            }
+            for (const includeObject of value) {
+                if (this.isNull((includeObject)) || this.isEmpty(includeObject)) {
+                    continue;
+                }
 
-            // @ts-ignore
-            const includeObjects = this.createIncludeObjects(data[key]);
-            const serializeIncludedObjectsWithCacheKey = this.serializeIncludedObjectsWithCacheKey(includeObjects,
-                linkedIds, serializedData);
-            serializedData = serializeIncludedObjectsWithCacheKey[0];
-            linkedIds = serializeIncludedObjectsWithCacheKey[1];
+                const includeObjects = this.createIncludeObjects(includeObject);
+                const serializeIncludedObjectsWithCacheKey = this.serializeIncludedObjectsWithCacheKey(includeObjects,
+                    linkedIds, serializedData);
+                serializedData = serializeIncludedObjectsWithCacheKey[0];
+                linkedIds = serializeIncludedObjectsWithCacheKey[1];
+            }
         }
 
-        return serializedData === null ? {} : {included: serializedData};
+        return serializedData.length === 0 ? {} : {included: serializedData};
     }
 
     public sideloadIncludes(): boolean {
         return true;
     }
 
-    public injectData(data: [], includedData: any[]): [] {
+    public injectData(data: {}, includedData: any[]): {} {
         const relationship = this.parseRelationships(includedData);
 
-        if (relationship !== undefined) {
+        if (relationship.length !== 0) {
             data = this.fillRelationships(data, relationship);
         }
         return data;
@@ -162,7 +163,7 @@ export class JsonApiSerializer extends ArraySerializer {
 
     public filterIncludes(includedData: any[], data: any[]): any[] {
         // @ts-ignore
-        if (includedData.included !== undefined) {
+        if (includedData.included === undefined) {
             return includedData;
         }
 
@@ -254,11 +255,14 @@ export class JsonApiSerializer extends ArraySerializer {
         let relationships = [] as [];
         for (const key of Object.keys(includedData)) {
             // @ts-ignore
-            relationships = this.buildRelationship(key, relationships, includedData[key], key);
-            // @ts-ignore
-            if (includedData.includedKey.meta !== undefined) {
+            for (const includeKey of Object.keys(includedData[key])) {
                 // @ts-ignore
-                relationships[key].meta = includedData[key].meta;
+                relationships = this.buildRelationship(includeKey, relationships, includedData[key][includeKey], key);
+                // @ts-ignore
+                if (includedData[includeKey].meta !== undefined) {
+                    // @ts-ignore
+                    relationships[includeKey].meta = includedData[includeKey].meta;
+                }
             }
         }
         return relationships;
@@ -274,7 +278,7 @@ export class JsonApiSerializer extends ArraySerializer {
     }
 
     protected pullOutNestedIncludedData(data: {}): any[] {
-        const includedData = {};
+        const includedData = [] as [];
         const linkedIds = [] as [];
 
         for (const key of Object.keys(data)) {
@@ -299,7 +303,7 @@ export class JsonApiSerializer extends ArraySerializer {
             // @ts-ignore
             includeObjects = includeObject.data;
             return includeObjects;
-        } else  {
+        } else {
             // @ts-ignore
             includeObjects = [].push(includeObjects.data);
             return includeObjects;
@@ -327,7 +331,7 @@ export class JsonApiSerializer extends ArraySerializer {
 
     private buildRelationship(includeKey: string, relationships: {}, includeObject: {}, key: string): {} {
         // @ts-ignore
-        let relationshipsModified = this.addIncludeKeyToRelationsIfNotSet(includeKey, relationships);
+        let relationshipsModified = this.addIncludekeyToRelationsIfNotSet(includeKey, relationships);
 
         if (this.isNull(includeObject)) {
             relationshipsModified = this.null();
@@ -395,17 +399,17 @@ export class JsonApiSerializer extends ArraySerializer {
         // @ts-ignore
         const id = resource.id;
         const links = {
-          links: {
-              related: this.baseUrl + '/' + type + '/' + id + '/' + relationshipKey,
-              self: this.baseUrl + '/' + type + '/' + id + '/relationships' + relationshipKey
-          }
+            links: {
+                related: this.baseUrl + '/' + type + '/' + id + '/' + relationshipKey,
+                self: this.baseUrl + '/' + type + '/' + id + '/relationships' + relationshipKey
+            }
         };
         // @ts-ignore
         resource.relationships[relationshipKey] = {...links, ...resource.relationships[relationshipKey]};
         return resource;
     }
 
-    private serializeIncludedObjectsWithCacheKey(includedObjects: {}, linkedIds: [], serializedData: {}): [] {
+    private serializeIncludedObjectsWithCacheKey(includedObjects: {}, linkedIds: [], serializedData: {}): any[] {
         for (const object of Object.keys(includedObjects)) {
             // @ts-ignore
             const includeType = object.type;
@@ -418,7 +422,6 @@ export class JsonApiSerializer extends ArraySerializer {
                 linkedIds[cacheKey] = object;
             }
         }
-        // @ts-ignore
         return [serializedData, linkedIds];
     }
 }

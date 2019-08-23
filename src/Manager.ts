@@ -9,7 +9,7 @@ import {CommonUtils} from './utils/CommonUtils';
 
 export class Manager {
 
-    protected requestedIncludes: {} = {};
+    protected requestedIncludes: any[] = [];
     protected requestedExcludes: any[] = [];
     protected requestedFieldsets: {} = {};
     protected includeParams: {} = {};
@@ -39,7 +39,7 @@ export class Manager {
         return new ParamBag(params);
     }
 
-    public getRequestedIncluddes(): {} {
+    public getRequestedIncludes(): any[] {
         return this.requestedIncludes;
     }
 
@@ -61,7 +61,8 @@ export class Manager {
      * @param includesArray
      */
     public parseIncludes(includesString: string = null, includesArray: string[] = null): this {
-        this.requestedIncludes = this.includeParams = {};
+        this.requestedIncludes = [];
+        this.includeParams = {};
 
         let includes: string [] = [];
 

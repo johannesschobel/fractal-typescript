@@ -9,15 +9,15 @@ export abstract class SerializerAbstract implements Serializer {
 
     public abstract item(resourceKey: string, data: {}): any;
 
-    public abstract null(): any[];
+    public abstract null(): any;
 
-    public abstract includedData(resource: ResourceInterface, data: any[]): any[];
+    public abstract includedData(resource: ResourceInterface, data: any[]): any;
 
-    public abstract meta(meta: any[]): any[];
+    public abstract meta(meta: any[]): any;
 
-    public abstract paginator(paginator: PaginatorInterface): any[];
+    public abstract paginator(paginator: PaginatorInterface): any;
 
-    public abstract cursor(cursor: CursorInterface): any[];
+    public abstract cursor(cursor: CursorInterface): any;
 
     public mergeIncludes(transformedData: any, includedData: any): any {
         // @ts-ignore
@@ -36,15 +36,15 @@ export abstract class SerializerAbstract implements Serializer {
         return false;
     }
 
-    public injectData(data: any[], rawIncludedData: any[]): any[] {
+    public injectData(data: any[], rawIncludedData: any[]): any {
         return data;
     }
 
-    public filterIncludes(includedData: any[], data: any[]): any[] {
+    public filterIncludes(includedData: any[], data: any[]): any {
         return includedData;
     }
 
-    public getMandatoryFields(): any[] {
+    public getMandatoryFields(): any {
         return [];
     }
 

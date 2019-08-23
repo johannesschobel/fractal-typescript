@@ -67,8 +67,7 @@ export class Scope {
         }
         const scopeString = scopeArray.join('.');
 
-        // @ts-ignore
-        return this.manager.getRequestedIncluddes().some((entries) => entries === scopeString);
+        return this.manager.getRequestedIncludes().some((entries) => entries === scopeString);
     }
 
     public isExcluded(checkScopeSegment: string): boolean {
@@ -238,7 +237,8 @@ export class Scope {
 
     protected fireIncludedTransformers(transformer: TransformerAbstract, data: any): any[] {
         this.availableIncludes = transformer.getAvailableIncludes();
-        return transformer.processIncludedResources(this, data)
+        const processIncludedResources = transformer.processIncludedResources(this, data);
+        return processIncludedResources ? processIncludedResources : [];
     }
 
     protected transformerHasIncludes(transformer: TransformerAbstract): boolean {

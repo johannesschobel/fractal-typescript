@@ -35,16 +35,16 @@ describe('Manager Tests', () => {
         const manager = new Manager();
 
         manager.parseIncludes('foo,bar');
-        expect(manager.getRequestedIncluddes()).toEqual(['foo', 'bar']);
+        expect(manager.getRequestedIncludes()).toEqual(['foo', 'bar']);
 
         manager.parseIncludes(null, ['foo', 'bar', 'bar.baz']);
-        expect(manager.getRequestedIncluddes()).toEqual(['foo', 'bar', 'bar.baz']);
+        expect(manager.getRequestedIncludes()).toEqual(['foo', 'bar', 'bar.baz']);
 
         manager.parseIncludes(null, ['foo', 'foo', 'bar']);
-        expect(manager.getRequestedIncluddes()).toEqual(['foo', 'bar']);
+        expect(manager.getRequestedIncludes()).toEqual(['foo', 'bar']);
 
         manager.parseIncludes(null, ['foo.bar']);
-        expect(manager.getRequestedIncluddes()).toEqual(['foo', 'foo.bar']);
+        expect(manager.getRequestedIncludes()).toEqual(['foo', 'foo.bar']);
 
         manager.parseIncludes('foo:limit(5|1):order(-something):anotherparam');
         let params = { params: {limit: '', order: '', anotherparam: ''}};
@@ -83,7 +83,7 @@ describe('Manager Tests', () => {
         const manager = new Manager();
 
         manager.parseIncludes('a.b.c.d.e.f.g.h.i.j.NEVER');
-        expect(manager.getRequestedIncluddes()).toEqual([
+        expect(manager.getRequestedIncludes()).toEqual([
             'a',
             'a.b',
             'a.b.c',
@@ -98,7 +98,7 @@ describe('Manager Tests', () => {
 
         manager.setRecursionLimit(3);
         manager.parseIncludes('a.b.c.NEVER');
-        expect(manager.getRequestedIncluddes()).toEqual([
+        expect(manager.getRequestedIncludes()).toEqual([
             'a',
             'a.b',
             'a.b.c'

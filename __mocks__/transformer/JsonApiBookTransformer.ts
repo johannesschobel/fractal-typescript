@@ -40,8 +40,9 @@ export class JsonApiBookTransformer extends TransformerAbstract {
         if (book._author === null) {
             return this.null();
         }
-
-        return this.item(this.tempAuthor, new JsonApiAuthorTransformer(), 'people').setMeta({foo: 'bar'});
+        const resource = this.item(this.tempAuthor, new JsonApiAuthorTransformer(), 'people');
+        resource.setMeta({foo: 'bar'});
+        return resource;
     }
 
     public includeCoAuthor(book: JsonApicBookInterface) {

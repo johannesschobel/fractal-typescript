@@ -79,12 +79,12 @@ export abstract class TransformerAbstract {
         const scopeIdentifier = scope.getIdentifiers(includedName);
         const params = scope.getManager().getIncludeParams(scopeIdentifier);
 
-        const replaceHyphens = includedName.replace('-', ' ').replace('_', ' ');
+        const replaceHyphens = includedName.split('-').join(' ').split('_').join(' ');
         const uppercaseEachWord = replaceHyphens.toLowerCase()
             .split(' ')
             .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
             .join(' ');
-        const replaceWhitespaces = uppercaseEachWord.replace(' ', '');
+        const replaceWhitespaces = uppercaseEachWord.split(' ').join('');
         const methodName = 'include' + replaceWhitespaces;
         // @ts-ignore
         const resource;
@@ -125,7 +125,7 @@ export abstract class TransformerAbstract {
     }
 
     private isResourceInterface(resource: ResourceInterface): resource is ResourceInterface {
-        if (resource === null) {
+        if (resource === null || resource === undefined) {
             return false;
         } else {
         return (resource as ResourceInterface).getData() !== undefined; }

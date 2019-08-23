@@ -3,7 +3,7 @@ import {JsonApiBookTransformer} from './JsonApiBookTransformer';
 
 export class JsonApiAuthorTransformer extends TransformerAbstract {
 
-    protected tempPublished = '';
+    protected tempPublished = {};
     protected availableIncludes = [
         'published'
     ];

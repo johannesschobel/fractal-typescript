@@ -107,7 +107,7 @@ export class Scope {
 
             data = serializer.injectData(data, rawIncludedData);
 
-            if (this.isRootScope) {
+            if (this.isRootScope()) {
                 includedData = serializer.filterIncludes(includedData, data);
             }
 
@@ -170,7 +170,7 @@ export class Scope {
     }
 
     protected isRootScope(): boolean {
-        return this.parentScopes.length === 0;
+        return this.parentScopes[0] !== undefined;
     }
 
     protected executeResourceTransformers(): any[] {

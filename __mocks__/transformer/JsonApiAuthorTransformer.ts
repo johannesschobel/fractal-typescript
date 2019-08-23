@@ -3,11 +3,14 @@ import {JsonApiBookTransformer} from './JsonApiBookTransformer';
 
 export class JsonApiAuthorTransformer extends TransformerAbstract {
 
+    protected tempPublished = '';
     protected availableIncludes = [
         'published'
     ];
 
     public transform(author: {}) {
+        // @ts-ignore
+        this.tempPublished = author._published;
         // @ts-ignore
         delete author._published;
         return author;
@@ -15,7 +18,7 @@ export class JsonApiAuthorTransformer extends TransformerAbstract {
 
     public includePublished(author: {}) {
         // @ts-ignore
-        return this.collection(author._published, new JsonApiBookTransformer(), 'books');
+        return this.collection(this.tempPublished, null, new JsonApiBookTransformer(), 'books');
     }
 
 }

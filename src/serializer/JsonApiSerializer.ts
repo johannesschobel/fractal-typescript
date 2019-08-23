@@ -125,27 +125,27 @@ export class JsonApiSerializer extends ArraySerializer {
         return {data: null}
     }
 
-    public includedData(resource: ResourceInterface, data: []): {} {
+    public includedData(resource: ResourceInterface, data: {}): {} {
         const pullOutNestedIncludedData = this.pullOutNestedIncludedData(data);
         let serializedData: [] = pullOutNestedIncludedData[0];
         let linkedIds = pullOutNestedIncludedData[1];
 
-        for (const value of data) {
+        for (const key of Object.keys(data)) {
             // @ts-ignore
-            for (const includeObject of value) {
-                if (this.isNull((includeObject)) || this.isEmpty(includeObject)) {
-                    continue;
-                }
-
-                const includeObjects = this.createIncludeObjects(includeObject);
-                const serializeIncludedObjectsWithCacheKey = this.serializeIncludedObjectsWithCacheKey(includeObjects,
-                    linkedIds, serializedData);
-                serializedData = serializeIncludedObjectsWithCacheKey[0];
-                linkedIds = serializeIncludedObjectsWithCacheKey[1];
+            if (this.isNull((data[key])) || this.isEmpty(data[key])) {
+                continue;
             }
+
+            // @ts-ignore
+            const includeObjects = this.createIncludeObjects(data[key]);
+            // @ts-ignore
+            const serializeIncludedObjectsWithCacheKey = this.serializeIncludedObjectsWithCacheKey(includeObjects,
+                linkedIds, serializedData);
+            serializedData = serializeIncludedObjectsWithCacheKey[0];
+            linkedIds = serializeIncludedObjectsWithCacheKey[1];
         }
 
-        return serializedData.length === 0 ? {} : {included: serializedData};
+        return Object.keys(serializedData)[0] === undefined ? {} : {included: serializedData};
     }
 
     public sideloadIncludes(): boolean {
@@ -153,15 +153,15 @@ export class JsonApiSerializer extends ArraySerializer {
     }
 
     public injectData(data: {}, includedData: any[]): {} {
-        const relationship = this.parseRelationships(includedData);
+        const relationships = this.parseRelationships(includedData);
 
-        if (relationship.length !== 0) {
-            data = this.fillRelationships(data, relationship);
+        if (Object.keys(relationships)[0] !== undefined) {
+            data = this.fillRelationships(data, relationships);
         }
         return data;
     }
 
-    public filterIncludes(includedData: any[], data: any[]): any[] {
+    public filterIncludes(includedData: {}, data: any[]): {} {
         // @ts-ignore
         if (includedData.included === undefined) {
             return includedData;
@@ -170,7 +170,7 @@ export class JsonApiSerializer extends ArraySerializer {
         this.createRootObjects(data);
 
         // @ts-ignore
-        includedData.included = includedData.included.filter((key) => key !== 'filterRootObject');
+        // includedData.included = includedData.included.filter((key) => key !== 'filterRootObject');
 
         return includedData;
     }
@@ -235,29 +235,28 @@ export class JsonApiSerializer extends ArraySerializer {
         return data.data === {};
     }
 
-    protected fillRelationships(data: {}, relationships: []): [] {
-        let relationshipsResult = [] as [];
+    protected fillRelationships(data: {}, relationships: {}): {} {
         if (this.isCollection(data)) {
             for (const key of Object.keys(relationships)) {
                 // @ts-ignore
-                relationshipsResult = this.fillRelationshipAsCollection(data, relationships[key], key);
+                data = this.fillRelationshipAsCollection(data, relationships[key], key);
             }
         } else {
             for (const key of Object.keys(relationships)) {
                 // @ts-ignore
-                relationshipsResult = this.fillRelationshipAsSingleResource(data, relationships[key], key)
+                data = this.fillRelationshipAsSingleResource(data, relationships[key], key)
             }
         }
-        return relationshipsResult;
+        return data;
     }
 
-    protected parseRelationships(includedData: {}): [] {
-        let relationships = [] as [];
-        for (const key of Object.keys(includedData)) {
+    protected parseRelationships(includedData: {}): {} {
+        let relationships = {};
+        for (const includeKey of Object.keys(includedData)) {
             // @ts-ignore
-            for (const includeKey of Object.keys(includedData[key])) {
+            for (const key of Object.keys(includedData[includeKey])) {
                 // @ts-ignore
-                relationships = this.buildRelationship(includeKey, relationships, includedData[key][includeKey], key);
+                relationships = this.buildRelationship(includeKey, relationships, includedData[includeKey]);
                 // @ts-ignore
                 if (includedData[includeKey].meta !== undefined) {
                     // @ts-ignore
@@ -278,8 +277,8 @@ export class JsonApiSerializer extends ArraySerializer {
     }
 
     protected pullOutNestedIncludedData(data: {}): any[] {
-        const includedData = [] as [];
-        const linkedIds = [] as [];
+        const includedData = {};
+        const linkedIds = {};
 
         for (const key of Object.keys(data)) {
             // @ts-ignore
@@ -297,15 +296,14 @@ export class JsonApiSerializer extends ArraySerializer {
     }
 
     private createIncludeObjects(includeObject: {}): {} {
-        let includeObjects = [] as [];
-
+        let includeObjects = [] as any[];
         if (this.isCollection(includeObject)) {
             // @ts-ignore
             includeObjects = includeObject.data;
-            return includeObjects;
+            return includeObjects === undefined ? {} : includeObjects;
         } else {
             // @ts-ignore
-            includeObjects = [].push(includeObjects.data);
+            includeObjects.push(includeObject.data);
             return includeObjects;
         }
     }
@@ -325,30 +323,33 @@ export class JsonApiSerializer extends ArraySerializer {
 
     private fillRelationshipAsSingleResource(data: {}, relationship: {}, key: string): {} {
         // @ts-ignore
+        data.data.relationships = {};
+        // @ts-ignore
         data.data.relationships[key] = relationship;
         return data;
     }
 
-    private buildRelationship(includeKey: string, relationships: {}, includeObject: {}, key: string): {} {
-        // @ts-ignore
-        let relationshipsModified = this.addIncludekeyToRelationsIfNotSet(includeKey, relationships);
+    private buildRelationship(includeKey: string, relationships: {}, includeObject: {}): {} {
+        relationships = this.addIncludekeyToRelationsIfNotSet(includeKey, relationships);
+        let relationship = {};
 
         if (this.isNull(includeObject)) {
-            relationshipsModified = this.null();
+            relationship = this.null();
         } else if (this.isEmpty(includeObject)) {
-            relationshipsModified = {
+            relationship = {
                 data: []
             };
         } else if (this.isCollection(includeObject)) {
-            relationshipsModified = {
+            relationship = {
                 data: []
-            }
+            };
+            relationship = this.addIncludedDataToRelationship(includeObject, relationships);
         } else {
             // @ts-ignore
             const id = includeObject.data.id;
             // @ts-ignore
             const type = includeObject.data.type;
-            relationshipsModified = {
+            relationship = {
                 data: {
                     id,
                     type
@@ -357,15 +358,15 @@ export class JsonApiSerializer extends ArraySerializer {
         }
 
         // @ts-ignore
-        relationshipsModified[includeKey][key] = relationshipsModified;
-        return relationshipsModified;
+        relationships[includeKey] = relationship;
+        return relationships;
     }
 
     private addIncludekeyToRelationsIfNotSet(includeKey: string, relationship: {}): {} {
         // @ts-ignore
         if (relationship[includeKey] === undefined) {
             // @ts-ignore
-            relationship[includeKey] = '';
+            relationship[includeKey] = [];
             return relationship;
         }
         return relationship;
@@ -409,13 +410,14 @@ export class JsonApiSerializer extends ArraySerializer {
         return resource;
     }
 
-    private serializeIncludedObjectsWithCacheKey(includedObjects: {}, linkedIds: [], serializedData: {}): any[] {
-        for (const object of Object.keys(includedObjects)) {
+    private serializeIncludedObjectsWithCacheKey(includedObjects: [], linkedIds: {}, serializedData: {}): any[] {
+        for (const object of includedObjects) {
             // @ts-ignore
             const includeType = object.type;
             // @ts-ignore
             const includeId = object.id;
-            const cacheKey = includeType.includeId;
+            const cacheKey = includeType + '+' + includeId;
+            // @ts-ignore
             if (linkedIds[cacheKey] === undefined) {
                 serializedData = object;
                 // @ts-ignore

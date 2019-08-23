@@ -72,7 +72,7 @@ export abstract class TransformerAbstract {
     }
 
     public item(data: any, transformer: any, resourceKey: any = null): Item {
-        return new Item(data, transformer, resourceKey);
+        return new Item(data, null, transformer, resourceKey);
     }
 
     protected callIncludeMethod(scope: Scope, includedName: string, data: any): any {

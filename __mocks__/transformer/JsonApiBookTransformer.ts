@@ -1,5 +1,5 @@
 import {TransformerAbstract} from '../../src/TransformerAbstract';
-import {GenericAuthorTransformer} from './GenericAuthorTransformer';
+import {JsonApiAuthorTransformer} from './JsonApiAuthorTransformer';
 import {JsonApicBookInterface} from './JsonApiBookInterface';
 
 export class JsonApiBookTransformer extends TransformerAbstract {
@@ -20,7 +20,7 @@ export class JsonApiBookTransformer extends TransformerAbstract {
         return book;
     }
 
-    public includeAuthor(book: JsonApicBookInterface){
+    public includeAuthor(book: JsonApicBookInterface) {
         if (book._author !== undefined) {
             return;
         }
@@ -29,7 +29,7 @@ export class JsonApiBookTransformer extends TransformerAbstract {
             return this.null();
         }
 
-        return this.item(book._author, new JsonApiBookTransformer(), 'people');
+        return this.item(this.tempAuthor, new JsonApiAuthorTransformer(), 'people');
     }
 
     public includeAuthorWithMeta(book: JsonApicBookInterface) {
@@ -41,10 +41,10 @@ export class JsonApiBookTransformer extends TransformerAbstract {
             return this.null();
         }
 
-        return this.item(book._author, new JsonApiBookTransformer(), 'people').setMeta({foo: 'bar'});
+        return this.item(this.tempAuthor, new JsonApiAuthorTransformer(), 'people').setMeta({foo: 'bar'});
     }
 
-    public includeCoAuthor(book: JsonApicBookInterface){
+    public includeCoAuthor(book: JsonApicBookInterface) {
         if (book._co_author !== undefined) {
             return;
         }
@@ -53,6 +53,6 @@ export class JsonApiBookTransformer extends TransformerAbstract {
             return this.null();
         }
 
-        return this.item(book._co_author, new JsonApiBookTransformer(), 'people');
+        return this.item(this.tempCoAuthor, new JsonApiAuthorTransformer(), 'people');
     }
 }

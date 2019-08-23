@@ -21,7 +21,7 @@ export abstract class SerializerAbstract implements Serializer {
 
     public mergeIncludes(transformedData: any, includedData: any): any {
         // @ts-ignore
-        if (transformedData.length === undefined) {
+        if (transformedData.length === undefined && !this.sideloadIncludes()) {
             return {...transformedData, ...includedData};
         } else {
             if (!this.sideloadIncludes()) {

@@ -1,7 +1,9 @@
-import {Manager} from '~/Manager';
 import {ParamBag} from '~/ParamBag';
 import {ResourceInterface} from '~/resource/ResourceInterface';
 import {SerializerAbstract} from '~/serializer/SerializerAbstract';
+import {Manager} from '../src/Manager';
+import {ResourceTransformationResult} from '../src/models/ResourceTransformationResult';
+import {TransformationResult} from '../src/models/TransformationResult';
 import {Collection} from './resource/Collection';
 import {Item} from './resource/Item';
 import {NullResource} from './resource/NullResource';
@@ -23,7 +25,7 @@ export class Scope {
         this.resource = resource;
     }
 
-    public embedChildScope(scopeIdentifier: string, resource: ResourceInterface) {
+    public embedChildScope(scopeIdentifier: string, resource: ResourceInterface): Scope {
         return this.manager.createData(resource, scopeIdentifier, this);
     }
 
@@ -38,7 +40,7 @@ export class Scope {
             identifierParts = identifierParts.concat(this.parentScopes);
         }
         identifierParts.push(this.scopeIdentifier);
-        if (appendIdentifier != null) {
+        if (appendIdentifier !== null) {
             identifierParts.push(appendIdentifier);
         }
 
@@ -93,10 +95,10 @@ export class Scope {
         return this;
     }
 
-    public toArray(): any[] {
-        const resourceTransformers = this.executeResourceTransformers();
-        const rawData = resourceTransformers[0];
-        const rawIncludedData = resourceTransformers[1];
+    public toArray(): TransformationResult {
+        const resourceTransformers: ResourceTransformationResult = this.executeResourceTransformers();
+        const rawData = resourceTransformers.transformedData;
+        const rawIncludedData = resourceTransformers.includedData;
 
         const serializer = this.manager.getSerializer();
 
@@ -128,7 +130,6 @@ export class Scope {
 
             if (pagination !== null) {
                 const key = Object.keys(pagination)[0];
-                // @ts-ignore
                 this.resource.setMetaValue(key, pagination[key]);
             }
         }
@@ -136,7 +137,6 @@ export class Scope {
         const meta = serializer.meta(this.resource.getMeta());
 
         if (data === null) {
-            // @ts-ignore
             if (meta !== null && meta.meta !== undefined) {
                 return meta;
             }
@@ -154,6 +154,7 @@ export class Scope {
         if (!(this.resource instanceof Primitive)) {
             throw new Error('Argument should be instance of Primitive');
         }
+
         const transformer = this.resource.getTransformer();
         const data = this.resource.getData();
 
@@ -173,7 +174,7 @@ export class Scope {
         return this.parentScopes[0] !== undefined;
     }
 
-    protected executeResourceTransformers(): any[] {
+    protected executeResourceTransformers(): ResourceTransformationResult {
         const transformer = this.resource.getTransformer();
         const data = this.resource.getData();
 
@@ -182,13 +183,13 @@ export class Scope {
 
         if (this.resource instanceof Item) {
             const fireTransformer = this.fireTransformer(transformer, data);
-            transformedData = fireTransformer[0];
-            includedData = fireTransformer[1];
+            transformedData = fireTransformer.transformedData;
+            includedData = fireTransformer.includedData;
         } else if (this.resource instanceof Collection) {
             for (const dataEntry of data) {
                 const fireTransformer = this.fireTransformer(transformer, dataEntry);
-                transformedData.push(fireTransformer[0]);
-                includedData.push(fireTransformer[1]);
+                transformedData.push(fireTransformer.transformedData);
+                includedData.push(fireTransformer.includedData);
             }
         } else if (this.resource instanceof NullResource) {
             transformedData = null;
@@ -197,10 +198,10 @@ export class Scope {
             throw new Error('Argument resource should be an instance of Item or Collection');
         }
 
-        return [transformedData, includedData];
+        return new ResourceTransformationResult(transformedData, includedData);
     }
 
-    protected serializeResource(serializer: SerializerAbstract, data: any): any[] {
+    protected serializeResource(serializer: SerializerAbstract, data: {}): any[] {
         const resourceKey = this.resource.getResourceKey();
 
         if (this.resource instanceof Collection) {
@@ -213,12 +214,11 @@ export class Scope {
         return serializer.null();
     }
 
-    protected fireTransformer(transformer: CallableFunction | TransformerAbstract, data: any): any {
+    protected fireTransformer(transformer: () => any | TransformerAbstract, data: any): ResourceTransformationResult {
         let includedData = [];
         let transformedData = [];
 
         if (this.isFunction(transformer)) {
-            // @ts-ignore
             transformedData = transformer.apply(data);
         } else if (transformer instanceof TransformerAbstract) {
             transformer.setCurrentScope(this);
@@ -232,10 +232,10 @@ export class Scope {
 
         transformedData = this.filterFieldsets(transformedData);
 
-        return [transformedData, includedData];
+        return new ResourceTransformationResult(transformedData, includedData);
     }
 
-    protected fireIncludedTransformers(transformer: TransformerAbstract, data: any): any[] {
+    protected fireIncludedTransformers(transformer: TransformerAbstract, data: {}): any[] {
         this.availableIncludes = transformer.getAvailableIncludes();
         const processIncludedResources = transformer.processIncludedResources(this, data);
         return processIncludedResources ? processIncludedResources : [];
@@ -250,14 +250,13 @@ export class Scope {
         return defaultIncludes.length !== 0 || availableIncludes.length !== 0;
     }
 
-    protected filterFieldsets(data: any[]): any {
+    protected filterFieldsets(data: {}): any {
         if (!this.hasFilterFieldset()) {
             return data;
         }
         const serializer = this.manager.getSerializer();
         const requestedFieldset = this.getFilterFielset();
         let requestedKey: any = {key: ''};
-        // @ts-ignore
         requestedKey = requestedFieldset.params;
         return Object.keys(data)
             .filter((key) => requestedKey.includes(key))

@@ -1,3 +1,8 @@
+import {ArraySerializerWithNull} from '../__mocks__/ArraySerializerWithNull';
+import {DefaultIncludeBookTransformer} from '../__mocks__/transformer/DefaultIncludeBookTransformer';
+import {NullIncludeBookTransformer} from '../__mocks__/transformer/NullIncludeBookTransformer';
+import {PrimitiveIncludeBookTransformer} from '../__mocks__/transformer/PrimitiveIncludeBookTransformer';
+import {TransformerAbstractMock} from '../__mocks__/TransformerAbstractMock';
 import {Manager} from '../src/Manager';
 import Cursor from '../src/paginaton/Cursor';
 import {Collection} from '../src/resource/Collection';
@@ -8,11 +13,6 @@ import {ResourceAbstract} from '../src/resource/ResourceAbstract';
 import {Scope} from '../src/Scope';
 import {ArraySerializer} from '../src/serializer/ArraySerializer';
 import {DataArraySerializer} from '../src/serializer/DataArraySerializer';
-import {ArraySerializerWithNull} from '../__mocks__/ArraySerializerWithNull';
-import {DefaultIncludeBookTransformer} from '../__mocks__/transformer/DefaultIncludeBookTransformer';
-import {NullIncludeBookTransformer} from '../__mocks__/transformer/NullIncludeBookTransformer';
-import {PrimitiveIncludeBookTransformer} from '../__mocks__/transformer/PrimitiveIncludeBookTransformer';
-import {TransformerAbstractMock} from '../__mocks__/TransformerAbstractMock';
 
 describe('Scope Tests', () => {
 

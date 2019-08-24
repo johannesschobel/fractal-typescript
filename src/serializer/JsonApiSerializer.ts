@@ -125,7 +125,7 @@ export class JsonApiSerializer extends ArraySerializer {
         return {data: null}
     }
 
-    public includedData(resource: ResourceInterface, data: {}): {} {
+    public includedData(resource: ResourceInterface, data: any): {} {
         const pullOutNestedIncludedData = this.pullOutNestedIncludedData(data);
         let serializedData: [] = pullOutNestedIncludedData[0];
         let linkedIds = pullOutNestedIncludedData[1];
@@ -169,9 +169,6 @@ export class JsonApiSerializer extends ArraySerializer {
 
         this.createRootObjects(data);
 
-        // @ts-ignore
-        // includedData.included = includedData.included.filter((key) => key !== 'filterRootObject');
-
         return includedData;
     }
 
@@ -184,19 +181,11 @@ export class JsonApiSerializer extends ArraySerializer {
             return data;
         }
 
-        if (this.isCollection(data)) {
-            let resource = {};
-            for (const relationshipKey of availableIncludes) {
-                resource = this.addRelationsipLinks(resource, relationshipKey);
-            }
+        for (const relationshipKey of availableIncludes) {
             // @ts-ignore
-            data.data = resource;
-        } else {
-            for (const relationshipKey of availableIncludes) {
-                // @ts-ignore
-                data.data = this.addRelationsipLinks(data.data, relationshipKey);
-            }
+            data.data = this.addRelationshipLinks(data.data, relationshipKey);
         }
+
         return data;
     }
 
@@ -206,13 +195,7 @@ export class JsonApiSerializer extends ArraySerializer {
 
     protected setRootObjects(objects: []): void {
         for (const object of objects) {
-            const rootObject = {};
-            // @ts-ignore
-            const type = object.type;
-            // @ts-ignore
-            rootObject[type] = object.id;
-            // @ts-ignore
-            this.rootObjects.push(rootObject);
+            this.rootObjects.push(object);
         }
     }
 
@@ -313,14 +296,6 @@ export class JsonApiSerializer extends ArraySerializer {
         this.setRootObjects(data.data);
     }
 
-    private fillRelationshipAsCollection(data: {}, relationship: {}, key: string): {} {
-        for (const relationKey of Object.keys(relationship)) {
-            // @ts-ignore
-            data.data[relationKey].relationships[key] = relationship;
-        }
-        return data;
-    }
-
     private fillRelationshipAsSingleResource(data: {}, relationship: {}, key: string): {} {
         // @ts-ignore
         data.data.relationships = {};
@@ -332,6 +307,8 @@ export class JsonApiSerializer extends ArraySerializer {
     private buildRelationship(includeKey: string, relationships: {}, includeObject: {}): {} {
         relationships = this.addIncludekeyToRelationsIfNotSet(includeKey, relationships);
         let relationship = {};
+        // @ts-ignore
+        const includeObjectData = includeObject.data;
 
         if (this.isNull(includeObject)) {
             relationship = this.null();
@@ -339,11 +316,11 @@ export class JsonApiSerializer extends ArraySerializer {
             relationship = {
                 data: []
             };
-        } else if (this.isCollection(includeObject)) {
+        } else if (this.isCollection(includeObjectData)) {
             relationship = {
                 data: []
             };
-            relationship = this.addIncludedDataToRelationship(includeObject, relationships);
+            relationship = this.addIncludedDataToRelationship(includeObject, relationship);
         } else {
             // @ts-ignore
             const id = includeObject.data.id;
@@ -373,26 +350,29 @@ export class JsonApiSerializer extends ArraySerializer {
     }
 
     private addIncludedDataToRelationship(includeObject: {}, relationship: {}): {} {
+        const data = [] as any[];
         // @ts-ignore
-        for (const object of Object.keys(includeObject.data)) {
+        for (const object of includeObject.data) {
             // @ts-ignore
             const type = object.type;
             // @ts-ignore
             const id = object.id;
-            // @ts-ignore
-            relationship.data = {
+            data.push({
                 id,
                 type
-            }
+            });
         }
-        return relationship;
+        // @ts-ignore
+        return relationship.data = {data};
     }
 
-    private addRelationsipLinks(resource: {}, relationshipKey: string): {} {
+    private addRelationshipLinks(resource: {}, relationshipKey: string): {} {
         // @ts-ignore
-        if (resource.relationships !== undefined || resource.relationships[relationshipKey] !== undefined) {
+        if (resource.relationships === undefined) {
             // @ts-ignore
-            resource.relationsships[relationshipKey] = [];
+            resource.relationships = {};
+            // @ts-ignore
+            resource.relationships[relationshipKey] = {};
         }
 
         // @ts-ignore
@@ -402,7 +382,7 @@ export class JsonApiSerializer extends ArraySerializer {
         const links = {
             links: {
                 related: this.baseUrl + '/' + type + '/' + id + '/' + relationshipKey,
-                self: this.baseUrl + '/' + type + '/' + id + '/relationships' + relationshipKey
+                self: this.baseUrl + '/' + type + '/' + id + '/relationships/' + relationshipKey
             }
         };
         // @ts-ignore
@@ -410,7 +390,7 @@ export class JsonApiSerializer extends ArraySerializer {
         return resource;
     }
 
-    private serializeIncludedObjectsWithCacheKey(includedObjects: [], linkedIds: {}, serializedData: {}): any[] {
+    private serializeIncludedObjectsWithCacheKey(includedObjects: [], linkedIds: {}, serializedData: []): any[] {
         for (const object of includedObjects) {
             // @ts-ignore
             const includeType = object.type;

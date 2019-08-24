@@ -8,7 +8,7 @@ export class ParamBag {
         throw new Error('Modifying paramets is not permitted');
     }
 
-    params: {} = {};
+    public params: {} = {};
 
     constructor(params: {}) {
         this.params = params;

@@ -1,7 +1,9 @@
+import {TransformationResult} from '~/models/TransformationResult';
 import {BookTransformed} from '../src/models/BookTransformed';
 import {Manager} from './Manager';
 import {Book} from './models/Book';
 import {Collection} from './resource/Collection';
+import {BookTransformedWrapped} from "~/models/BookTransformedWrapped";
 
 const fractal = new Manager();
 
@@ -38,5 +40,5 @@ const resource = new Collection(books, function () {
     };
 });
 
-const array: BookTransformed[] = fractal.createData(resource).toArray();
+const array: BookTransformedWrapped = fractal.createData(resource).toArray();
 console.log(fractal.createData(resource).toJson());

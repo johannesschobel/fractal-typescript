@@ -1,5 +1,5 @@
 export class TransformationResult {
-    public data: {};
+    public data: {} | any;
     public meta?: {};
 
     constructor(data: {}, meta: {}) {

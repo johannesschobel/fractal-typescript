@@ -1,6 +1,6 @@
+import {BookTransformedWrapped} from '~/models/BookTransformedWrapped';
 import {Manager} from '../src/Manager';
 import {Book} from '../src/models/Book';
-import {BookTransformed} from '../src/models/BookTransformed';
 import {Collection} from '../src/resource/Collection';
 
 describe('SimpleExample Tests', () => {
@@ -41,7 +41,7 @@ describe('SimpleExample Tests', () => {
             };
         });
 
-        const array: BookTransformed[] = fractal.createData(resource).toArray();
+        const array: BookTransformedWrapped = fractal.createData(resource).toArray();
         const json: string = fractal.createData(resource).toJson();
 
         const expectedArray = {

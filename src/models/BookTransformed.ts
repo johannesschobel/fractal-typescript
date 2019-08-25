@@ -1,7 +1,7 @@
 export class BookTransformed {
     public author: {
-      email: string,
-      name: string
+        email: string,
+        name: string
     };
     public id: string;
     public links: {

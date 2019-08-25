@@ -1,9 +1,7 @@
-import {TransformationResult} from '~/models/TransformationResult';
-import {BookTransformed} from '../src/models/BookTransformed';
+import {BookTransformedWrapped} from '~/models/BookTransformedWrapped';
 import {Manager} from './Manager';
 import {Book} from './models/Book';
 import {Collection} from './resource/Collection';
-import {BookTransformedWrapped} from "~/models/BookTransformedWrapped";
 
 const fractal = new Manager();
 

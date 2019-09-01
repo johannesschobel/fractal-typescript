@@ -34,7 +34,7 @@ describe('ArraySerializer Tests', () => {
             },
             title: 'Foo'
         };
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializingItemResourceWithoutMetadata', () => {
@@ -60,7 +60,7 @@ describe('ArraySerializer Tests', () => {
             title: 'Foo',
             year: 1991
         };
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializingItemResourceSingleField', () => {
@@ -81,7 +81,7 @@ describe('ArraySerializer Tests', () => {
 
         manager.parseFieldsets({book: 'title'});
         const expected = {title: 'Foo'};
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializingItemResourceMultipleField', () => {
@@ -105,7 +105,7 @@ describe('ArraySerializer Tests', () => {
             title: 'Foo',
             year: 1991
         };
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializingItemResourceWithMeta', () => {
@@ -135,7 +135,7 @@ describe('ArraySerializer Tests', () => {
             title: 'Foo',
             year: 1991
         };
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializingItemResourceWithMetaAndRelationshipField', () => {
@@ -164,7 +164,7 @@ describe('ArraySerializer Tests', () => {
             },
             title: 'Foo'
         };
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializingCollectionResourceWithoutMetadata', () => {
@@ -210,7 +210,7 @@ describe('ArraySerializer Tests', () => {
                 }
             ]
         };
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializingCollectionResourceSingleField', () => {
@@ -249,7 +249,7 @@ describe('ArraySerializer Tests', () => {
                 }
             ]
         };
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializingCollectionResourceMultipleFields', () => {
@@ -290,7 +290,7 @@ describe('ArraySerializer Tests', () => {
                 }
             ]
         };
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializingCollectionResourceWithRelationshipField', () => {
@@ -335,7 +335,7 @@ describe('ArraySerializer Tests', () => {
                 }
             ]
         };
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializingCollectionResourceWithRelationshipFieldAndMeta', () => {
@@ -386,7 +386,7 @@ describe('ArraySerializer Tests', () => {
                 foo: 'bar'
             }
         };
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializingNullResource', () => {
@@ -413,16 +413,16 @@ describe('ArraySerializer Tests', () => {
         const resource = new NullResource(bookCollectionInput, null, new GenericBookTransformer(), 'books');
         const scope = new Scope(manager, resource);
 
-        expect(scope.toArray()).toEqual(null);
+        expect(scope.toObject()).toEqual(null);
 
         manager.parseFieldsets({books: 'title'});
-        expect(scope.toArray()).toEqual(null);
+        expect(scope.toObject()).toEqual(null);
 
         manager.parseFieldsets({books: 'title,year'});
-        expect(scope.toArray()).toEqual(null);
+        expect(scope.toObject()).toEqual(null);
 
         manager.parseFieldsets({books: 'title, author', author: 'name'});
-        expect(scope.toArray()).toEqual(null);
+        expect(scope.toObject()).toEqual(null);
 
     });
 
@@ -457,10 +457,10 @@ describe('ArraySerializer Tests', () => {
                 foo: 'bar'
             }
         };
-        expect(scope.toArray()).toEqual(expeceted);
+        expect(scope.toObject()).toEqual(expeceted);
 
         manager.parseFieldsets({books: 'title, author', author: 'name'});
-        expect(scope.toArray()).toEqual(expeceted);
+        expect(scope.toObject()).toEqual(expeceted);
     });
 
     test('test paginator', () => {

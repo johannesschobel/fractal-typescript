@@ -1,5 +1,5 @@
-import {PaginatorInterface} from '~/paginaton/PaginatorInterface';
-import {ResourceInterface} from '~/resource/ResourceInterface';
+import {PaginatorInterface} from '../../src/paginaton/PaginatorInterface';
+import {ResourceInterface} from '../../src/resource/ResourceInterface';
 import {ArraySerializer} from '../../src/serializer/ArraySerializer';
 
 export class JsonApiSerializer extends ArraySerializer {

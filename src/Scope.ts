@@ -1,9 +1,9 @@
-import {ParamBag} from '~/ParamBag';
-import {ResourceInterface} from '~/resource/ResourceInterface';
-import {SerializerAbstract} from '~/serializer/SerializerAbstract';
 import {Manager} from '../src/Manager';
 import {ResourceTransformationResult} from '../src/models/ResourceTransformationResult';
 import {TransformationResult} from '../src/models/TransformationResult';
+import {ParamBag} from '../src/ParamBag';
+import {ResourceInterface} from '../src/resource/ResourceInterface';
+import {SerializerAbstract} from '../src/serializer/SerializerAbstract';
 import {Collection} from './resource/Collection';
 import {Item} from './resource/Item';
 import {NullResource} from './resource/NullResource';
@@ -19,7 +19,7 @@ export class Scope {
     protected resource: ResourceAbstract;
     protected parentScopes: string[] = [];
 
-    constructor(manager: Manager, resource: ResourceAbstract, scopeIdentifier: string = null) {
+    public constructor(manager: Manager, resource: ResourceAbstract, scopeIdentifier: string = null) {
         this.scopeIdentifier = scopeIdentifier;
         this.manager = manager;
         this.resource = resource;

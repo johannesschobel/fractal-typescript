@@ -1,6 +1,6 @@
-import {Manager} from '~/Manager';
-import {ResourceInterface} from '~/resource/ResourceInterface';
-import {Scope} from '~/Scope';
+import {Manager} from '../src/Manager';
+import {ResourceInterface} from '../src/resource/ResourceInterface';
+import {Scope} from '../src/Scope';
 
 export interface ScopeFactoryInterface {
 

@@ -572,7 +572,7 @@ describe('JsonApiSerializer Tests', () => {
 
         expect(scope.toObject()).toEqual(expected);
     });
-    
+
     test('test serializeCollectionResourceWithPaginator', () => {
         const baseUrl = 'http://example.com';
         manager.setSerializer(new JsonApiSerializer(baseUrl));

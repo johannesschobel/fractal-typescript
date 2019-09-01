@@ -1,43 +1,28 @@
-import {BookTransformed} from '~/models/BookTransformed';
-import {TransformationResult} from '~/models/TransformationResult';
 import {Manager} from './Manager';
-import {Book} from './models/Book';
+import {TransformationResult} from './models/TransformationResult';
+import {ParamBag} from './ParamBag';
 import {Collection} from './resource/Collection';
+import {Item} from './resource/Item';
+import {ResourceAbstract} from './resource/ResourceAbstract';
+import {ResourceInterface} from './resource/ResourceInterface';
+import {Scope} from './Scope';
+import {ScopeFactory} from './ScopeFactory';
+import {ScopeFactoryInterface} from './ScopeFactoryInterface';
+import {ArraySerializer} from './serializer/ArraySerializer';
+import {DataArraySerializer} from './serializer/DataArraySerializer';
+import {JsonApiSerializer} from './serializer/JsonApiSerializer';
 
-const fractal = new Manager();
-
-const books: Book[] = [
-    {
-        authorEmail: 'philip@example.org',
-        authorName: 'Philip K Dick',
-        id: '1',
-        title: 'Hogfather',
-        yr: 1998
-    },
-    {
-        authorEmail: 'george@example.org',
-        authorName: 'George R. R. Satan',
-        id: '2',
-        title: 'Game Of Kill Everyone',
-        yr: 2014
-    }
-];
-
-const resource = new Collection(books, function () {
-    return {
-        author: {
-            email: this.author_email,
-            name: this.author_name
-        },
-        id: this.id,
-        links: {
-            rel: 'self',
-            uri: '/books/' + this.id
-        },
-        title: this.title,
-        year: this.yr
-    };
-});
-
-const result: TransformationResult<BookTransformed> = fractal.createData(resource).toObject();
-console.log(fractal.createData(resource).toString());
+export { Manager,
+    ParamBag,
+    Scope,
+    ScopeFactory,
+    ScopeFactoryInterface,
+    Collection,
+    Item,
+    ResourceAbstract,
+    ResourceInterface,
+    TransformationResult,
+    JsonApiSerializer,
+    ArraySerializer,
+    DataArraySerializer
+};

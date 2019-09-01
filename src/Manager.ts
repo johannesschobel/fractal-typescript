@@ -73,6 +73,7 @@ export class Manager {
         }
 
         for (const include of includes) {
+            // ts-ignore
             const includeEntry = CommonUtils.padding(include.split(':', 2), 2, null);
             const includeName = this.trimToAcceptRecursionLevel(includeEntry[0]);
             const allModifiersStr = includeEntry[1];

@@ -1,30 +1,11 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "noImplicitAny": true,
-    "allowJs": true,
-    "inlineSources": true,
-    "sourceMap": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "noEmitHelpers": false,
-    "noEmitOnError": true,
-    "lib": [
-      "es6",
-      "dom",
-      "es2015.iterable"
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "~/*": [
-        "src/*"
-      ],
-      "*": [
-        "./node_modules/*"
-      ]
-    }
+    "module": "commonjs",
+    "target": "es5",
+    "declaration": true,
+    "outDir": "./dist"
   },
-  "exclude": [
-    "node_modules"
+  "include": [
+    "src/**/*"
   ]
 }

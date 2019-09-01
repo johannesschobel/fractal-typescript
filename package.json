@@ -1,5 +1,10 @@
 {
+  "name": "fractal-typescript",
+  "version": "1.0.0",
+  "author": "Paul Romahn and Daniel Kempf",
   "description": "A Typescript Framework for fractal",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "Apache-2.0",
   "repository": "https://github.com/Dakesi95/fractal-typescript",
   "homepage": "https://github.com/Dakesi95/fractal-typescript",
@@ -39,8 +44,6 @@
   },
   "dependencies": {
     "@sentry/node": "^5.5.0",
-    "json-api-serializer": "^1.15.1",
-    "jsonapi-typescript": "^0.1.3",
     "npm": "^6.10.0"
   }
 }

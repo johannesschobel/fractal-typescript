@@ -36,7 +36,7 @@ describe('DataArraySerializer Tests', () => {
                 year: 1991
             }
         };
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
 
         // single field
         manager.parseFieldsets({book: 'title'});
@@ -45,7 +45,7 @@ describe('DataArraySerializer Tests', () => {
                 title: 'Foo'
             }
         };
-        expect(scope.toArray()).toEqual(expectedSingleField);
+        expect(scope.toObject()).toEqual(expectedSingleField);
 
         // multiple field
         manager.parseFieldsets({book: 'title,year'});
@@ -55,7 +55,7 @@ describe('DataArraySerializer Tests', () => {
                 year: 1991
             }
         };
-        expect(scope.toArray()).toEqual(expectedMultipleFields);
+        expect(scope.toObject()).toEqual(expectedMultipleFields);
     });
 
     test('test serializingItemResourceWithRelationshipField', () => {
@@ -85,7 +85,7 @@ describe('DataArraySerializer Tests', () => {
                 title: 'Foo'
             }
         };
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializingItemResourceWithMetadata', () => {
@@ -119,7 +119,7 @@ describe('DataArraySerializer Tests', () => {
                 foo: 'bar'
             }
         };
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializingCollectionResource', () => {
@@ -170,7 +170,7 @@ describe('DataArraySerializer Tests', () => {
                 }
             ]
         };
-        expect(scope.toArray()).toEqual(expectedWithoutMetaData);
+        expect(scope.toObject()).toEqual(expectedWithoutMetaData);
 
         // single field
         manager.parseFieldsets({books: 'title'});
@@ -184,7 +184,7 @@ describe('DataArraySerializer Tests', () => {
                 }
             ]
         };
-        expect(scope.toArray()).toEqual(expectedSingleField);
+        expect(scope.toObject()).toEqual(expectedSingleField);
 
         // multiple fields
         manager.parseFieldsets({books: 'title,year'});
@@ -200,7 +200,7 @@ describe('DataArraySerializer Tests', () => {
                 }
             ]
         };
-        expect(scope.toArray()).toEqual(expectedMultipleFields);
+        expect(scope.toObject()).toEqual(expectedMultipleFields);
     });
 
     test('test serializingCollectionResourceWithRelationshipField', () => {
@@ -249,7 +249,7 @@ describe('DataArraySerializer Tests', () => {
                 }
             ]
         };
-        expect(scope.toArray()).toEqual(expectedRelationsshipField);
+        expect(scope.toObject()).toEqual(expectedRelationsshipField);
     });
 
     test('test serializingCollectionResourceWithMetadata', () => {
@@ -303,7 +303,7 @@ describe('DataArraySerializer Tests', () => {
                 foo: 'bar'
             }
         };
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializingNullResource', () => {
@@ -324,19 +324,19 @@ describe('DataArraySerializer Tests', () => {
 
         // @ts-ignore
         const expected = {data: []};
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
 
         // single field
         manager.parseFieldsets({book: 'title'});
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
 
         // multiple fields
         manager.parseFieldsets({book: 'title,year'});
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
 
         // relationship field
         manager.parseFieldsets({book: 'title,author', author: 'name'});
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializingNullResourceWithMetaData', () => {
@@ -362,6 +362,6 @@ describe('DataArraySerializer Tests', () => {
                 foo: 'bar'
             }
         };
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 });

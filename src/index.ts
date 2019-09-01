@@ -1,4 +1,5 @@
-import {BookTransformedWrapped} from '~/models/BookTransformedWrapped';
+import {BookTransformed} from '~/models/BookTransformed';
+import {TransformationResult} from '~/models/TransformationResult';
 import {Manager} from './Manager';
 import {Book} from './models/Book';
 import {Collection} from './resource/Collection';
@@ -38,5 +39,5 @@ const resource = new Collection(books, function () {
     };
 });
 
-const array: BookTransformedWrapped = fractal.createData(resource).toArray();
-console.log(fractal.createData(resource).toJson());
+const result: TransformationResult<BookTransformed> = fractal.createData(resource).toObject();
+console.log(fractal.createData(resource).toString());

@@ -141,7 +141,7 @@ export abstract class TransformerAbstract {
                 includedData[include] = childScope.transformPrimitiveResource();
             } else {
                 // @ts-ignore
-                includedData[include] = childScope.toArray();
+                includedData[include] = childScope.toObject();
             }
         }
         return includedData;

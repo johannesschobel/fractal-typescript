@@ -74,7 +74,7 @@ describe('JsonApiSerializer Tests', () => {
             ]
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializeItemResourceWithHasOneInclude', () => {
@@ -119,7 +119,7 @@ describe('JsonApiSerializer Tests', () => {
             }
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializeItemResourceWithMetaOneRelationship', () => {
@@ -167,7 +167,7 @@ describe('JsonApiSerializer Tests', () => {
             }
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializeItemResourceWithMetaOneDasherizedInclude', () => {
@@ -216,7 +216,7 @@ describe('JsonApiSerializer Tests', () => {
             }
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializeItemResourceWithHasManyIncludes', () => {
@@ -284,7 +284,7 @@ describe('JsonApiSerializer Tests', () => {
             ]
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializeItemResourceWithEmptyHasManyIncludes', () => {
@@ -314,7 +314,7 @@ describe('JsonApiSerializer Tests', () => {
             }
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializeItemResourceWithoutIncludes', () => {
@@ -342,7 +342,7 @@ describe('JsonApiSerializer Tests', () => {
             }
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializeItemResourceWithMeta', () => {
@@ -375,7 +375,7 @@ describe('JsonApiSerializer Tests', () => {
             }
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializeItemResourceWithMetaInBody', () => {
@@ -414,7 +414,7 @@ describe('JsonApiSerializer Tests', () => {
             }
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializeCollectionResourceWithoutIncludes', () => {
@@ -463,7 +463,7 @@ describe('JsonApiSerializer Tests', () => {
             ]
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializeCollectionResourceWithMeta', () => {
@@ -516,7 +516,7 @@ describe('JsonApiSerializer Tests', () => {
             }
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test serializeCollectionResourceWithSelfLink', () => {
@@ -570,7 +570,7 @@ describe('JsonApiSerializer Tests', () => {
             }
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
     
     test('test serializeCollectionResourceWithPaginator', () => {
@@ -663,7 +663,7 @@ describe('JsonApiSerializer Tests', () => {
 
         };
 
-        scope.toArray()
+        scope.toObject()
     });
 
 })

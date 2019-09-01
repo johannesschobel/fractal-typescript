@@ -14,7 +14,6 @@ export interface ResourceInterface {
 
     /**
      * Will return the Transformer of this resource.
-     * TODO implement the transformer (interface) und update comment.
      * @return any, parameter containing the transformer.
      */
     getTransformer(): any;

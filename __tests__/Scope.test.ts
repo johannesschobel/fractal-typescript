@@ -53,7 +53,7 @@ describe('Scope Tests', () => {
 
         const scope = new Scope(manager, resource);
 
-        expect(scope.toArray()).toStrictEqual({data: {foo: 'bar'}});
+        expect(scope.toObject()).toStrictEqual({data: {foo: 'bar'}});
     });
 
     test('test toJson', () => {
@@ -64,7 +64,7 @@ describe('Scope Tests', () => {
 
         const scope = new Scope(manager, resource);
 
-        expect(scope.toJson()).toStrictEqual('{"data":{"foo":"bar"}}');
+        expect(scope.toString()).toStrictEqual('{"data":{"foo":"bar"}}');
     });
 
     test('test getCurrentScope', () => {
@@ -199,7 +199,7 @@ describe('Scope Tests', () => {
             }
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test pushParentScope', () => {
@@ -254,7 +254,7 @@ describe('Scope Tests', () => {
         const resource = new Item({foo: 'bar'}, transformer);
         const scope = manager.createData(resource);
 
-        expect(scope.toArray()).toEqual({data: {foo: 'bar'}});
+        expect(scope.toObject()).toEqual({data: {foo: 'bar'}});
     });
 
     test('test runAppropriateTransformerWithCollection', () => {
@@ -271,7 +271,7 @@ describe('Scope Tests', () => {
         const resource = new Collection([{foo: 'bar'}], transformer);
         const scope = manager.createData(resource);
 
-        expect(scope.toArray()).toEqual({data: [{foo: 'bar'}]});
+        expect(scope.toObject()).toEqual({data: [{foo: 'bar'}]});
     });
 
     test('test createDataWithClassFuckKnows', () => {
@@ -280,7 +280,7 @@ describe('Scope Tests', () => {
         const resource = new ResourceAbstract();
         const scope = manager.createData(resource);
         expect(() => {
-            scope.toArray()
+            scope.toObject()
         }).toThrowError();
     });
 
@@ -316,7 +316,7 @@ describe('Scope Tests', () => {
             }
         };
 
-        expect(rootScope.toArray()).toEqual(expectedOutput);
+        expect(rootScope.toObject()).toEqual(expectedOutput);
     });
 
     test('test defaultIncludeSuccess', () => {
@@ -334,7 +334,7 @@ describe('Scope Tests', () => {
             }
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test primitiveResourceIncludeSuccess', () => {
@@ -350,7 +350,7 @@ describe('Scope Tests', () => {
             price: 49
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test nullResourceIncludeSuccess', () => {
@@ -366,7 +366,7 @@ describe('Scope Tests', () => {
             author: null as any
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test nullResourceDataAndJustMeta', () => {
@@ -384,7 +384,7 @@ describe('Scope Tests', () => {
             }
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test toArrayWithFieldsets', () => {
@@ -406,7 +406,7 @@ describe('Scope Tests', () => {
             }
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test toArrayWithFieldsetsAndMandatorySerializerFields', () => {
@@ -430,7 +430,7 @@ describe('Scope Tests', () => {
         };
 
         manger.parseFieldsets({resourceName: 'foo,baz'});
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
     test('test toArrayWithIncludesAndFieldsets', () => {
@@ -456,7 +456,7 @@ describe('Scope Tests', () => {
             }
         };
 
-        expect(scope.toArray()).toEqual(expected);
+        expect(scope.toObject()).toEqual(expected);
     });
 
 });

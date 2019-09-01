@@ -113,8 +113,8 @@ describe('Manager Tests', () => {
         const rootScope = manager.createData(resource);
 
         expect(rootScope).toBeInstanceOf(Scope);
-        expect(rootScope.toArray()).toEqual({data: { foo: 'bar'}});
-        expect(rootScope.toJson()).toEqual('{"data":{"foo":"bar"}}');
+        expect(rootScope.toObject()).toEqual({data: { foo: 'bar'}});
+        expect(rootScope.toString()).toEqual('{"data":{"foo":"bar"}}');
     });
 
     test('test parseFieldsets', () => {

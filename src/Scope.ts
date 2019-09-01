@@ -95,7 +95,7 @@ export class Scope {
         return this;
     }
 
-    public toArray(): TransformationResult {
+    public toObject(): TransformationResult<any> {
         const resourceTransformers: ResourceTransformationResult = this.executeResourceTransformers();
         const rawData = resourceTransformers.transformedData;
         const rawIncludedData = resourceTransformers.includedData;
@@ -146,8 +146,8 @@ export class Scope {
         return {...data, ...meta};
     }
 
-    public toJson(): string {
-        return JSON.stringify(this.toArray());
+    public toString(): string {
+        return JSON.stringify(this.toObject());
     }
 
     public transformPrimitiveResource(): any {

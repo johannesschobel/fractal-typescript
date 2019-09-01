@@ -7,12 +7,6 @@
 An adaptation of the famous php [fractal-framework](https://github.com/thephpleague/fractal) for typescript.
 
 
-## Documentation
-
-`fractal-typescript` has [documentation](https://docs.github.com/Dakesi95/fractal-typescript), powered by [compodoc](https://compodoc.app/).
-
-Contribute to this documentation in the [gh-pages branch](https://github.com/Dakesi95/fractal-typescript/tree/gh-pages).
-
 ## Testing
 
 ``` bash
@@ -24,7 +18,7 @@ $ npm run test
 * Build source code running `tsc`command
 * Open project where you want to use fractal-typescript
 * Install local version of fractal-typescript using `npm i {path to project}`
-* Start using fractal-typescript as classical import+
+* Start using fractal-typescript as classical import
 
 ## Usage
 * Fractal-typescript can be used similar to its php equivalent

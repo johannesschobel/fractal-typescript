@@ -1,7 +1,7 @@
-import {BookTransformed} from '~/models/BookTransformed';
-import {TransformationResult} from '~/models/TransformationResult';
 import {Manager} from '../src/Manager';
 import {Book} from '../src/models/Book';
+import {BookTransformed} from '../src/models/BookTransformed';
+import {TransformationResult} from '../src/models/TransformationResult';
 import {Collection} from '../src/resource/Collection';
 
 describe('SimpleExample Tests', () => {
@@ -42,7 +42,7 @@ describe('SimpleExample Tests', () => {
             };
         });
 
-        const array: TransformationResult<BookTransformed> = fractal.createData(resource).toObject();
+        const object: TransformationResult<BookTransformed> = fractal.createData(resource).toObject();
         const json: string = fractal.createData(resource).toString();
 
         const expectedArray = {
@@ -69,7 +69,7 @@ describe('SimpleExample Tests', () => {
                 }
             ]
         };
-        expect(array).toEqual(expectedArray);
+        expect(object).toEqual(expectedArray);
 
         const expectedJson = '{"data":[{"author":{},"id":"1","links":{"rel":"self","uri":"/books/1"},' +
             '"title":"Hogfather","year":1998},{"author":{},"id":"2","links":{"rel":"self","uri":"/books/2"},' +

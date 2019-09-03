@@ -1,4 +1,4 @@
-import {PaginatorInterface} from '~/paginaton/PaginatorInterface';
+import {PaginatorInterface} from '../../src/paginaton/PaginatorInterface';
 
 export class PaginatorMock implements PaginatorInterface {
     public getCount(): number {

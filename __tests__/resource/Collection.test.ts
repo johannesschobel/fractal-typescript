@@ -1,8 +1,8 @@
-import {PaginatorInterface} from '~/paginaton/PaginatorInterface';
-import Cursor from '../../src/paginaton/Cursor';
-import {Collection} from '../../src/resource/Collection';
 import {PaginatorMock} from '../../__mocks__/pagination/PaginatorMock';
 import {TransformerAbstractMock} from '../../__mocks__/TransformerAbstractMock';
+import Cursor from '../../src/paginaton/Cursor';
+import {PaginatorInterface} from '../../src/paginaton/PaginatorInterface';
+import {Collection} from '../../src/resource/Collection';
 
 describe('Collection Tests', () => {
 

@@ -16,7 +16,7 @@ $ npm run test
 ## Installation
 * Download source code of fractal-typescript from github
 * Build source code running `tsc`command
-* Open project where you want to use fractal-typescript
+* Open project in which you want to use fractal-typescript
 * Install local version of fractal-typescript using `npm i {path to project}`
 * Start using fractal-typescript as classical import
 
